@@ -70,6 +70,15 @@ const samplePosts = [
   {
     id: 2,
     user: { name: 'Anita R.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
+    content: 'Look at this little munchkin! She smiled at me for the first time today and my heart completely melted 🥹💕 Being a mom is the best thing ever!',
+    image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400',
+    likes: 87,
+    comments: 32,
+    time: '3h ago'
+  },
+  {
+    id: 3,
+    user: { name: 'Kavya T.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100' },
     content: 'Week 6 postpartum check-up went great! Doctor says I\'m healing well. Remember mamas, recovery takes time 💜',
     image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=400',
     likes: 42,
@@ -77,7 +86,7 @@ const samplePosts = [
     time: '4h ago'
   },
   {
-    id: 3,
+    id: 4,
     user: { name: 'Meera S.', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
     content: 'Anyone else dealing with cluster feeding? Need tips! 😅',
     image: null,
@@ -309,6 +318,23 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
                 <span className="text-xs font-bold text-slate-900 block mb-1">Meera S.</span>
                 <p className="text-sm text-slate-600">Solidarity, mamas! 💜 We got this!</p>
+              </div>
+            </div>
+            <div className="flex gap-3 justify-end">
+              <div className={`bg-gradient-to-r ${colors.gradient} p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-white`}>
+                <p className="text-sm mb-2">Look at this little angel! She's being so good today, finally napping peacefully 🥹💕</p>
+                <img 
+                  src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400" 
+                  alt="Sleeping baby" 
+                  className="w-full rounded-xl object-cover max-h-48"
+                />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" className="w-8 h-8 rounded-full object-cover" alt="" />
+              <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
+                <span className="text-xs font-bold text-slate-900 block mb-1">Kavya T.</span>
+                <p className="text-sm text-slate-600">Omg so adorable!! 😍 Those cheeks! 🥰</p>
               </div>
             </div>
           </div>
