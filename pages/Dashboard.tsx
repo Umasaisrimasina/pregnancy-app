@@ -934,32 +934,40 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           <div className="lg:col-span-1 flex flex-col gap-6">
-              <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-                  <h3 className="text-xl font-bold font-display text-slate-900 mb-8">Mood Logs</h3>
-                  
-                  <div className="flex justify-between mb-8">
-                     {[
-                       { icon: Smile, label: 'Happy', color: 'bg-yellow-100 text-yellow-600' },
-                       { icon: Meh, label: 'Neutral', color: 'bg-orange-100 text-orange-600' },
-                       { icon: Frown, label: 'Sad', color: 'bg-blue-100 text-blue-600' },
-                       { icon: AlertCircle, label: 'Anxious', color: 'bg-indigo-100 text-indigo-600' },
-                       { icon: Moon, label: 'Tired', color: 'bg-slate-100 text-slate-600' },
-                     ].map((emoji, i) => (
-                       <button key={i} className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform hover:scale-110 ${emoji.color}`}>
-                          <emoji.icon size={24} />
-                       </button>
-                     ))}
+              {/* How are you feeling? Card */}
+              <div className="bg-rose-900 rounded-[2rem] p-8">
+                <h3 className="text-white text-2xl font-bold mb-2">How are you feeling?</h3>
+                <p className="text-rose-200 text-sm mb-6">It's normal to feel a mix of emotions right now. Tracking helps.</p>
+                
+                <div className="flex flex-col gap-2 mb-6">
+                  <div className="flex gap-4">
+                    <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
+                      <span className="text-3xl">😔</span>
+                      <span className="text-rose-200 text-xs font-medium">Sad</span>
+                    </button>
+                    <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
+                      <span className="text-3xl">🙄</span>
+                      <span className="text-rose-200 text-xs font-medium">Neutral</span>
+                    </button>
+                    <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
+                      <span className="text-3xl">🙂</span>
+                      <span className="text-rose-200 text-xs font-medium">Good</span>
+                    </button>
+                    <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
+                      <span className="text-3xl">🤩</span>
+                      <span className="text-rose-200 text-xs font-medium">Great</span>
+                    </button>
                   </div>
-
-                  <div className="bg-slate-50 rounded-2xl p-4 relative h-48">
-                     <textarea 
-                       placeholder="Notes for today..." 
-                       className="w-full h-full bg-transparent border-none resize-none focus:ring-0 text-sm text-slate-600 placeholder:text-slate-400"
-                     ></textarea>
-                     <div className="absolute bottom-3 right-3 text-slate-300">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M22 22h-2v-2h2v2zm0-4h-2v-2h2v2zm-4 4h-2v-2h2v2z"/></svg>
-                     </div>
-                  </div>
+                </div>
+                
+                <div className="mt-4">
+                  <label className="text-rose-200 text-sm font-medium mb-2 block">What's on your mind?</label>
+                  <input 
+                    type="text" 
+                    placeholder="Describe how you're feeling..." 
+                    className="w-full px-4 py-3 rounded-xl bg-rose-800/50 border border-rose-700/50 text-white placeholder-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                  />
+                </div>
               </div>
 
              <div className="bg-[#fff1f2] rounded-[2rem] p-6 shadow-sm border border-rose-100">
@@ -1187,19 +1195,34 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               <h3 className="text-white text-2xl font-bold mb-2">How are you feeling?</h3>
               <p className="text-indigo-200 text-sm mb-6">It's normal to feel a mix of emotions right now. Tracking helps.</p>
               
-              <div className="flex gap-4">
-                <button className="w-14 h-14 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors flex items-center justify-center text-3xl">
-                  😔
-                </button>
-                <button className="w-14 h-14 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors flex items-center justify-center text-3xl">
-                  🙄
-                </button>
-                <button className="w-14 h-14 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors flex items-center justify-center text-3xl">
-                  🙂
-                </button>
-                <button className="w-14 h-14 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors flex items-center justify-center text-3xl">
-                  🤩
-                </button>
+              <div className="flex flex-col gap-2 mb-6">
+                <div className="flex gap-4">
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
+                    <span className="text-3xl">😔</span>
+                    <span className="text-indigo-200 text-xs font-medium">Sad</span>
+                  </button>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
+                    <span className="text-3xl">🙄</span>
+                    <span className="text-indigo-200 text-xs font-medium">Neutral</span>
+                  </button>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
+                    <span className="text-3xl">🙂</span>
+                    <span className="text-indigo-200 text-xs font-medium">Good</span>
+                  </button>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
+                    <span className="text-3xl">🤩</span>
+                    <span className="text-indigo-200 text-xs font-medium">Great</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <label className="text-indigo-200 text-sm font-medium mb-2 block">What's on your mind?</label>
+                <input 
+                  type="text" 
+                  placeholder="Describe how you're feeling..." 
+                  className="w-full px-4 py-3 rounded-xl bg-indigo-800/50 border border-indigo-700/50 text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                />
               </div>
             </div>
 

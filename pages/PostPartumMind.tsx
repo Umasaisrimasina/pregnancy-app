@@ -149,6 +149,15 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
+      
+      {/* Motivational Quote - Centered */}
+      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+        <Heart size={40} className="text-purple-400 mb-6" />
+        <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
+          Healing takes time, and that's okay. You're doing an incredible job.
+        </p>
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-display font-extrabold text-slate-900">Stress & Mind</h1>

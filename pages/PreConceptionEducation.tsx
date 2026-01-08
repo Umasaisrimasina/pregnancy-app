@@ -1,10 +1,38 @@
-import React from 'react';
-import { ShieldCheck, Clock, Brain, Baby, Shield } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShieldCheck, Clock, Brain, Baby, Shield, Heart, Lightbulb, X, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
 
 export const PreConceptionEducation: React.FC = () => {
+  const [currentMythIndex, setCurrentMythIndex] = useState(0);
+  
+  const myths = [
+    {
+      myth: "Iron & folic tablets make the baby too big",
+      fact: "These supplements help prevent anemia and birth defects. They do not cause big babies."
+    },
+    {
+      myth: "Exercise reduces chances of pregnancy",
+      fact: "Regular light activity actually improves fertility and overall health."
+    },
+    {
+      myth: "Alcohol in small amounts is safe before pregnancy",
+      fact: "No amount of alcohol is safe when planning pregnancy. It's best to avoid completely."
+    }
+  ];
+
+  const nextMyth = () => setCurrentMythIndex((prev) => (prev + 1) % myths.length);
+  const prevMyth = () => setCurrentMythIndex((prev) => (prev - 1 + myths.length) % myths.length);
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       
+      {/* Motivational Quote - Centered */}
+      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+        <Heart size={40} className="text-emerald-400 mb-6" />
+        <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
+          Every journey begins with preparation. You're investing in your future family's health.
+        </p>
+      </div>
+
       {/* Hero */}
       <div className="bg-white rounded-[2rem] p-8 lg:p-12 shadow-sm border border-slate-100 overflow-hidden relative">
          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-50 rounded-full blur-[100px] -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
@@ -85,6 +113,91 @@ export const PreConceptionEducation: React.FC = () => {
                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Myth vs Fact Section */}
+      <div className="bg-gradient-to-br from-amber-50/50 to-orange-50/30 rounded-[2rem] p-6 lg:p-8 border border-amber-100/50">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+              <Lightbulb size={20} className="text-amber-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold font-display text-slate-900">Did you know?</h2>
+              <p className="text-xs text-slate-500">Swipe to learn more health facts</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
+              <Volume2 size={14} />
+            </button>
+            <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
+              <Share2 size={14} />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative">
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-amber-100/50 min-h-[200px]">
+            {/* Myth */}
+            <div className="flex items-start gap-3 mb-5 pb-5 border-b border-slate-100">
+              <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                <X size={16} className="text-red-500" />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider block mb-1">Myth</span>
+                <p className="text-slate-800 font-semibold leading-relaxed">"{myths[currentMythIndex].myth}"</p>
+              </div>
+            </div>
+            
+            {/* Fact */}
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                <Check size={16} className="text-emerald-600" />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">Fact</span>
+                <p className="text-slate-700 leading-relaxed">{myths[currentMythIndex].fact}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex items-center justify-between mt-4">
+            <button 
+              onClick={prevMyth}
+              className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            
+            <div className="flex gap-1.5">
+              {myths.map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`w-2 h-2 rounded-full transition-colors ${i === currentMythIndex ? 'bg-amber-500' : 'bg-amber-200'}`}
+                />
+              ))}
+            </div>
+            
+            <button 
+              onClick={nextMyth}
+              className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-5 pt-4 border-t border-amber-100">
+          <p className="text-[11px] text-slate-500 text-center leading-relaxed">
+            <Shield size={10} className="inline mr-1" />
+            Health information based on global medical guidelines. This does not replace a doctor's advice.
+          </p>
+          <p className="text-[9px] text-slate-400 text-center mt-2 leading-relaxed">
+            Sources: WHO Nutrition Guidelines • WHO Physical Activity Guidelines (2020) • WHO Substance Use During Pregnancy Guidelines
+          </p>
         </div>
       </div>
 

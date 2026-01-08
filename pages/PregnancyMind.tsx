@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield } from 'lucide-react';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart } from 'lucide-react';
 
 const moodData = [
   { day: 'M', value: 3 },
@@ -46,6 +46,15 @@ export const PregnancyMind: React.FC = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
+      
+      {/* Motivational Quote - Centered */}
+      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+        <Heart size={40} className="text-rose-400 mb-6" />
+        <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
+          You are stronger than you know. Each day brings you closer to meeting your little one.
+        </p>
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-display font-extrabold text-slate-900">Prenatal Wellness</h1>
