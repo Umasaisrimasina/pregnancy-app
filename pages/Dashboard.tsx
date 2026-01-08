@@ -20,7 +20,7 @@ const fetalTimeline = [
     desc: 'The neural tube forms. The embryo is poppy-seed sized.',
     feelings: 'Nausea, fatigue, and tender breasts.',
     nurture: 'Take prenatal vitamins with folic acid daily.',
-    img: 'https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?auto=format&fit=crop&w=300&q=80', // Poppy seeds
+    img: '/images/fetal-growth/1.jpg',
     size: 'Poppy Seed'
   },
   {
@@ -29,7 +29,7 @@ const fetalTimeline = [
     desc: 'Heart begins to beat. Fingers and toes form.',
     feelings: 'Frequent urination and food aversions.',
     nurture: 'Eat small meals to manage morning sickness.',
-    img: 'https://images.unsplash.com/photo-1577281862660-84a861d9963e?auto=format&fit=crop&w=300&q=80', // Raspberry
+    img: '/images/fetal-growth/2.jpg',
     size: 'Raspberry'
   },
   {
@@ -38,7 +38,7 @@ const fetalTimeline = [
     desc: 'Arms and legs lengthen. Baby starts moving.',
     feelings: 'Energy levels may start to return.',
     nurture: 'Stay hydrated and eat iron-rich foods.',
-    img: 'https://images.unsplash.com/photo-1590335756586-b48e367c320e?auto=format&fit=crop&w=300&q=80', // Lemon
+    img: '/images/fetal-growth/3.jpg',
     size: 'Lemon'
   },
   {
@@ -47,7 +47,7 @@ const fetalTimeline = [
     desc: 'Eyebrows, eyelashes, and eyelids form.',
     feelings: 'Bump becomes visible. Appetite increases.',
     nurture: 'Moisturize skin to help with stretching.',
-    img: 'https://images.unsplash.com/photo-1523049673856-38603694cacf?auto=format&fit=crop&w=300&q=80', // Avocado
+    img: '/images/fetal-growth/4.jpg',
     size: 'Avocado'
   },
   {
@@ -56,7 +56,7 @@ const fetalTimeline = [
     desc: 'You may feel flutters (quickening). Vernix coats skin.',
     feelings: 'Backaches or hip pain may occur.',
     nurture: 'Consider a pregnancy pillow for sleep support.',
-    img: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=300&q=80', // Banana
+    img: '/images/fetal-growth/5.jpg',
     size: 'Banana'
   },
   {
@@ -65,7 +65,7 @@ const fetalTimeline = [
     desc: 'Responds to sounds. Fingerprints formed.',
     feelings: 'Possible heartburn or indigestion.',
     nurture: 'Practice pelvic floor exercises (Kegels).',
-    img: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=300&q=80', // Corn
+    img: '/images/fetal-growth/6.jpg',
     size: 'Ear of Corn'
   },
   {
@@ -74,7 +74,7 @@ const fetalTimeline = [
     desc: 'Eyelids open. Fat stores begin to accumulate.',
     feelings: 'Shortness of breath as uterus grows.',
     nurture: 'Monitor kick counts daily.',
-    img: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=300&q=80', // Eggplant
+    img: '/images/fetal-growth/7.jpg',
     size: 'Eggplant'
   },
   {
@@ -83,7 +83,7 @@ const fetalTimeline = [
     desc: 'Brain development accelerates. Lungs maturing.',
     feelings: 'Frequent Braxton Hicks contractions.',
     nurture: 'Pack your hospital bag and finalize birth plan.',
-    img: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=300&q=80', // Pineapple
+    img: '/images/fetal-growth/8.jpg',
     size: 'Pineapple'
   },
   {
@@ -92,7 +92,7 @@ const fetalTimeline = [
     desc: 'Baby positions head-down. Organs fully developed.',
     feelings: 'Pelvic pressure and nesting instinct.',
     nurture: 'Rest often and prepare for labor.',
-    img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=300&q=80', // Watermelon
+    img: '/images/fetal-growth/9.jpg',
     size: 'Watermelon'
   }
 ];
