@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Plus, Check, MoreHorizontal, Utensils, Zap, Droplet, Sparkles, ArrowRight, X, Send, Shield } from 'lucide-react';
+import { Search, Plus, Check, MoreHorizontal, Utensils, Zap, Droplet, Sparkles, ArrowRight, X, Send, Shield, Minus } from 'lucide-react';
 import { AppPhase } from '../types';
 
 interface PageProps {
@@ -182,27 +182,124 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
               </div>
            </div>
 
-           {/* Hydration */}
-           <div className="bg-white rounded-[2rem] p-6 border border-slate-100">
-             <div className="flex items-center gap-3 mb-4">
-               <div className="p-2 bg-blue-50 text-blue-500 rounded-lg">
-                 <Droplet size={20} />
-               </div>
-               <h3 className="font-bold text-slate-900">Hydration</h3>
-             </div>
-             <div className="flex justify-between items-end mb-2">
-                <span className="text-3xl font-display font-bold text-slate-900">4<span className="text-lg text-slate-400 font-normal">/8</span></span>
-                <span className="text-xs font-bold text-blue-500">Glasses</span>
-             </div>
-             <div className="flex gap-1 h-12">
-               {[1,2,3,4,5,6,7,8].map(i => (
-                 <div key={i} className={`flex-1 rounded-full ${i <= 4 ? 'bg-blue-400' : 'bg-slate-100'}`}></div>
-               ))}
-             </div>
-             <button className="w-full mt-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
-               + Add Water
-             </button>
-           </div>
+           {/* Fluid Hit */}
+           <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col relative overflow-hidden">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="font-bold text-slate-900">Fluid Hit</h3>
+                    <div className="flex gap-1">
+                        <div className="w-2.5 h-2.5 rounded-full bg-sky-400"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                    </div>
+                </div>
+
+                <div className="flex-1 flex justify-center gap-12 mb-6">
+                    {/* Water Column */}
+                    <div className="flex flex-col items-center">
+                        {/* Scale/Bar Area */}
+                        <div className="relative h-48 w-12">
+                            {/* Labels */}
+                            <div className="absolute -left-8 top-0 bottom-0 flex flex-col justify-between text-[10px] font-bold text-slate-300 py-2">
+                                <span>4L</span>
+                                <span>3L</span>
+                                <span>2L</span>
+                                <span>1L</span>
+                            </div>
+                            
+                            {/* Bar Container */}
+                            <div className="w-full h-full bg-slate-100 rounded-full relative overflow-hidden border border-slate-200">
+                                {/* Fill */}
+                                <div 
+                                    className="absolute bottom-0 w-full bg-sky-400 transition-all duration-500"
+                                    style={{ height: '45%' }}
+                                ></div>
+                                
+                                {/* Segment lines (optional visual flair) */}
+                                <div className="absolute inset-0 flex flex-col justify-between py-2 pointer-events-none opacity-20">
+                                     <div className="border-b border-slate-900 w-full"></div>
+                                     <div className="border-b border-slate-900 w-full"></div>
+                                     <div className="border-b border-slate-900 w-full"></div>
+                                </div>
+                            </div>
+                            
+                            {/* Icon Circle */}
+                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-sky-500 rounded-full flex items-center justify-center shadow-lg ring-4 ring-white z-10">
+                                <Droplet size={24} className="text-white" />
+                            </div>
+                        </div>
+                        
+                        <div className="mt-10 text-center space-y-3">
+                            <div>
+                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Water</span>
+                                <span className="text-xl font-display font-bold text-slate-900">1.8L</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <button 
+                                    className="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200"
+                                >
+                                    <Minus size={14} />
+                                </button>
+                                <button 
+                                    className="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center shadow-lg shadow-sky-500/30 hover:bg-sky-600"
+                                >
+                                    <Plus size={20} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Electrolyte Column */}
+                    <div className="flex flex-col items-center">
+                         {/* Scale/Bar Area */}
+                         <div className="relative h-48 w-12">
+                            {/* Labels */}
+                            <div className="absolute -left-8 top-0 bottom-0 flex flex-col justify-between text-[10px] font-bold text-slate-300 py-2">
+                                <span>4Sv</span>
+                                <span>3Sv</span>
+                                <span>2Sv</span>
+                                <span>1Sv</span>
+                            </div>
+                            
+                            {/* Bar Container */}
+                            <div className="w-full h-full bg-slate-100 rounded-full relative overflow-hidden border border-slate-200">
+                                {/* Fill */}
+                                <div 
+                                    className="absolute bottom-0 w-full bg-amber-400 transition-all duration-500"
+                                    style={{ height: '25%' }}
+                                ></div>
+                            </div>
+                            
+                            {/* Icon Circle */}
+                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-amber-500 rounded-full flex items-center justify-center shadow-lg ring-4 ring-white z-10">
+                                <Zap size={24} className="text-white" />
+                            </div>
+                        </div>
+                        
+                        <div className="mt-10 text-center space-y-3">
+                            <div>
+                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Hydrate+</span>
+                                <span className="text-xl font-display font-bold text-slate-900">1 Sv</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <button 
+                                    className="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200"
+                                >
+                                    <Minus size={14} />
+                                </button>
+                                <button 
+                                    className="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/30 hover:bg-amber-600"
+                                >
+                                    <Plus size={20} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-rose-50 rounded-2xl p-4 text-xs leading-relaxed text-rose-900">
+                    <span className="font-bold text-rose-600">TIP:</span> Proper electrolyte balance prevents muscle cramps and swelling in Trimester 2. Target 3.5L total fluid.
+                </div>
+            </div>
 
            {/* Nutrition Chat Card */}
            <div 
