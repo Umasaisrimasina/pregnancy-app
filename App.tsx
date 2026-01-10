@@ -103,8 +103,10 @@ const App: React.FC = () => {
         </header>
 
         {/* Page Content */}
-        <div className="flex-1 p-4 md:p-8 lg:p-10 overflow-y-auto max-h-screen scroll-smooth">
-          {renderView()}
+        <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto max-h-screen scroll-smooth">
+          <div className="max-w-[1600px] mx-auto">
+            {renderView()}
+          </div>
         </div>
       </main>
     </div>
