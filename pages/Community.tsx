@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
-import { Users, MessageCircle, Send, Heart, Image, Camera, Lock, Shield, X, ArrowLeft, Search, Plus, Smile, MoreHorizontal } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Users, MessageCircle, Send, Heart, Image, Camera, Lock, Shield, X, ArrowLeft, Search, Plus, Smile, MoreHorizontal, AlertTriangle, Loader2 } from 'lucide-react';
 import { AppPhase } from '../types';
 import { SpeakButton } from '../components/SpeakButton';
+import { analyzeSentiment, getSentimentBadge, SentimentLabel } from '../services/sentimentService';
 
 interface CommunityProps {
   phase: AppPhase;
+}
+
+interface Post {
+  id: number;
+  user: { name: string; avatar: string };
+  content: string;
+  image: string | null;
+  likes: number;
+  comments: number;
+  time: string;
+  sentiment?: SentimentLabel;
+  needsSupport?: boolean;
 }
 
 const getPhaseColor = (phase: AppPhase) => {
@@ -57,8 +70,8 @@ const getPhaseColor = (phase: AppPhase) => {
   }
 };
 
-// Sample data
-const samplePosts = [
+// Sample data with sentiment
+const samplePosts: Post[] = [
   {
     id: 1,
     user: { name: 'Priya M.', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
@@ -66,7 +79,9 @@ const samplePosts = [
     image: null,
     likes: 24,
     comments: 8,
-    time: '2h ago'
+    time: '2h ago',
+    sentiment: 'positive',
+    needsSupport: false
   },
   {
     id: 2,
@@ -75,7 +90,9 @@ const samplePosts = [
     image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400',
     likes: 87,
     comments: 32,
-    time: '3h ago'
+    time: '3h ago',
+    sentiment: 'positive',
+    needsSupport: false
   },
   {
     id: 3,
@@ -84,7 +101,9 @@ const samplePosts = [
     image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=400',
     likes: 42,
     comments: 15,
-    time: '4h ago'
+    time: '4h ago',
+    sentiment: 'positive',
+    needsSupport: false
   },
   {
     id: 4,
@@ -93,7 +112,20 @@ const samplePosts = [
     image: null,
     likes: 18,
     comments: 23,
-    time: '6h ago'
+    time: '6h ago',
+    sentiment: 'neutral',
+    needsSupport: false
+  },
+  {
+    id: 5,
+    user: { name: 'Deepa K.', avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100' },
+    content: 'Feeling so overwhelmed and exhausted. Baby won\'t stop crying and I haven\'t slept in days. I don\'t know if I can do this anymore...',
+    image: null,
+    likes: 56,
+    comments: 47,
+    time: '1h ago',
+    sentiment: 'negative',
+    needsSupport: true
   }
 ];
 
@@ -117,8 +149,67 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
   const [newPostText, setNewPostText] = useState('');
   const [messageInput, setMessageInput] = useState('');
   const [showNewPostModal, setShowNewPostModal] = useState(false);
+  const [posts, setPosts] = useState<Post[]>(samplePosts);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [livePreviewSentiment, setLivePreviewSentiment] = useState<SentimentLabel | null>(null);
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   
   const colors = getPhaseColor(phase);
+
+  // Live sentiment preview with debounce
+  useEffect(() => {
+    if (!newPostText.trim() || newPostText.length < 10) {
+      setLivePreviewSentiment(null);
+      return;
+    }
+
+    const timeoutId = setTimeout(async () => {
+      setIsPreviewLoading(true);
+      try {
+        const result = await analyzeSentiment(newPostText);
+        setLivePreviewSentiment(result.sentiment);
+      } catch (error) {
+        console.error('Preview error:', error);
+      } finally {
+        setIsPreviewLoading(false);
+      }
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [newPostText]);
+
+  // Handle new post creation with sentiment analysis
+  const handleCreatePost = async () => {
+    if (!newPostText.trim()) return;
+    
+    setIsAnalyzing(true);
+    
+    try {
+      // Analyze sentiment using Azure AI Language
+      const sentimentResult = await analyzeSentiment(newPostText);
+      const badge = getSentimentBadge(sentimentResult.sentiment);
+      
+      const newPost: Post = {
+        id: Date.now(),
+        user: { name: 'Sarah M.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
+        content: newPostText,
+        image: null,
+        likes: 0,
+        comments: 0,
+        time: 'Just now',
+        sentiment: sentimentResult.sentiment,
+        needsSupport: badge.needsSupport
+      };
+      
+      setPosts([newPost, ...posts]);
+      setNewPostText('');
+      setShowNewPostModal(false);
+    } catch (error) {
+      console.error('Error creating post:', error);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   const tabs = [
     { id: 'moments' as const, label: 'Share Moments', icon: Camera },
@@ -173,21 +264,64 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div className="flex-1">
-                <input
-                  type="text"
+                <textarea
                   placeholder="Share what's on your mind, mama..."
-                  className="w-full bg-slate-50 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
+                  className="w-full bg-slate-50 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 resize-none min-h-[80px]"
                   value={newPostText}
                   onChange={(e) => setNewPostText(e.target.value)}
-                  onClick={() => setShowNewPostModal(true)}
+                  rows={3}
                 />
+                
+                {/* Live Sentiment Preview */}
+                {(livePreviewSentiment || isPreviewLoading) && newPostText.length >= 10 && (
+                  <div className="mt-2 flex items-center gap-2">
+                    {isPreviewLoading ? (
+                      <div className="flex items-center gap-2 text-xs text-slate-400">
+                        <Loader2 size={12} className="animate-spin" />
+                        Analyzing sentiment...
+                      </div>
+                    ) : livePreviewSentiment && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-slate-500">Detected tone:</span>
+                        {(() => {
+                          const badge = getSentimentBadge(livePreviewSentiment);
+                          return (
+                            <>
+                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badge.bgColor} ${badge.color}`}>
+                                {badge.label}
+                              </span>
+                              {badge.needsSupport && (
+                                <span className="text-xs text-red-500 flex items-center gap-1">
+                                  <AlertTriangle size={12} />
+                                  Will show support tag
+                                </span>
+                              )}
+                            </>
+                          );
+                        })()}
+                      </div>
+                    )}
+                  </div>
+                )}
+                
                 <div className="flex justify-between items-center mt-3">
                   <button className={`flex items-center gap-2 ${colors.text} text-sm font-medium hover:opacity-80`}>
                     <Image size={18} />
                     Add Photo
                   </button>
-                  <button className={`${colors.button} text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg transition-colors`}>
-                    Post
+                  <button 
+                    onClick={handleCreatePost}
+                    disabled={isAnalyzing || !newPostText.trim()}
+                    className={`${colors.button} text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg transition-colors disabled:opacity-50 flex items-center gap-2`}
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      'Post'
+                    )}
                   </button>
                 </div>
               </div>
@@ -196,20 +330,39 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
 
           {/* Feed */}
           <div className="space-y-4">
-            {samplePosts.map((post) => (
-              <div key={post.id} className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <img src={post.user.avatar} alt={post.user.name} className="w-10 h-10 rounded-full object-cover" />
-                    <div>
-                      <span className="font-bold text-slate-900 text-sm">{post.user.name}</span>
-                      <span className="text-xs text-slate-400 block">{post.time}</span>
+            {posts.map((post) => {
+              const badge = post.sentiment ? getSentimentBadge(post.sentiment) : null;
+              return (
+                <div key={post.id} className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                  {/* Needs Support Alert */}
+                  {post.needsSupport && (
+                    <div className="flex items-center gap-2 mb-4 p-3 bg-red-50 border border-red-100 rounded-xl">
+                      <AlertTriangle size={18} className="text-red-500" />
+                      <span className="text-sm font-medium text-red-700">⚠️ Needs Support</span>
+                      <span className="text-xs text-red-500 ml-auto">Community, let's rally around this mama!</span>
                     </div>
+                  )}
+                  
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <img src={post.user.avatar} alt={post.user.name} className="w-10 h-10 rounded-full object-cover" />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-slate-900 text-sm">{post.user.name}</span>
+                          {/* Sentiment Badge */}
+                          {badge && (
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badge.bgColor} ${badge.color}`}>
+                              {badge.label}
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-xs text-slate-400 block">{post.time}</span>
+                      </div>
+                    </div>
+                    <button className="p-2 text-slate-400 hover:bg-slate-50 rounded-lg">
+                      <MoreHorizontal size={18} />
+                    </button>
                   </div>
-                  <button className="p-2 text-slate-400 hover:bg-slate-50 rounded-lg">
-                    <MoreHorizontal size={18} />
-                  </button>
-                </div>
                 
                 <p className="text-slate-700 text-sm leading-relaxed mb-4">{post.content}</p>
                 
@@ -228,7 +381,8 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
                   </button>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

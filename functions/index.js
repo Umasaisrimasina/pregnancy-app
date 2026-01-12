@@ -365,7 +365,113 @@ exports.healthCheck = onRequest((request, response) => {
     timestamp: new Date().toISOString(),
     services: {
       translation: !!process.env.AZURE_TRANSLATOR_KEY,
-      speech: !!process.env.AZURE_SPEECH_KEY
+      speech: !!process.env.AZURE_SPEECH_KEY,
+      sentiment: !!process.env.AZURE_LANGUAGE_KEY
     }
   });
+});
+
+/**
+ * Sentiment Analysis API Endpoint (Azure AI Language)
+ * 
+ * POST /analyzeSentiment
+ * Body: { text: string } or { documents: Array<{id: string, text: string}> }
+ * Response: { sentiment: string, confidenceScores: object, success: boolean }
+ */
+exports.analyzeSentiment = onRequest({ cors: true }, async (request, response) => {
+  // Handle CORS preflight
+  if (request.method === 'OPTIONS') {
+    response.set(corsHeaders);
+    response.status(204).send('');
+    return;
+  }
+
+  try {
+    const { text, documents } = request.body;
+
+    // Validate input
+    if (!text && !documents) {
+      response.status(400).json({
+        success: false,
+        error: 'Missing required field: text or documents'
+      });
+      return;
+    }
+
+    // Azure AI Language configuration
+    const AZURE_LANGUAGE_KEY = process.env.AZURE_LANGUAGE_KEY || '';
+    const AZURE_LANGUAGE_ENDPOINT = process.env.AZURE_LANGUAGE_ENDPOINT || 'https://imaginecuppregnancy.cognitiveservices.azure.com';
+
+    // Prepare documents array
+    const docs = documents || [{ id: '1', language: 'en', text: text }];
+
+    // Call Azure AI Language Sentiment Analysis API
+    const apiUrl = `${AZURE_LANGUAGE_ENDPOINT}/language/:analyze-text?api-version=2023-04-01`;
+    
+    const requestBody = {
+      kind: 'SentimentAnalysis',
+      parameters: {
+        modelVersion: 'latest'
+      },
+      analysisInput: {
+        documents: docs.map((doc, index) => ({
+          id: doc.id || String(index + 1),
+          language: doc.language || 'en',
+          text: doc.text
+        }))
+      }
+    };
+
+    const azureResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': AZURE_LANGUAGE_KEY
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!azureResponse.ok) {
+      const errorText = await azureResponse.text();
+      logger.error('Azure Language API error:', errorText);
+      throw new Error(`Azure API error: ${azureResponse.status}`);
+    }
+
+    const result = await azureResponse.json();
+    
+    // Process results
+    const analyzedDocuments = result.results?.documents || [];
+    
+    if (analyzedDocuments.length === 1 && !documents) {
+      // Single text analysis
+      const doc = analyzedDocuments[0];
+      response.json({
+        success: true,
+        sentiment: doc.sentiment,
+        confidenceScores: doc.confidenceScores,
+        sentences: doc.sentences?.map(s => ({
+          text: s.text,
+          sentiment: s.sentiment,
+          confidenceScores: s.confidenceScores
+        }))
+      });
+    } else {
+      // Multiple documents analysis
+      response.json({
+        success: true,
+        documents: analyzedDocuments.map(doc => ({
+          id: doc.id,
+          sentiment: doc.sentiment,
+          confidenceScores: doc.confidenceScores
+        }))
+      });
+    }
+
+  } catch (error) {
+    logger.error('Sentiment analysis error:', error);
+    response.status(500).json({
+      success: false,
+      error: error.message || 'Sentiment analysis failed'
+    });
+  }
 });

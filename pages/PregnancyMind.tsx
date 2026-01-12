@@ -1,18 +1,46 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart, Loader2 } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip, LineChart, Line, CartesianGrid, YAxis } from 'recharts';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart, Loader2, CheckCircle2, AlertCircle, TrendingUp } from 'lucide-react';
 import { SpeakButton } from '../components/SpeakButton';
 import { sendChatMessage, ChatMessage } from '../services/aiService';
+import {
+  analyzeSentiment,
+  getSentimentBadge,
+  checkEmojiMismatch,
+  sentimentToScore,
+  DailyCheckIn,
+  SentimentLabel
+} from '../services/sentimentService';
 
-const moodData = [
-  { day: 'M', value: 3 },
-  { day: 'T', value: 4 },
-  { day: 'W', value: 6 },
-  { day: 'T', value: 8 },
-  { day: 'F', value: 7 },
-  { day: 'S', value: 9 },
-  { day: 'S', value: 8 },
-];
+// Storage key for this phase
+const STORAGE_KEY = 'pregnancy_mind_checkins';
+
+// Mood options
+type MoodType = 'rough' | 'okay' | 'good';
+const moodToEmoji: Record<MoodType, string> = {
+  'rough': '😔',
+  'okay': '😐',
+  'good': '😊'
+};
+
+const moodToScore: Record<MoodType, number> = {
+  'rough': 20,
+  'okay': 50,
+  'good': 90
+};
+
+// Get check-ins from localStorage
+const getCheckIns = (): DailyCheckIn[] => {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+};
+
+// Save check-in to localStorage
+const saveCheckIn = (checkIn: DailyCheckIn) => {
+  const checkIns = getCheckIns();
+  checkIns.push(checkIn);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(checkIns));
+};
 
 export const PregnancyMind: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -23,6 +51,34 @@ export const PregnancyMind: React.FC = () => {
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Daily Check-in State
+  const [selectedMood, setSelectedMood] = useState<MoodType>('good');
+  const [selectedFactors, setSelectedFactors] = useState<string[]>(['My Body']);
+  const [journalText, setJournalText] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [lastResult, setLastResult] = useState<{ sentiment: SentimentLabel; mismatch: boolean } | null>(null);
+  const [checkIns, setCheckIns] = useState<DailyCheckIn[]>(getCheckIns());
+  
+  // Live sentiment preview
+  const [livePreviewSentiment, setLivePreviewSentiment] = useState<SentimentLabel | null>(null);
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
+
+  // Live sentiment preview with debounce
+  useEffect(() => {
+    if (!journalText.trim() || journalText.length < 10) {
+      setLivePreviewSentiment(null);
+      return;
+    }
+    const timeoutId = setTimeout(async () => {
+      setIsPreviewLoading(true);
+      const result = await analyzeSentiment(journalText);
+      setLivePreviewSentiment(result.sentiment);
+      setIsPreviewLoading(false);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [journalText]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -30,6 +86,54 @@ export const PregnancyMind: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isChatOpen]);
+
+  // Handle check-in submit
+  const handleCheckInSubmit = async () => {
+    if (!journalText.trim()) return;
+    
+    setIsAnalyzing(true);
+    const result = await analyzeSentiment(journalText);
+    const emoji = moodToEmoji[selectedMood];
+    const mismatch = checkEmojiMismatch(emoji, result.sentiment);
+    
+    const newCheckIn: DailyCheckIn = {
+      date: new Date().toISOString(),
+      emoji,
+      text: journalText,
+      sentiment: result.sentiment,
+      sentimentScore: sentimentToScore(result.sentiment),
+      factors: selectedFactors
+    };
+    
+    saveCheckIn(newCheckIn);
+    setCheckIns(getCheckIns());
+    setLastResult({ sentiment: result.sentiment, mismatch });
+    setShowSuccess(true);
+    setIsAnalyzing(false);
+    setJournalText('');
+    setLivePreviewSentiment(null);
+    
+    setTimeout(() => setShowSuccess(false), 5000);
+  };
+
+  // Toggle factor selection
+  const toggleFactor = (factor: string) => {
+    setSelectedFactors(prev => 
+      prev.includes(factor) 
+        ? prev.filter(f => f !== factor)
+        : [...prev, factor]
+    );
+  };
+
+  // Prepare trend data for chart
+  const sentimentTrendData = checkIns.slice(-7).map((checkIn) => {
+    const date = new Date(checkIn.date);
+    return {
+      day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      score: (checkIn.sentimentScore + 1) * 50,
+      moodScore: moodToScore[Object.keys(moodToEmoji).find(k => moodToEmoji[k as MoodType] === checkIn.emoji) as MoodType] || 50
+    };
+  });
 
   const handleSend = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -98,18 +202,22 @@ export const PregnancyMind: React.FC = () => {
               {/* Mood Selector */}
               <div className="flex justify-between max-w-md mx-auto mb-10">
                 {[
-                  { icon: Frown, label: 'Rough', color: 'bg-red-100 text-red-500' },
-                  { icon: Meh, label: 'Okay', color: 'bg-slate-100 text-slate-500' },
-                  { icon: Smile, label: 'Good', color: 'bg-rose-100 text-rose-600', active: true },
-                ].map((item, idx) => (
-                   <div key={idx} className="flex flex-col items-center gap-2 cursor-pointer group">
+                  { key: 'rough' as MoodType, icon: Frown, label: 'Rough', color: 'bg-red-100 text-red-500' },
+                  { key: 'okay' as MoodType, icon: Meh, label: 'Okay', color: 'bg-slate-100 text-slate-500' },
+                  { key: 'good' as MoodType, icon: Smile, label: 'Good', color: 'bg-rose-100 text-rose-600' },
+                ].map((item) => (
+                   <div 
+                     key={item.key} 
+                     onClick={() => setSelectedMood(item.key)}
+                     className="flex flex-col items-center gap-2 cursor-pointer group"
+                   >
                      <div className={`
                        w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300
-                       ${item.active ? `${item.color} scale-110 shadow-lg ring-4 ring-white` : 'bg-slate-50 text-slate-300 hover:bg-slate-100'}
+                       ${selectedMood === item.key ? `${item.color} scale-110 shadow-lg ring-4 ring-white` : 'bg-slate-50 text-slate-300 hover:bg-slate-100'}
                      `}>
                        <item.icon size={32} />
                      </div>
-                     <span className={`text-xs font-bold ${item.active ? 'text-slate-900' : 'text-slate-400'}`}>
+                     <span className={`text-xs font-bold ${selectedMood === item.key ? 'text-slate-900' : 'text-slate-400'}`}>
                        {item.label}
                      </span>
                    </div>
@@ -121,7 +229,15 @@ export const PregnancyMind: React.FC = () => {
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">What's affecting you?</label>
                 <div className="flex flex-wrap gap-2">
                   {['Sleep', 'Work', 'Family', 'My Body', 'Diet'].map((tag, i) => (
-                    <button key={i} className={`px-4 py-2 rounded-full text-sm border transition-colors ${tag === 'My Body' ? 'bg-rose-50 border-rose-200 text-rose-700 font-medium' : 'border-slate-200 text-slate-600 hover:border-rose-200'}`}>
+                    <button 
+                      key={i} 
+                      onClick={() => toggleFactor(tag)}
+                      className={`px-4 py-2 rounded-full text-sm border transition-colors ${
+                        selectedFactors.includes(tag) 
+                          ? 'bg-rose-50 border-rose-200 text-rose-700 font-medium' 
+                          : 'border-slate-200 text-slate-600 hover:border-rose-200'
+                      }`}
+                    >
                       {tag}
                     </button>
                   ))}
@@ -129,8 +245,10 @@ export const PregnancyMind: React.FC = () => {
               </div>
 
               {/* Journal Input */}
-              <div className="relative">
+              <div className="relative mb-2">
                 <textarea 
+                  value={journalText}
+                  onChange={(e) => setJournalText(e.target.value)}
                   className="w-full h-32 bg-slate-50 border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-rose-200 placeholder:text-slate-400 text-sm leading-relaxed"
                   placeholder="Write as much or as little as you need..."
                 ></textarea>
@@ -139,11 +257,71 @@ export const PregnancyMind: React.FC = () => {
                 </button>
               </div>
 
-              <div className="mt-6 flex justify-end">
-                <button className="bg-rose-600 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-rose-600/20 hover:bg-rose-700 transition-colors">
-                  Save Entry
+              {/* Live Sentiment Preview */}
+              {(isPreviewLoading || livePreviewSentiment) && journalText.length >= 10 && (
+                <div className="mb-4 flex items-center gap-2">
+                  {isPreviewLoading ? (
+                    <>
+                      <Loader2 size={14} className="animate-spin text-rose-500" />
+                      <span className="text-xs text-slate-500">Analyzing sentiment...</span>
+                    </>
+                  ) : livePreviewSentiment && (
+                    <>
+                      <span className="text-xs text-slate-500">Detected sentiment:</span>
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${getSentimentBadge(livePreviewSentiment).className}`}>
+                        {getSentimentBadge(livePreviewSentiment).icon} {getSentimentBadge(livePreviewSentiment).label}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
+
+              <div className="flex justify-end">
+                <button 
+                  onClick={handleCheckInSubmit}
+                  disabled={isAnalyzing || !journalText.trim()}
+                  className="bg-rose-600 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-rose-600/20 hover:bg-rose-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 size={18} />
+                      Save Entry
+                    </>
+                  )}
                 </button>
               </div>
+
+              {/* Success/Mismatch Alert */}
+              {showSuccess && lastResult && (
+                <div className={`mt-6 p-4 rounded-xl border ${
+                  lastResult.mismatch 
+                    ? 'bg-amber-50 border-amber-200' 
+                    : 'bg-green-50 border-green-200'
+                }`}>
+                  <div className="flex items-start gap-3">
+                    {lastResult.mismatch ? (
+                      <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
+                    ) : (
+                      <CheckCircle2 size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
+                    )}
+                    <div className="flex-1">
+                      <p className={`font-bold text-sm mb-1 ${lastResult.mismatch ? 'text-amber-900' : 'text-green-900'}`}>
+                        {lastResult.mismatch ? 'We noticed something...' : 'Check-in recorded!'}
+                      </p>
+                      <p className={`text-xs ${lastResult.mismatch ? 'text-amber-700' : 'text-green-700'}`}>
+                        {lastResult.mismatch
+                          ? `Your selected mood and the sentiment in your text don't quite match. It's okay to not be okay.`
+                          : `Your daily sentiment has been recorded. Keep tracking how you feel each day.`}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -151,39 +329,80 @@ export const PregnancyMind: React.FC = () => {
         {/* Right Column: Stats & AI */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           
-          {/* Mood Trends Chart */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 h-[300px]">
+          {/* Sentiment Trends Chart */}
+          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
-                <SpeakButton text="Mood Trends: Your weekly mood chart shows 15% improvement." size="sm" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center">
+                  <TrendingUp size={20} className="text-rose-600" />
+                </div>
+                <h2 className="text-lg font-bold font-display text-slate-900">Sentiment Trends</h2>
+                <SpeakButton text="Sentiment Trends: Your weekly sentiment and mood chart." size="sm" />
               </div>
               <span className="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-md">
-                +15% vs Last Week
+                Last 7 Days
               </span>
             </div>
             
             <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={moodData}>
-                  <XAxis 
-                    dataKey="day" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 12 }} 
-                  />
-                  <Tooltip 
-                    cursor={{fill: '#f1f5f9'}}
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                  />
-                  <Bar 
-                    dataKey="value" 
-                    fill="#f43f5e" 
-                    radius={[4, 4, 4, 4]} 
-                    barSize={20}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+              {sentimentTrendData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={sentimentTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis 
+                      dataKey="day" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{ fill: '#94a3b8', fontSize: 12 }} 
+                    />
+                    <YAxis 
+                      domain={[0, 100]}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#94a3b8', fontSize: 12 }}
+                    />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+                      formatter={(value: number, name: string) => [
+                        `${value.toFixed(0)}%`, 
+                        name === 'score' ? 'Text Sentiment' : 'Selected Mood'
+                      ]}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="score" 
+                      stroke="#f43f5e" 
+                      strokeWidth={3}
+                      name="score"
+                      dot={{ r: 5, fill: "#f43f5e", stroke: "#ffffff", strokeWidth: 2 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="moodScore" 
+                      stroke="#3b82f6" 
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      name="moodScore"
+                      dot={{ r: 4, fill: "#3b82f6", stroke: "#ffffff", strokeWidth: 2 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="h-full flex items-center justify-center text-slate-400 text-sm">
+                  <p>Complete check-ins to see your sentiment trends</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-0.5 bg-rose-500"></div>
+                <span className="text-xs text-slate-600">Text Sentiment</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-0.5 bg-blue-500" style={{borderStyle: 'dashed'}}></div>
+                <span className="text-xs text-slate-600">Selected Mood</span>
+              </div>
             </div>
           </div>
 

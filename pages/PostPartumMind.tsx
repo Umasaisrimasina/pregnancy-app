@@ -1,9 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Activity, Heart, AlertCircle, CheckCircle2, Sparkles, Loader2 } from 'lucide-react';
+import { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid } from 'recharts';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Activity, Heart, AlertCircle, CheckCircle2, Sparkles, Loader2, AlertTriangle, TrendingUp, Calendar } from 'lucide-react';
 import { AppPhase } from '../types';
 import { SpeakButton } from '../components/SpeakButton';
 import { sendChatMessage, ChatMessage } from '../services/aiService';
+import { 
+  analyzeSentiment, 
+  getSentimentBadge, 
+  checkEmojiMismatch, 
+  sentimentToScore,
+  DailyCheckIn,
+  getCheckIns,
+  saveCheckIn,
+  generateDemoCheckIns,
+  detectNegativeStreak,
+  MENTAL_HEALTH_RESOURCES,
+  SentimentLabel
+} from '../services/sentimentService';
 
 interface PageProps {
   phase: AppPhase;
@@ -97,6 +110,48 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   const [showResults, setShowResults] = useState(false);
   const [screeningComplete, setScreeningComplete] = useState(false);
 
+  // Daily Check-in State (Sentiment Analysis)
+  const [checkInText, setCheckInText] = useState('');
+  const [checkInEmoji, setCheckInEmoji] = useState('😊');
+  const [isAnalyzingCheckIn, setIsAnalyzingCheckIn] = useState(false);
+  const [checkIns, setCheckIns] = useState<DailyCheckIn[]>(() => {
+    const stored = getCheckIns();
+    return stored.length > 0 ? stored : generateDemoCheckIns();
+  });
+  const [showCheckInSuccess, setShowCheckInSuccess] = useState(false);
+  const [lastCheckInResult, setLastCheckInResult] = useState<{ sentiment: SentimentLabel; mismatch: boolean } | null>(null);
+
+  // Check for safety alerts
+  const safetyAlert = detectNegativeStreak(checkIns, 3);
+
+  const availableEmojis = ['😢', '😞', '😐', '🙂', '😊', '😄', '🥰'];
+
+  // Live sentiment preview state
+  const [livePreviewSentiment, setLivePreviewSentiment] = useState<SentimentLabel | null>(null);
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
+
+  // Live sentiment preview with debounce
+  useEffect(() => {
+    if (!checkInText.trim() || checkInText.length < 10) {
+      setLivePreviewSentiment(null);
+      return;
+    }
+
+    const timeoutId = setTimeout(async () => {
+      setIsPreviewLoading(true);
+      try {
+        const result = await analyzeSentiment(checkInText);
+        setLivePreviewSentiment(result.sentiment);
+      } catch (error) {
+        console.error('Preview error:', error);
+      } finally {
+        setIsPreviewLoading(false);
+      }
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [checkInText]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -158,6 +213,68 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
     );
   };
 
+  // Handle daily check-in submission with sentiment analysis
+  const handleCheckInSubmit = async () => {
+    if (!checkInText.trim()) return;
+    
+    setIsAnalyzingCheckIn(true);
+    
+    try {
+      const result = await analyzeSentiment(checkInText);
+      const mismatch = checkEmojiMismatch(checkInEmoji, result.sentiment);
+      const score = sentimentToScore(result.sentiment, result.confidenceScores);
+      
+      const newCheckIn: DailyCheckIn = {
+        id: `checkin-${Date.now()}`,
+        date: new Date().toISOString(),
+        text: checkInText,
+        emoji: checkInEmoji,
+        sentiment: result.sentiment,
+        confidenceScores: result.confidenceScores,
+        sentimentScore: score,
+        emojiMismatch: mismatch
+      };
+      
+      saveCheckIn(newCheckIn);
+      setCheckIns(prev => [...prev, newCheckIn]);
+      setLastCheckInResult({ sentiment: result.sentiment, mismatch });
+      setShowCheckInSuccess(true);
+      setCheckInText('');
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => setShowCheckInSuccess(false), 5000);
+    } catch (error) {
+      console.error('Check-in error:', error);
+    } finally {
+      setIsAnalyzingCheckIn(false);
+    }
+  };
+
+  // Emoji to mood score mapping (0-100 scale)
+  const emojiToMoodScore = (emoji: string): number => {
+    const emojiScores: { [key: string]: number } = {
+      '😊': 90,  // Happy
+      '😌': 75,  // Calm
+      '😐': 50,  // Neutral
+      '😔': 30,  // Sad
+      '😢': 15,  // Crying
+      '😰': 20,  // Anxious
+      '😡': 25   // Angry
+    };
+    return emojiScores[emoji] || 50;
+  };
+
+  // Prepare sentiment trend data for chart
+  const sentimentTrendData = checkIns.slice(-7).map((checkIn, index) => {
+    const date = new Date(checkIn.date);
+    return {
+      day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      score: (checkIn.sentimentScore + 1) * 50, // Convert -1 to 1 range to 0-100
+      moodScore: emojiToMoodScore(checkIn.emoji),
+      emoji: checkIn.emoji
+    };
+  });
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       
@@ -200,140 +317,256 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                 <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
               </div>
 
-              {/* Mood Selector */}
-              <div className="flex justify-between max-w-md mx-auto mb-10">
-                {[
-                  { id: 'rough', icon: Frown, label: 'Rough', color: 'bg-red-100 text-red-500', activeRing: 'ring-red-200' },
-                  { id: 'okay', icon: Meh, label: 'Okay', color: 'bg-slate-100 text-slate-500', activeRing: 'ring-slate-200' },
-                  { id: 'good', icon: Smile, label: 'Good', color: 'bg-purple-100 text-purple-600', activeRing: 'ring-purple-200' },
-                ].map((item) => (
-                   <div 
-                     key={item.id} 
-                     className="flex flex-col items-center gap-2 cursor-pointer group"
-                     onClick={() => setSelectedMood(item.id)}
-                   >
-                     <div className={`
-                       w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300
-                       ${selectedMood === item.id 
-                         ? `${item.color} scale-110 shadow-lg ring-4 ${item.activeRing}` 
-                         : 'bg-slate-50 text-slate-300 hover:bg-slate-100'}
-                     `}>
-                       <item.icon size={32} />
-                     </div>
-                     <span className={`text-xs font-bold ${selectedMood === item.id ? 'text-slate-900' : 'text-slate-400'}`}>
-                       {item.label}
-                     </span>
-                   </div>
-                ))}
-              </div>
-
-              {/* Affecting Factors */}
-              <div className="mb-8">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">What's affecting you?</label>
-                <div className="flex flex-wrap gap-2">
-                  {['Sleep', 'Work', 'Family', 'My Body', 'Diet'].map((tag) => (
-                    <button 
-                      key={tag} 
-                      onClick={() => toggleFactor(tag)}
-                      className={`px-4 py-2 rounded-full text-sm border transition-colors ${
-                        selectedFactors.includes(tag) 
-                          ? 'bg-purple-50 border-purple-200 text-purple-700 font-medium' 
-                          : 'border-slate-200 text-slate-600 hover:border-purple-200'
+              {/* Emoji Selector */}
+              <div className="mb-6">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">How are you feeling?</label>
+                <div className="flex justify-between max-w-lg gap-2">
+                  {availableEmojis.map((emoji) => (
+                    <button
+                      key={emoji}
+                      onClick={() => setCheckInEmoji(emoji)}
+                      className={`text-4xl p-3 rounded-2xl transition-all duration-300 ${
+                        checkInEmoji === emoji
+                          ? 'bg-purple-100 scale-110 ring-4 ring-purple-200'
+                          : 'bg-slate-50 hover:bg-slate-100'
                       }`}
                     >
-                      {tag}
+                      {emoji}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Journal Input */}
-              <div className="relative">
-                <textarea 
+              {/* Text Input */}
+              <div className="mb-6">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">Tell us more about your day...</label>
+                <textarea
+                  value={checkInText}
+                  onChange={(e) => setCheckInText(e.target.value)}
                   className="w-full h-32 bg-slate-50 border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-purple-200 placeholder:text-slate-400 text-sm leading-relaxed"
-                  placeholder="Write as much or as little as you need..."
+                  placeholder="How are you feeling today? What's on your mind?"
                 ></textarea>
-                <button className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-sm text-slate-400 hover:text-purple-600">
-                  <Mic size={20} />
+                
+                {/* Live Sentiment Preview */}
+                {(isPreviewLoading || livePreviewSentiment) && (
+                  <div className="mt-3 flex items-center gap-2">
+                    {isPreviewLoading ? (
+                      <>
+                        <Loader2 size={14} className="animate-spin text-purple-500" />
+                        <span className="text-xs text-slate-500">Analyzing sentiment...</span>
+                      </>
+                    ) : livePreviewSentiment && (
+                      <>
+                        <span className="text-xs text-slate-500">Detected sentiment:</span>
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${getSentimentBadge(livePreviewSentiment).className}`}>
+                          {getSentimentBadge(livePreviewSentiment).icon} {getSentimentBadge(livePreviewSentiment).label}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex justify-end">
+                <button
+                  onClick={handleCheckInSubmit}
+                  disabled={isAnalyzingCheckIn || !checkInText.trim()}
+                  className="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-purple-600/20 hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isAnalyzingCheckIn ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 size={18} />
+                      Submit Check-In
+                    </>
+                  )}
                 </button>
               </div>
 
-              <div className="mt-6 flex justify-end">
-                <button className="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-purple-600/20 hover:bg-purple-700 transition-colors">
-                  Save Entry
-                </button>
-              </div>
+              {/* Success/Mismatch Alert */}
+              {showCheckInSuccess && lastCheckInResult && (
+                <div className={`mt-6 p-4 rounded-xl border ${
+                  lastCheckInResult.mismatch 
+                    ? 'bg-amber-50 border-amber-200' 
+                    : 'bg-green-50 border-green-200'
+                }`}>
+                  <div className="flex items-start gap-3">
+                    {lastCheckInResult.mismatch ? (
+                      <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
+                    ) : (
+                      <CheckCircle2 size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
+                    )}
+                    <div className="flex-1">
+                      <p className={`font-bold text-sm mb-1 ${
+                        lastCheckInResult.mismatch ? 'text-amber-900' : 'text-green-900'
+                      }`}>
+                        {lastCheckInResult.mismatch 
+                          ? 'We noticed something...' 
+                          : 'Check-in recorded!'}
+                      </p>
+                      <p className={`text-xs ${
+                        lastCheckInResult.mismatch ? 'text-amber-700' : 'text-green-700'
+                      }`}>
+                        {lastCheckInResult.mismatch
+                          ? `Your emoji and the sentiment in your text don't quite match. Sometimes we mask our feelings. It's okay to not be okay. Would you like to talk to someone?`
+                          : `Your daily sentiment has been recorded. Keep tracking how you feel each day.`}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Mood Trends Chart */}
+          {/* Sentiment Trends Chart */}
           <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center">
-                  <Activity size={20} className="text-purple-600" />
+                  <TrendingUp size={20} className="text-purple-600" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
-                  <SpeakButton text="Mood Trends: Your weekly mood chart for this week." size="sm" />
+                  <h2 className="text-lg font-bold font-display text-slate-900">Sentiment Trends</h2>
+                  <SpeakButton text="Sentiment Trends: Your weekly sentiment chart based on daily check-ins." size="sm" />
                 </div>
               </div>
               <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md">
-                This Week
+                Last 7 Days
               </span>
             </div>
             
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={moodTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorMoodPurple" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
+                <LineChart data={sentimentTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                   <XAxis 
                     dataKey="day" 
                     axisLine={false} 
                     tickLine={false} 
                     tick={{ fill: '#94a3b8', fontSize: 12 }} 
                   />
-                  <YAxis hide domain={[0, 10]} />
+                  <YAxis 
+                    domain={[0, 100]}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                  />
                   <Tooltip 
                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+                    formatter={(value: number, name: string) => [
+                      `${value.toFixed(0)}%`, 
+                      name === 'score' ? 'Text Sentiment' : 'Selected Mood'
+                    ]}
                   />
-                  <Area 
+                  <Line 
                     type="monotone" 
-                    dataKey="value" 
+                    dataKey="score" 
                     stroke="#8b5cf6" 
                     strokeWidth={3}
-                    fill="url(#colorMoodPurple)" 
-                    dot={{ r: 4, fill: "#ffffff", stroke: "#8b5cf6", strokeWidth: 2 }}
-                    activeDot={{ r: 6, fill: "#8b5cf6", stroke: "#ffffff", strokeWidth: 2 }}
+                    name="score"
+                    dot={{ r: 5, fill: "#8b5cf6", stroke: "#ffffff", strokeWidth: 2 }}
+                    activeDot={{ r: 7, fill: "#8b5cf6", stroke: "#ffffff", strokeWidth: 2 }}
                   />
-                </AreaChart>
+                  <Line 
+                    type="monotone" 
+                    dataKey="moodScore" 
+                    stroke="#3b82f6" 
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    name="moodScore"
+                    dot={{ r: 4, fill: "#3b82f6", stroke: "#ffffff", strokeWidth: 2 }}
+                    activeDot={{ r: 6, fill: "#3b82f6", stroke: "#ffffff", strokeWidth: 2 }}
+                  />
+                </LineChart>
               </ResponsiveContainer>
             </div>
             
-            <div className="flex justify-center gap-6 mt-4">
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-purple-500 opacity-50"></div>
-                <span className="text-xs font-medium text-slate-500">Needs Attention (0-4)</span>
+                <div className="w-8 h-0.5 bg-purple-500"></div>
+                <span className="text-xs font-medium text-slate-600">Text Sentiment (AI analyzed)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-purple-500 opacity-30"></div>
-                <span className="text-xs font-medium text-slate-500">Okay (4-6)</span>
+                <div className="w-8 h-0.5 bg-blue-500 border-dashed" style={{borderStyle: 'dashed'}}></div>
+                <span className="text-xs font-medium text-slate-600">Selected Mood (emoji)</span>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-4 mt-3">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <span className="text-xs text-slate-500">Negative (0-33%)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-purple-500 opacity-10"></div>
-                <span className="text-xs font-medium text-slate-500">Good (6-10)</span>
+                <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                <span className="text-xs text-slate-500">Neutral (34-66%)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <span className="text-xs text-slate-500">Positive (67-100%)</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column - EPDS Screening & History */}
+        {/* Right Column - Safety Alert & EPDS Screening */}
         <div className="lg:col-span-5 flex flex-col gap-6">
+          
+          {/* Safety Alert - Consecutive Negative Sentiment */}
+          {safetyAlert.hasAlert && (
+            <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-[2rem] p-8 shadow-sm border-2 border-red-200 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-200 rounded-full blur-2xl -mr-8 -mt-8 pointer-events-none opacity-50"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle size={24} className="text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold font-display text-red-900 mb-1">We're Here for You</h3>
+                    <p className="text-sm text-red-700">
+                      We've noticed {safetyAlert.streakCount} consecutive days of negative sentiment. 
+                      You don't have to go through this alone.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-5 mb-4">
+                  <p className="text-xs font-medium text-slate-600 mb-4">
+                    <strong>This is not a medical diagnosis.</strong> If you're experiencing persistent sadness, 
+                    anxiety, or thoughts of self-harm, please reach out to a mental health professional.
+                  </p>
+                  
+                  <div className="space-y-3">
+                    {MENTAL_HEALTH_RESOURCES.slice(0, 2).map((resource) => (
+                      <div key={resource.name} className="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
+                        <Heart size={18} className="text-red-500 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-sm font-bold text-red-900">{resource.name}</p>
+                          <p className="text-xs text-red-600 mb-1">{resource.description}</p>
+                          {resource.phone && (
+                            <a href={`tel:${resource.phone}`} className="text-xs font-medium text-red-700 underline">
+                              {resource.phone}
+                            </a>
+                          )}
+                          <p className="text-xs text-red-500 mt-1">{resource.available}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <button className="w-full bg-red-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-red-600/20 hover:bg-red-700 transition-colors">
+                  View All Resources
+                </button>
+              </div>
+            </div>
+          )}
           
           {/* EPDS Clinical Wellness Screening */}
           <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-[2rem] p-8 shadow-sm border border-purple-100 relative overflow-hidden">
