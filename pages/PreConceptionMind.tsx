@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart } from 'lucide-react';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart, Loader2 } from 'lucide-react';
+import { SpeakButton } from '../components/SpeakButton';
+import { sendChatMessage, ChatMessage } from '../services/aiService';
 
 const moodData = [
   { day: 'M', value: 3 },
@@ -15,6 +17,7 @@ const moodData = [
 export const PreConceptionMind: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'ai', text: "I'm here to listen. This space is private and judgment-free. What's on your mind?" }
   ]);
@@ -28,37 +31,51 @@ export const PreConceptionMind: React.FC = () => {
     scrollToBottom();
   }, [messages, isChatOpen]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleSend = async () => {
+    if (!inputValue.trim() || isLoading) return;
 
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        id: Date.now() + 1,
-        sender: 'ai',
-        text: "I hear you. It's completely normal to feel that way during this phase. Would you like to explore that feeling a bit more?"
-      }]);
-    }, 1000);
+    // Build conversation history for context
+    const conversationHistory: ChatMessage[] = messages.map(msg => ({
+      role: msg.sender === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
+
+    const response = await sendChatMessage(inputValue, 'preconception', conversationHistory);
+    
+    setMessages(prev => [...prev, {
+      id: Date.now() + 1,
+      sender: 'ai',
+      text: response.success ? response.message! : "I hear you. It's completely normal to feel that way during this phase. Would you like to explore that feeling a bit more?"
+    }]);
+    setIsLoading(false);
   };
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
 
       {/* Motivational Quote - Centered */}
-      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
         <Heart size={40} className="text-emerald-400 mb-6" />
         <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
           Your mental wellness today shapes the foundation for tomorrow. Be gentle with yourself.
         </p>
+        <div className="absolute top-4 right-4">
+          <SpeakButton text="Your mental wellness today shapes the foundation for tomorrow. Be gentle with yourself." size={22} />
+        </div>
       </div>
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Fertility & Wellness</h1>
-          <p className="text-slate-500 mt-1">Preparing your mind and body for conception.</p>
+        <div className="flex items-start gap-3">
+          <div className="flex-1">
+            <h1 className="text-3xl font-display font-extrabold text-slate-900">Fertility & Wellness</h1>
+            <p className="text-slate-500 mt-1">Preparing your mind and body for conception.</p>
+          </div>
+          <SpeakButton text="Fertility and Wellness. Preparing your mind and body for conception." size={20} />
         </div>
       </div>
 
@@ -71,7 +88,10 @@ export const PreConceptionMind: React.FC = () => {
 
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                  <SpeakButton text="Daily Check-In: How are you feeling today?" size="sm" />
+                </div>
                 <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
               </div>
 
@@ -134,7 +154,10 @@ export const PreConceptionMind: React.FC = () => {
           {/* Mood Trends Chart */}
           <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 h-[300px]">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+                <SpeakButton text="Mood Trends: Your weekly mood chart shows 15% improvement." size="sm" />
+              </div>
               <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
                 +15% vs Last Week
               </span>
@@ -175,7 +198,10 @@ export const PreConceptionMind: React.FC = () => {
               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
                 <Lock size={20} className="text-emerald-300" />
               </div>
-              <h3 className="text-lg font-bold font-display mb-2">Silent Chat</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold font-display mb-2">Silent Chat</h3>
+                <SpeakButton text="Silent Chat: Feeling overwhelmed? Vent anonymously to our AI companion. No judgement, just a safe space." size="sm" />
+              </div>
               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
                 Feeling overwhelmed? Vent anonymously to our AI companion. No judgement, just a safe space.
               </p>

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart } from 'lucide-react';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart, Loader2 } from 'lucide-react';
+import { SpeakButton } from '../components/SpeakButton';
+import { sendChatMessage, ChatMessage } from '../services/aiService';
 
 const moodData = [
   { day: 'M', value: 3 },
@@ -15,6 +17,7 @@ const moodData = [
 export const PregnancyMind: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'ai', text: "Welcome to your prenatal wellness space. How are you feeling today?" }
   ]);
@@ -28,20 +31,28 @@ export const PregnancyMind: React.FC = () => {
     scrollToBottom();
   }, [messages, isChatOpen]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleSend = async () => {
+    if (!inputValue.trim() || isLoading) return;
     
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        id: Date.now() + 1, 
-        sender: 'ai', 
-        text: "Thank you for sharing. Pregnancy brings so many changes. Would you like to talk more about how you're coping?" 
-      }]);
-    }, 1000);
+    // Build conversation history for context
+    const conversationHistory: ChatMessage[] = messages.map(msg => ({
+      role: msg.sender === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
+
+    const response = await sendChatMessage(inputValue, 'pregnancy', conversationHistory);
+    
+    setMessages(prev => [...prev, { 
+      id: Date.now() + 1, 
+      sender: 'ai', 
+      text: response.success ? response.message! : "Thank you for sharing. Pregnancy brings so many changes. Would you like to talk more about how you're coping?"
+    }]);
+    setIsLoading(false);
   };
 
   return (
@@ -49,7 +60,10 @@ export const PregnancyMind: React.FC = () => {
       
       {/* Motivational Quote - Centered */}
       <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
-        <Heart size={40} className="text-rose-400 mb-6" />
+        <div className="flex items-center gap-3 mb-6">
+          <Heart size={40} className="text-rose-400" />
+          <SpeakButton text="You are stronger than you know. Each day brings you closer to meeting your little one." size="sm" />
+        </div>
         <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
           You are stronger than you know. Each day brings you closer to meeting your little one.
         </p>
@@ -57,7 +71,10 @@ export const PregnancyMind: React.FC = () => {
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Prenatal Wellness</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-display font-extrabold text-slate-900">Prenatal Wellness</h1>
+            <SpeakButton text="Prenatal Wellness: Nurturing your emotional health during pregnancy." size="sm" />
+          </div>
           <p className="text-slate-500 mt-1">Nurturing your emotional health during pregnancy.</p>
         </div>
       </div>
@@ -71,7 +88,10 @@ export const PregnancyMind: React.FC = () => {
             
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                  <SpeakButton text="Daily Check-In: How are you feeling today?" size="sm" />
+                </div>
                 <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
               </div>
 
@@ -134,7 +154,10 @@ export const PregnancyMind: React.FC = () => {
           {/* Mood Trends Chart */}
           <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 h-[300px]">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+                <SpeakButton text="Mood Trends: Your weekly mood chart shows 15% improvement." size="sm" />
+              </div>
               <span className="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-md">
                 +15% vs Last Week
               </span>
@@ -175,7 +198,10 @@ export const PregnancyMind: React.FC = () => {
                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
                  <Lock size={20} className="text-rose-300" />
                </div>
-               <h3 className="text-lg font-bold font-display mb-2">Midwife AI</h3>
+               <div className="flex items-center gap-2">
+                 <h3 className="text-lg font-bold font-display mb-2">Midwife AI</h3>
+                 <SpeakButton text="Midwife AI: Need to talk through pregnancy concerns? Our AI companion is here to support you." size="sm" />
+               </div>
                <p className="text-slate-400 text-sm mb-6 leading-relaxed">
                  Need to talk through pregnancy concerns? Our AI companion is here to support you.
                </p>

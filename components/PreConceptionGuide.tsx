@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Pill, Stethoscope, Apple, Moon, Cigarette, Coffee, AlertTriangle, Fish, Sparkles, CheckCircle2, XCircle } from 'lucide-react';
+import { SpeakButton } from './SpeakButton';
 
 export const PreConceptionGuide: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ export const PreConceptionGuide: React.FC = () => {
           <h2 className="text-2xl font-bold font-display text-slate-900">Pre-Conception Guide</h2>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Foundational Health & Preparation</p>
         </div>
+        <SpeakButton text="Pre-Conception Guide: Essential Do's include Start Folic Acid at 400mcg daily, Get a pre-conception checkup, Focus on balanced nutrition with leafy greens and lean protein, and get 7-9 hours of regular sleep. Crucial Don'ts include avoiding alcohol and smoking, limiting caffeine to under 200mg per day, avoiding high mercury fish, and being cautious about environmental toxins." size="sm" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">

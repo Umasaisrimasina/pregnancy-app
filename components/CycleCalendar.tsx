@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Info, Link, RotateCw, Plus, Flame } from 'lucide-react';
+import { SpeakButton } from './SpeakButton';
 
 export const CycleCalendar: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<number>(14);
@@ -63,6 +64,7 @@ export const CycleCalendar: React.FC = () => {
              <h2 className="text-xl font-display font-bold text-slate-900">Menstrual Cycle Tracker</h2>
              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Conception Planning & Cycle Awareness</p>
            </div>
+           <SpeakButton text="Menstrual Cycle Tracker for Conception Planning and Cycle Awareness. Track your period days, fertile window, and ovulation day to optimize your chances of conception." size={14} />
         </div>
         <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-rose-500/20 transition-all flex items-center gap-2">
            <Plus size={18} />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, MessageCircle, Send, Heart, Image, Camera, Lock, Shield, X, ArrowLeft, Search, Plus, Smile, MoreHorizontal } from 'lucide-react';
 import { AppPhase } from '../types';
+import { SpeakButton } from '../components/SpeakButton';
 
 interface CommunityProps {
   phase: AppPhase;
@@ -130,7 +131,10 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Mom Community</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-display font-extrabold text-slate-900">Mom Community</h1>
+            <SpeakButton text="Mom Community: Connect, share, and support each other. All conversations are encrypted and secure." size="sm" />
+          </div>
           <p className="text-slate-500 mt-1">Connect, share, and support each other.</p>
         </div>
         <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${colors.bg} ${colors.text} text-xs font-bold`}>
