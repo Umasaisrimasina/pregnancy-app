@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Clock, Brain, Baby, Shield, Heart, Lightbulb, X, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
+import { SpeakButton } from '../components/SpeakButton';
 
 export const PreConceptionEducation: React.FC = () => {
   const [currentMythIndex, setCurrentMythIndex] = useState(0);
@@ -26,27 +27,39 @@ export const PreConceptionEducation: React.FC = () => {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
 
       {/* Motivational Quote - Centered */}
-      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
         <Heart size={40} className="text-emerald-400 mb-6" />
         <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-5xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
           Every journey begins with preparation. You're investing in your future family's health.
         </p>
+        <div className="absolute top-4 right-4">
+          <SpeakButton text="Every journey begins with preparation. You're investing in your future family's health." size={22} />
+        </div>
       </div>
 
       {/* Hero */}
-      <div className="bg-white rounded-[2rem] p-8 lg:p-12 shadow-sm border border-slate-100 overflow-hidden relative">
+      <div className="bg-white rounded-[2rem] p-8 lg:p-12 shadow-sm border border-slate-100 overflow-hidden relative group">
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-50 rounded-full blur-[100px] -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-6 border border-emerald-100">
             <ShieldCheck size={14} />
             The Science
           </div>
-          <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
-            It starts before day one.
-          </h1>
-          <p className="text-lg text-slate-600 leading-relaxed max-w-4xl">
-            Did you know? An egg takes about 90 days to mature before it's released. The health of your body during this 3-6 month window directly impacts the genetic material you pass on.
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
+                It starts before day one.
+              </h1>
+              <p className="text-lg text-slate-600 leading-relaxed max-w-4xl">
+                Did you know? An egg takes about 90 days to mature before it's released. The health of your body during this 3-6 month window directly impacts the genetic material you pass on.
+              </p>
+            </div>
+            <SpeakButton 
+              text="It starts before day one. Did you know? An egg takes about 90 days to mature before it's released. The health of your body during this 3-6 month window directly impacts the genetic material you pass on." 
+              size={24}
+              className="flex-shrink-0 mt-2"
+            />
+          </div>
         </div>
       </div>
 
@@ -98,19 +111,27 @@ export const PreConceptionEducation: React.FC = () => {
 
       {/* Benefits */}
       <div>
-        <h2 className="text-xl font-bold font-display text-slate-900 mb-6">Key Benefits</h2>
+        <div className="flex items-center gap-2 mb-6">
+          <h2 className="text-xl font-bold font-display text-slate-900">Key Benefits</h2>
+          <SpeakButton text="Key Benefits of pre-conception planning: Baby's Brain - Neural tube forms in first 4 weeks. Recovery - Stronger iron stores mean faster postpartum recovery. Risk Reduction - Lowers risk of gestational diabetes." size="sm" />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { icon: Brain, title: "Baby's Brain", desc: "Neural tube forms in first 4 weeks.", color: "text-emerald-500", bg: "bg-emerald-50" },
             { icon: Baby, title: "Recovery", desc: "Stronger iron stores mean faster postpartum recovery.", color: "text-teal-500", bg: "bg-teal-50" },
             { icon: Shield, title: "Risk Reduction", desc: "Lowers risk of gestational diabetes.", color: "text-emerald-600", bg: "bg-emerald-50" },
           ].map((item, i) => (
-            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-md transition-shadow">
+            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-md transition-shadow group relative">
               <div className={`w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center mb-4`}>
                 <item.icon size={24} />
               </div>
-              <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1">
+                  <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                </div>
+                <SpeakButton text={`${item.title}. ${item.desc}`} size={16} className="flex-shrink-0" />
+              </div>
             </div>
           ))}
         </div>
@@ -129,9 +150,10 @@ export const PreConceptionEducation: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
-              <Volume2 size={14} />
-            </button>
+            <SpeakButton 
+              text={`Myth: ${myths[currentMythIndex].myth}. Fact: ${myths[currentMythIndex].fact}`} 
+              size={16} 
+            />
             <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
               <Share2 size={14} />
             </button>
@@ -203,7 +225,10 @@ export const PreConceptionEducation: React.FC = () => {
 
       {/* Topics Grid */}
       <div>
-        <h2 className="text-xl font-bold font-display text-slate-900 mb-6">Learning Topics</h2>
+        <div className="flex items-center gap-2 mb-6">
+          <h2 className="text-xl font-bold font-display text-slate-900">Learning Topics</h2>
+          <SpeakButton text="Learning Topics: Fertility Nutrition for foods that support egg and sperm health. Supplement Guide with essential prenatal vitamins explained. Cycle Tracking to understand your fertile window. Lifestyle Factors covering sleep, stress, and conception success." size="sm" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { title: "Fertility Nutrition", desc: "Foods that support egg and sperm health" },
@@ -212,8 +237,13 @@ export const PreConceptionEducation: React.FC = () => {
             { title: "Lifestyle Factors", desc: "Sleep, stress, and conception success" },
           ].map((topic, i) => (
             <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 hover:border-emerald-200 hover:shadow-md transition-all cursor-pointer group">
-              <h3 className="font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">{topic.title}</h3>
-              <p className="text-sm text-slate-500">{topic.desc}</p>
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1">
+                  <h3 className="font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">{topic.title}</h3>
+                  <p className="text-sm text-slate-500">{topic.desc}</p>
+                </div>
+                <SpeakButton text={`${topic.title}. ${topic.desc}`} size={16} className="flex-shrink-0" />
+              </div>
             </div>
           ))}
         </div>

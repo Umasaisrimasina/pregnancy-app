@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield } from 'lucide-react';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Loader2 } from 'lucide-react';
+import { SpeakButton } from '../components/SpeakButton';
+import { sendChatMessage, ChatMessage } from '../services/aiService';
 
 const moodData = [
   { day: 'M', value: 3 },
@@ -15,6 +17,7 @@ const moodData = [
 export const BabyCareMind: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'ai', text: "Welcome to parent wellness. Caring for a newborn is beautiful but exhausting. How are you holding up?" }
   ]);
@@ -28,27 +31,38 @@ export const BabyCareMind: React.FC = () => {
     scrollToBottom();
   }, [messages, isChatOpen]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleSend = async () => {
+    if (!inputValue.trim() || isLoading) return;
     
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        id: Date.now() + 1, 
-        sender: 'ai', 
-        text: "Thank you for sharing. Remember, taking care of yourself is part of taking care of your baby. Would you like to explore some self-care strategies?" 
-      }]);
-    }, 1000);
+    // Build conversation history for context
+    const conversationHistory: ChatMessage[] = messages.map(msg => ({
+      role: msg.sender === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
+
+    const response = await sendChatMessage(inputValue, 'babycare', conversationHistory);
+    
+    setMessages(prev => [...prev, { 
+      id: Date.now() + 1, 
+      sender: 'ai', 
+      text: response.success ? response.message! : "I understand. Taking care of a newborn is challenging. Remember, you're doing an amazing job. Would you like to explore some self-care strategies?"
+    }]);
+    setIsLoading(false);
   };
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Parent Wellness</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-display font-extrabold text-slate-900">Parent Wellness</h1>
+            <SpeakButton text="Parent Wellness: Taking care of yourself while caring for baby." size="sm" />
+          </div>
           <p className="text-slate-500 mt-1">Taking care of yourself while caring for baby.</p>
         </div>
       </div>
@@ -62,7 +76,10 @@ export const BabyCareMind: React.FC = () => {
             
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                  <SpeakButton text="Daily Check-In: How are you feeling today?" size="sm" />
+                </div>
                 <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
               </div>
 
@@ -125,7 +142,10 @@ export const BabyCareMind: React.FC = () => {
           {/* Mood Trends Chart */}
           <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 h-[300px]">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+                <SpeakButton text="Mood Trends: Your weekly mood chart shows 15% improvement." size="sm" />
+              </div>
               <span className="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded-md">
                 +15% vs Last Week
               </span>
@@ -166,7 +186,10 @@ export const BabyCareMind: React.FC = () => {
                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
                  <Lock size={20} className="text-sky-300" />
                </div>
-               <h3 className="text-lg font-bold font-display mb-2">Parent Support Chat</h3>
+               <div className="flex items-center gap-2">
+                 <h3 className="text-lg font-bold font-display mb-2">Parent Support Chat</h3>
+                 <SpeakButton text="Parent Support Chat: Need to talk through parenting challenges? Our AI companion understands the journey." size="sm" />
+               </div>
                <p className="text-slate-400 text-sm mb-6 leading-relaxed">
                  Need to talk through parenting challenges? Our AI companion understands the journey.
                </p>

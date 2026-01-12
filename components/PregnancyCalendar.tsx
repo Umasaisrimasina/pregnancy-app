@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Bell, Shield, Trash2, EyeOff, Plus, AlertCircle } from 'lucide-react';
+import { SpeakButton } from './SpeakButton';
 
 export const PregnancyCalendar: React.FC = () => {
   const month = "January 2026";
@@ -90,6 +91,7 @@ export const PregnancyCalendar: React.FC = () => {
                <CalendarIcon size={24} />
              </div>
              <h2 className="text-2xl font-display font-bold text-slate-900">Pregnancy Calendar</h2>
+             <SpeakButton text="Pregnancy Calendar. Week 24, Trimester 2 Milestones. Track your checkups, vaccinations, and important appointments." size={14} />
            </div>
            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-14">Week 24 • Trimester 2 Milestones</p>
         </div>

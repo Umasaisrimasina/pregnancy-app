@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ShieldCheck, Heart, Brain, Baby, Shield, Sparkles, BookOpen, AlertCircle, Phone, Lock, Send, Mic, Lightbulb, X, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
+import { ShieldCheck, Heart, Brain, Baby, Shield, Sparkles, BookOpen, AlertCircle, Phone, Lock, Send, Mic, Lightbulb, X, Check, ChevronLeft, ChevronRight, Volume2, Share2, Loader2 } from 'lucide-react';
+import { SpeakButton } from '../components/SpeakButton';
+import { sendChatMessage, ChatMessage } from '../services/aiService';
 
 export const PostPartumEducation: React.FC = () => {
   const [currentMythIndex, setCurrentMythIndex] = useState(0);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'ai', text: "Hello! I'm here to support you through your postpartum journey. How can I help you today?" }
   ]);
@@ -17,20 +20,28 @@ export const PostPartumEducation: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleSend = async () => {
+    if (!inputValue.trim() || isLoading) return;
     
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        id: Date.now() + 1, 
-        sender: 'ai', 
-        text: "Thank you for sharing. Remember, recovery takes time and it's okay to ask for help. Would you like some resources on this topic?" 
-      }]);
-    }, 1000);
+    // Build conversation history for context
+    const conversationHistory: ChatMessage[] = messages.map(msg => ({
+      role: msg.sender === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
+
+    const response = await sendChatMessage(inputValue, 'postpartum', conversationHistory);
+    
+    setMessages(prev => [...prev, { 
+      id: Date.now() + 1, 
+      sender: 'ai', 
+      text: response.success ? response.message! : "Thank you for sharing. Remember, recovery takes time and it's okay to ask for help. Would you like some resources on this topic?"
+    }]);
+    setIsLoading(false);
   };
 
   const myths = [
@@ -55,11 +66,14 @@ export const PostPartumEducation: React.FC = () => {
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       
       {/* Motivational Quote - Centered */}
-      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+      <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
         <Heart size={40} className="text-purple-400 mb-6" />
         <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
           You are doing amazing, mama. Every small step forward is a victory.
         </p>
+        <div className="absolute top-4 right-4">
+          <SpeakButton text="You are doing amazing, mama. Every small step forward is a victory." />
+        </div>
       </div>
 
       {/* Hero + Chat Grid */}
@@ -72,12 +86,17 @@ export const PostPartumEducation: React.FC = () => {
                  <Sparkles size={14} />
                  Recovery Resources
               </div>
-              <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
-                 Your postpartum <br/>recovery guide.
-              </h1>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
-                The fourth trimester is just as important. Expert guidance on physical recovery, mental health, and bonding with your newborn.
-              </p>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
+                     Your postpartum <br/>recovery guide.
+                  </h1>
+                  <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                    The fourth trimester is just as important. Expert guidance on physical recovery, mental health, and bonding with your newborn.
+                  </p>
+                </div>
+                <SpeakButton text="Your postpartum recovery guide. The fourth trimester is just as important. Expert guidance on physical recovery, mental health, and bonding with your newborn." />
+              </div>
            </div>
         </div>
 
@@ -148,10 +167,15 @@ export const PostPartumEducation: React.FC = () => {
             <Heart size={32} className="text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold font-display mb-2">Your Mental Health Matters</h3>
-            <p className="text-purple-100 text-sm leading-relaxed">
-              Postpartum depression affects 1 in 7 mothers. If you're feeling overwhelmed, sad, or anxious, you're not alone and help is available.
-            </p>
+            <div className="flex items-start gap-2">
+              <div className="flex-1">
+                <h3 className="text-xl font-bold font-display mb-2">Your Mental Health Matters</h3>
+                <p className="text-purple-100 text-sm leading-relaxed">
+                  Postpartum depression affects 1 in 7 mothers. If you're feeling overwhelmed, sad, or anxious, you're not alone and help is available.
+                </p>
+              </div>
+              <SpeakButton text="Your Mental Health Matters. Postpartum depression affects 1 in 7 mothers. If you're feeling overwhelmed, sad, or anxious, you're not alone and help is available." className="text-white border-white/30 bg-white/10 hover:bg-white/20" size={14} />
+            </div>
           </div>
           <button className="bg-white text-purple-600 px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-purple-50 transition-colors flex items-center gap-2">
             <Phone size={16} /> Get Support
@@ -187,6 +211,7 @@ export const PostPartumEducation: React.FC = () => {
         <div className="flex items-center gap-3 mb-6">
           <AlertCircle size={24} className="text-purple-500" />
           <h2 className="text-xl font-bold font-display text-slate-900">When to Seek Help</h2>
+          <SpeakButton text="When to Seek Help: Warning signs include feeling hopeless or worthless, difficulty bonding with baby, severe mood swings, thoughts of harming yourself or baby, unable to sleep even when baby sleeps, and loss of interest in activities. Crisis Helplines: iCall 9152987821, Vandrevala Foundation 1860-2662-345." size="sm" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
@@ -221,6 +246,7 @@ export const PostPartumEducation: React.FC = () => {
               <h2 className="text-lg font-bold font-display text-slate-900">Did you know?</h2>
               <p className="text-xs text-slate-500">Swipe to learn more health facts</p>
             </div>
+            <SpeakButton text={`Myth: ${myths[currentMythIndex].myth}. Fact: ${myths[currentMythIndex].fact}`} size="sm" />
           </div>
           <div className="flex items-center gap-2">
             <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
@@ -297,7 +323,10 @@ export const PostPartumEducation: React.FC = () => {
 
       {/* Breastfeeding Section */}
       <div>
-        <h2 className="text-xl font-bold font-display text-slate-900 mb-6">Breastfeeding Resources</h2>
+        <div className="flex items-center gap-2 mb-6">
+          <h2 className="text-xl font-bold font-display text-slate-900">Breastfeeding Resources</h2>
+          <SpeakButton text="Breastfeeding Resources: Latching Guide for proper techniques for comfortable feeding. Common Challenges with solutions for engorgement, mastitis and more. Pumping Tips for building and storing your milk supply." size="sm" />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { title: "Latching Guide", desc: "Proper techniques for comfortable feeding" },

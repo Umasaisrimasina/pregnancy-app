@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Heart, Brain, Baby, Shield, Sparkles, BookOpen, Calendar, Syringe, Scale, Users, CheckCircle2, X, ArrowRight, Clock, MapPin, FileText, Lightbulb, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
+import { SpeakButton } from '../components/SpeakButton';
 
 export const BabyCareEducation: React.FC = () => {
   const [currentMythIndex, setCurrentMythIndex] = useState(0);
@@ -72,12 +73,17 @@ export const BabyCareEducation: React.FC = () => {
                <Baby size={14} />
                Baby Care Guide
             </div>
-            <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
-               Everything about <br/>caring for baby.
-            </h1>
-            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
-              Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy.
-            </p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
+                   Everything about <br/>caring for baby.
+                </h1>
+                <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                  Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy.
+                </p>
+              </div>
+              <SpeakButton text="Everything about caring for baby. Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy." />
+            </div>
          </div>
       </div>
 
@@ -104,7 +110,10 @@ export const BabyCareEducation: React.FC = () => {
 
       {/* Care Topics */}
       <div>
-        <h2 className="text-xl font-bold font-display text-slate-900 mb-6">Care Essentials</h2>
+        <div className="flex items-center gap-2 mb-6">
+          <h2 className="text-xl font-bold font-display text-slate-900">Care Essentials</h2>
+          <SpeakButton text="Care Essentials: Feeding Guide for breast, bottle, and combination feeding. Development Milestones for what to expect month by month. Sleep Training for safe sleep practices and routines. Health and Safety for keeping baby healthy and safe." size="sm" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { icon: Heart, title: "Feeding Guide", desc: "Breast, bottle, and combination feeding", color: "text-sky-500", bg: "bg-sky-50" },
@@ -135,9 +144,14 @@ export const BabyCareEducation: React.FC = () => {
               <div className="w-14 h-14 rounded-2xl bg-white/80 border border-purple-100 flex items-center justify-center shadow-sm">
                 <Users size={28} className="text-purple-600" strokeWidth={1.5} />
               </div>
-              <div>
-                <h3 className="text-xl font-bold font-display text-slate-900 mb-1">Need extra help today?</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">Trusted caregivers available when you need rest or support.</p>
+              <div className="flex-1">
+                <div className="flex items-start gap-2">
+                  <div>
+                    <h3 className="text-xl font-bold font-display text-slate-900 mb-1">Need extra help today?</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">Trusted caregivers available when you need rest or support.</p>
+                  </div>
+                  <SpeakButton text="Need extra help today? Trusted caregivers available when you need rest or support. Certified and background-verified, flexible hours, with postpartum and newborn care experience." size={14} />
+                </div>
               </div>
             </div>
           </div>
@@ -407,9 +421,7 @@ export const BabyCareEducation: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
-              <Volume2 size={14} />
-            </button>
+            <SpeakButton text={`Myth: ${myths[currentMythIndex].myth}. Fact: ${myths[currentMythIndex].fact}`} size={14} />
             <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
               <Share2 size={14} />
             </button>
@@ -484,6 +496,7 @@ export const BabyCareEducation: React.FC = () => {
         <div className="flex items-center gap-3 mb-6">
           <Syringe size={24} className="text-sky-500" />
           <h2 className="text-xl font-bold font-display text-slate-900">Vaccination Schedule</h2>
+          <SpeakButton text="Vaccination Schedule. BCG, OPV-0, Hep B-1 at birth. OPV-1, Pentavalent-1, Rotavirus-1, PCV-1 at 6 weeks. OPV-2, Pentavalent-2, Rotavirus-2 at 10 weeks. OPV-3, Pentavalent-3, Rotavirus-3, PCV-2 at 14 weeks." size={14} />
         </div>
         <div className="space-y-3">
           {[
@@ -513,7 +526,10 @@ export const BabyCareEducation: React.FC = () => {
 
       {/* Growth Tracking */}
       <div>
-        <h2 className="text-xl font-bold font-display text-slate-900 mb-6">Growth & Development</h2>
+        <div className="flex items-center gap-2 mb-6">
+          <h2 className="text-xl font-bold font-display text-slate-900">Growth & Development</h2>
+          <SpeakButton text="Growth and Development: Weight Charts to track healthy weight gain patterns. Motor Skills for physical development milestones. Social Skills for emotional and social development." size="sm" />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { icon: Scale, title: "Weight Charts", desc: "Track healthy weight gain patterns", color: "text-sky-500", bg: "bg-sky-50" },
