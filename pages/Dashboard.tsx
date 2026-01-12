@@ -6,6 +6,7 @@ import { CycleCalendar } from '../components/CycleCalendar';
 import { PreConceptionGuide } from '../components/PreConceptionGuide';
 import { PregnancyCalendar } from '../components/PregnancyCalendar';
 import { SpeakButton } from '../components/SpeakButton';
+import { getCheckIns, detectNegativeStreak, generateDemoCheckIns, MENTAL_HEALTH_RESOURCES } from '../services/sentimentService';
 
 interface DashboardProps {
   phase: AppPhase;
@@ -1105,6 +1106,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
       const avgSleep = (postPartumSleepData.reduce((sum, d) => sum + d.hours, 0) / postPartumSleepData.length).toFixed(1);
 
+      // Check for safety alerts based on sentiment check-ins
+      const checkIns = (() => {
+        const stored = getCheckIns();
+        return stored.length > 0 ? stored : generateDemoCheckIns();
+      })();
+      const safetyAlert = detectNegativeStreak(checkIns, 3);
+
       return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -1131,6 +1139,64 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             <SpeakButton text="You are doing amazing, mama. Every small step forward is a victory." />
           </div>
         </div>
+
+        {/* Safety Alert Banner - Consecutive Negative Check-ins */}
+        {safetyAlert.hasAlert && (
+          <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-[2rem] p-8 border-2 border-red-200 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
+                <AlertTriangle size={28} className="text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold font-display text-red-900 mb-2">Mental Wellness Alert</h3>
+                <p className="text-sm text-red-700 mb-4">
+                  We've noticed {safetyAlert.streakCount} consecutive days of negative sentiment in your daily check-ins. 
+                  Your emotional wellbeing matters, and support is available.
+                </p>
+                
+                <div className="bg-white rounded-xl p-5 mb-4">
+                  <p className="text-xs font-medium text-slate-600 mb-4">
+                    <strong className="text-red-900">Important:</strong> This is not a medical diagnosis. 
+                    If you're experiencing persistent feelings of sadness, anxiety, or thoughts of self-harm, 
+                    please reach out to a mental health professional immediately.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {MENTAL_HEALTH_RESOURCES.slice(0, 4).map((resource) => (
+                      <div key={resource.name} className="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                        <Heart size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-xs font-bold text-red-900">{resource.name}</p>
+                          <p className="text-xs text-red-600 mb-1">{resource.description}</p>
+                          {resource.phone && (
+                            <a href={`tel:${resource.phone}`} className="text-xs font-medium text-red-700 hover:text-red-900 underline block">
+                              📞 {resource.phone}
+                            </a>
+                          )}
+                          {resource.website && (
+                            <a href={`https://${resource.website}`} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-red-700 hover:text-red-900 underline block">
+                              🌐 {resource.website}
+                            </a>
+                          )}
+                          <p className="text-xs text-red-500 mt-1">✓ {resource.available}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button className="flex-1 bg-red-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-red-700 transition-colors">
+                    Talk to Someone Now
+                  </button>
+                  <button className="px-6 py-3 rounded-xl font-bold text-sm border-2 border-red-200 text-red-900 hover:bg-red-50 transition-colors">
+                    Learn More
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 2-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
