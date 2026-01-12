@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, CheckCircle2, Lock, Shield } from 'lucide-react';
 import { AppPhase } from '../types';
+import { SpeakButton } from '../components/SpeakButton';
 
 interface PageProps {
   phase: AppPhase;
@@ -22,9 +23,12 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
     <div className="max-w-4xl mx-auto space-y-8 animate-in zoom-in-95 duration-500 pb-12">
       
       <div className="text-center mb-10">
-        <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-4">
-          Phase Transition
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-4">
+            Phase Transition
+          </h1>
+          <SpeakButton text="Phase Transition. Congratulations on reaching this milestone. Let's review your progress before unlocking the next chapter." />
+        </div>
         <p className="text-lg text-slate-500 max-w-2xl mx-auto">
           Congratulations on reaching this milestone. Let's review your progress before unlocking the next chapter.
         </p>
@@ -33,9 +37,12 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
       {/* Readiness Status */}
       <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-           <div>
-             <h2 className="text-xl font-bold text-slate-900">Readiness Status</h2>
-             <p className="text-sm text-slate-500">Based on recent data</p>
+           <div className="flex items-center gap-2">
+             <div>
+               <h2 className="text-xl font-bold text-slate-900">Readiness Status</h2>
+               <p className="text-sm text-slate-500">Based on recent data</p>
+             </div>
+             <SpeakButton text="Readiness Status based on recent data: Overall 92%, Health Excellent, Stress Low. Ready for Next Phase." size="sm" />
            </div>
            <div className="bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-primary-100">
              <div className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></div>
@@ -62,8 +69,11 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
           <div className="p-1 bg-blue-100 rounded-full text-blue-600 shrink-0">
             <Lock size={16} />
           </div>
-          <div>
-            <h4 className="font-bold text-sm mb-1">Seamless Data Transition</h4>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h4 className="font-bold text-sm mb-1">Seamless Data Transition</h4>
+              <SpeakButton text={`Seamless Data Transition: We are securely migrating your historical logs to the ${nextPhase} dashboard.`} size="sm" />
+            </div>
             <p className="text-sm opacity-80 leading-relaxed">
               We are securely migrating your historical logs to the {nextPhase} dashboard.
             </p>
@@ -79,7 +89,10 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
            <div className="w-16 h-16 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center mb-6">
              <Shield size={32} />
            </div>
-           <h3 className="text-xl font-bold text-slate-900 mb-2">Confirm Transition</h3>
+           <div className="flex items-center gap-2 mb-2">
+             <h3 className="text-xl font-bold text-slate-900">Confirm Transition</h3>
+             <SpeakButton text={`Confirm Transition: You are about to enter the ${nextPhase.replace('-', ' ')} mode. This will update your dashboard and available tools.`} size="sm" />
+           </div>
            <p className="text-sm text-slate-500 max-w-md mb-8">
              You are about to enter the <strong>{nextPhase.replace('-', ' ')}</strong> mode. This will update your dashboard and available tools.
            </p>

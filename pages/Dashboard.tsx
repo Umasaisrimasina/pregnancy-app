@@ -5,6 +5,7 @@ import { AppPhase, UserRole } from '../types';
 import { CycleCalendar } from '../components/CycleCalendar';
 import { PreConceptionGuide } from '../components/PreConceptionGuide';
 import { PregnancyCalendar } from '../components/PregnancyCalendar';
+import { SpeakButton } from '../components/SpeakButton';
 
 interface DashboardProps {
   phase: AppPhase;
@@ -195,9 +196,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   if (role === 'partner') {
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-         <div className="mb-2">
-            <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: PARTNER PERSPECTIVE</span>
-            <h1 className="text-4xl font-display font-extrabold text-slate-900 mt-1">Your Pregnancy Journey</h1>
+         <div className="mb-2 flex items-start justify-between">
+            <div>
+              <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: PARTNER PERSPECTIVE</span>
+              <h1 className="text-4xl font-display font-extrabold text-slate-900 mt-1">Your Pregnancy Journey</h1>
+            </div>
+            <SpeakButton text="Partner Perspective. Your Pregnancy Journey. Support your partner through this beautiful journey." />
          </div>
 
          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
@@ -242,10 +246,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                {/* Goal Card */}
                <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-lg shadow-blue-900/20">
                   <div className="relative z-10 max-w-xl">
-                     <h2 className="text-2xl font-display font-bold mb-3">Tonight's Goal: Iron-Rich Dinner</h2>
-                     <p className="text-blue-100 text-sm leading-relaxed mb-8">
-                        Maya's latest blood test showed iron levels are slightly on the lower side. Doctors suggest adding more spinach or lentils to her diet.
-                     </p>
+                     <div className="flex items-start justify-between gap-4">
+                       <div className="flex-1">
+                         <h2 className="text-2xl font-display font-bold mb-3">Tonight's Goal: Iron-Rich Dinner</h2>
+                         <p className="text-blue-100 text-sm leading-relaxed mb-8">
+                            Maya's latest blood test showed iron levels are slightly on the lower side. Doctors suggest adding more spinach or lentils to her diet.
+                         </p>
+                       </div>
+                       <SpeakButton text="Tonight's Goal: Iron-Rich Dinner. Maya's latest blood test showed iron levels are slightly on the lower side. Doctors suggest adding more spinach or lentils to her diet." className="text-white border-white/30 bg-white/10 hover:bg-white/20" />
+                     </div>
                      <div className="flex gap-4">
                         <button className="bg-white text-blue-700 px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-blue-50 transition-colors">
                            <ChefHat size={18} /> View Recipes
@@ -289,9 +298,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                      <Heart size={18} className="fill-current" />
                      <span className="text-xs font-bold uppercase tracking-widest">Partner Tip of the Day</span>
                   </div>
-                  <p className="text-amber-900 italic text-sm leading-relaxed font-medium">
-                     "At 24 weeks, many mothers experience back pain. Offer a 10-minute foot or lower back massage tonight before bed. It goes a long way in mental wellness."
-                  </p>
+                  <div className="flex items-start gap-2">
+                    <p className="text-amber-900 italic text-sm leading-relaxed font-medium flex-1">
+                       "At 24 weeks, many mothers experience back pain. Offer a 10-minute foot or lower back massage tonight before bed. It goes a long way in mental wellness."
+                    </p>
+                    <SpeakButton text="Partner Tip of the Day. At 24 weeks, many mothers experience back pain. Offer a 10-minute foot or lower back massage tonight before bed. It goes a long way in mental wellness." size={14} />
+                  </div>
                </div>
 
                {/* Appointments */}
@@ -333,7 +345,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
          <div className="mb-2 text-center">
             <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: FAMILY PERSPECTIVE</span>
             <h1 className="text-4xl font-display font-extrabold text-slate-900 mt-2">Your Pregnancy Journey</h1>
-            <h2 className="text-2xl font-display font-bold text-slate-700 mt-4">Welcome, Family!</h2>
+            <div className="flex items-center justify-center gap-2 mt-4">
+              <h2 className="text-2xl font-display font-bold text-slate-700">Welcome, Family!</h2>
+              <SpeakButton text="Family Perspective. Your Pregnancy Journey. Welcome, Family! Stay updated on Maya's journey and find ways to support." />
+            </div>
             <p className="text-slate-500 mt-2">Stay updated on Maya's journey and find ways to support.</p>
          </div>
 
@@ -343,7 +358,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             <Heart size={200} className="absolute -bottom-10 -right-10 text-rose-100 opacity-50 rotate-[15deg]" />
             
             <div className="relative z-10 max-w-2xl mx-auto">
-               <h3 className="text-2xl font-display font-bold text-rose-800 mb-3">Milestone Alert: 24 Weeks!</h3>
+               <div className="flex items-center justify-center gap-2">
+                 <h3 className="text-2xl font-display font-bold text-rose-800 mb-3">Milestone Alert: 24 Weeks!</h3>
+                 <SpeakButton text="Milestone Alert: 24 Weeks! The baby is now about the size of an ear of corn and can hear sounds from the outside world!" />
+               </div>
                <p className="text-rose-900/70 text-base leading-relaxed mb-8">
                   The baby is now about the size of an ear of corn and can hear sounds from the outside world!
                </p>
@@ -416,9 +434,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
          {/* Care Package Banner */}
          <div className="bg-indigo-900 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-white relative overflow-hidden">
-             <div className="relative z-10">
-                <h3 className="text-xl font-bold font-display mb-2">Send a Care Package?</h3>
-                <p className="text-indigo-200 text-sm">We've curated healthy snacks & wellness kits Maya will love.</p>
+             <div className="relative z-10 flex items-start gap-3">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold font-display mb-2">Send a Care Package?</h3>
+                  <p className="text-indigo-200 text-sm">We've curated healthy snacks & wellness kits Maya will love.</p>
+                </div>
+                <SpeakButton text="Send a Care Package? We've curated healthy snacks and wellness kits Maya will love." className="text-white border-white/30 bg-white/10 hover:bg-white/20" size={14} />
              </div>
              <Gift size={64} className="text-indigo-400 opacity-50 absolute right-8 bottom-0 md:static md:opacity-100" />
          </div>
@@ -432,9 +453,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   if (role === 'medical') {
     return (
        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="mb-4">
-             <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: DOCTOR PERSPECTIVE</span>
-             <h1 className="text-4xl font-display font-extrabold text-slate-900 mt-1">Your Pregnancy Journey</h1>
+          <div className="mb-4 flex items-start justify-between">
+             <div>
+               <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: DOCTOR PERSPECTIVE</span>
+               <h1 className="text-4xl font-display font-extrabold text-slate-900 mt-1">Your Pregnancy Journey</h1>
+             </div>
+             <SpeakButton text="Doctor Perspective. Clinical Dashboard for monitoring patient health and pregnancy progress." />
           </div>
 
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
@@ -594,13 +618,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
      return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                      Planning Phase
+                <div className="flex items-start gap-3">
+                    <div className="flex-1">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Planning Phase
+                      </div>
+                      <h1 className="text-3xl font-display font-extrabold text-slate-900">Pre-Conception</h1>
+                      <p className="text-slate-500 mt-1">Optimization Phase</p>
                     </div>
-                    <h1 className="text-3xl font-display font-extrabold text-slate-900">Pre-Conception</h1>
-                    <p className="text-slate-500 mt-1">Optimization Phase</p>
+                    <SpeakButton text="Pre-Conception Optimization Phase. Track your cycle, optimize your health, and prepare for pregnancy." />
                 </div>
              </div>
              <PreConceptionGuide />
@@ -616,13 +643,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-x-hidden">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-              Trimester 2
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
+                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                Trimester 2
+              </div>
+              <h1 className="text-3xl font-display font-extrabold text-slate-900">Pregnancy</h1>
+              <p className="text-slate-500 mt-1">Week 24 • Day 3</p>
             </div>
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Pregnancy</h1>
-            <p className="text-slate-500 mt-1">Week 24 • Day 3</p>
+            <SpeakButton text="Pregnancy Dashboard. Trimester 2, Week 24, Day 3. Track your pregnancy journey, fetal development, and health vitals." />
           </div>
         </div>
 
@@ -630,7 +660,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-2">
           <div className="xl:col-span-3 flex flex-col overflow-hidden">
             <div className="flex justify-between items-end mb-6">
-              <h2 className="text-xl font-bold font-display text-slate-900">Fetal Growth Timeline</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-bold font-display text-slate-900">Fetal Growth Timeline</h2>
+                <SpeakButton text="Fetal Growth Timeline. Track your baby's development from Month 1 as a poppy seed through Month 9 as a watermelon. Swipe to explore each month's milestones." />
+              </div>
               <span className="text-xs font-bold text-rose-400 tracking-widest uppercase animate-pulse">Swipe to explore</span>
             </div>
             
@@ -667,13 +700,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
                         <Lock size={16} className="text-rose-400" />
                      </div>
-                     <div>
+                     <div className="flex-1">
                        <h3 className="font-bold text-white text-sm">Midwife AI</h3>
                        <div className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></span>
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Private & Secure</span>
                        </div>
                      </div>
+                     <SpeakButton text="Midwife AI. Your private and secure pregnancy assistant. Ask questions about your pregnancy journey." className="text-white border-white/30 bg-white/10 hover:bg-white/20" size={12} />
                    </div>
                    <div className="flex-1 space-y-4 mb-4 overflow-y-auto custom-scrollbar pr-1">
                       <div className="flex gap-3">
@@ -890,6 +924,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                       <h2 className="text-2xl font-display font-bold text-slate-900">Doctor's Clinical Summary</h2>
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Last Update: Oct 12 by Dr. Aditi Sharma</p>
                    </div>
+                   <SpeakButton text="Doctor's Clinical Summary. G1P0 gestation at 24 weeks. Overall clinical status is stable. Fetal growth matches gestational age perfectly. Prescribed instructions: Sleep strictly on the left lateral position. Schedule Glucose Challenge Test. Maintain 3.5 liters daily hydration goal." />
                 </div>
                 <div className="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-indigo-100">
                    <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
@@ -926,7 +961,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               </div>
             </div>
             <div className="mt-6 pt-6 border-t border-slate-50">
-                 <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Clinical Observations</span>
+                 <div className="flex items-center gap-2 mb-2">
+                   <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest">Clinical Observations</span>
+                   <SpeakButton text="Clinical Observations. Fetal Heart Rate baseline at 145 beats per minute with moderate variability. Patient reports mild lumbar strain. Blood pressure is within normal ranges at 110 over 70 millimeters of mercury." size={12} />
+                 </div>
                  <p className="text-slate-600 text-sm leading-relaxed">
                     Fetal Heart Rate baseline at 145 bpm with moderate variability. Patient reports mild lumbar strain. Blood pressure is within normal ranges (110/70 mmHg).
                  </p>
@@ -936,7 +974,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <div className="lg:col-span-1 flex flex-col gap-6">
               {/* How are you feeling? Card */}
               <div className="bg-rose-900 rounded-[2rem] p-10 h-full flex flex-col">
-                <h3 className="text-white text-3xl font-bold mb-3">How are you feeling?</h3>
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-white text-3xl font-bold mb-3">How are you feeling?</h3>
+                  <SpeakButton text="How are you feeling? It's normal to feel a mix of emotions right now. Tracking helps. You can select Sad, Neutral, Good, or Great, and describe what's on your mind." className="text-white border-white/30 bg-white/10 hover:bg-white/20" />
+                </div>
                 <p className="text-rose-200 text-base mb-8">It's normal to feel a mix of emotions right now. Tracking helps.</p>
                 
                 <div className="flex flex-col gap-3 mb-8">
@@ -1067,22 +1108,28 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-xs font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
-              Recovery
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-xs font-bold uppercase tracking-wider mb-2">
+                <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                Recovery
+              </div>
+              <h1 className="text-3xl font-display font-extrabold text-slate-900">Post-Partum</h1>
+              <p className="text-slate-500 mt-1">Focusing on healing and bonding.</p>
             </div>
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Post-Partum</h1>
-            <p className="text-slate-500 mt-1">Focusing on healing and bonding.</p>
+            <SpeakButton text="Post-Partum Dashboard. Recovery phase. Focusing on healing and bonding with your baby." />
           </div>
         </div>
 
         {/* Motivational Quote - Centered */}
-        <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
+        <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
           <Heart size={40} className="text-indigo-400 mb-6" />
           <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
             You are doing amazing, mama. Every small step forward is a victory.
           </p>
+          <div className="absolute top-4 right-4">
+            <SpeakButton text="You are doing amazing, mama. Every small step forward is a victory." />
+          </div>
         </div>
 
         {/* 2-Column Layout */}
@@ -1093,7 +1140,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             
             {/* How are you feeling? Card */}
             <div className="bg-indigo-900 rounded-[2rem] p-8">
-              <h3 className="text-white text-2xl font-bold mb-2">How are you feeling?</h3>
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="text-white text-2xl font-bold mb-2">How are you feeling?</h3>
+                <SpeakButton text="How are you feeling? It's normal to feel a mix of emotions right now. Tracking helps. You can select Sad, Neutral, Good, or Great, and describe what's on your mind." className="text-white border-white/30 bg-white/10 hover:bg-white/20" />
+              </div>
               <p className="text-indigo-200 text-sm mb-6">It's normal to feel a mix of emotions right now. Tracking helps.</p>
               
               <div className="flex flex-col gap-2 mb-6">
@@ -1187,10 +1237,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
                   <Sparkles size={28} className="text-white" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-bold text-white text-lg">Wellness Screening</h3>
                   <p className="text-sm text-purple-100">EPDS Assessment</p>
                 </div>
+                <SpeakButton text="Wellness Screening. Edinburgh Postnatal Depression Scale Assessment. Current status: Low Risk. Last screened January 6, 2026." className="text-white border-white/30 bg-white/10 hover:bg-white/20" size={12} />
               </div>
               
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 mb-6 border border-white/20">
@@ -1316,13 +1367,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-sky-700 text-xs font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-              Month 2
+          <div className="flex items-start gap-3">
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-sky-700 text-xs font-bold uppercase tracking-wider mb-2">
+                <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                Month 2
+              </div>
+              <h1 className="text-3xl font-display font-extrabold text-slate-900">Baby Care</h1>
+              <p className="text-slate-500 mt-1">Leo is 8 weeks old today!</p>
             </div>
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Baby Care</h1>
-            <p className="text-slate-500 mt-1">Leo is 8 weeks old today!</p>
+            <SpeakButton text="Baby Care Dashboard. Month 2. Leo is 8 weeks old today! Track feeding, sleep, weight, and upcoming milestones." />
           </div>
           <button className="bg-sky-500 hover:bg-sky-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-sky-500/20 transition-all flex items-center gap-2">
             <Calendar size={18} />
@@ -1375,6 +1429,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <Wind size={24} />
              </div>
              <h2 className="text-2xl font-bold font-display text-slate-900">Environmental Safety</h2>
+             <SpeakButton text="Environmental Safety. Air quality awareness for infants: In many Indian cities, carrying infants in high AQI without coverups is dangerously normalized. Babies breathe 3 times faster than adults. Avoid TV and screens for children under 2 years. Use baby coverups." />
            </div>
 
            {/* AQI Card */}
@@ -1437,10 +1492,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               <div className="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
                 <Baby size={24} />
               </div>
-              <div>
+              <div className="flex-1">
                 <h2 className="text-2xl font-bold font-display text-slate-900">Baby Care Essentials</h2>
                 <p className="text-slate-500">Science-backed postnatal guidance</p>
               </div>
+              <SpeakButton text="Baby Care Essentials. Science-backed postnatal guidance including nutrition, hygiene, breastfeeding tips, formula safety, and product comparisons for diapers and skincare." />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1491,6 +1547,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                  <ClipboardList size={20} />
                </div>
                <h3 className="text-xl font-bold font-display text-slate-900">Medical Roadmap</h3>
+               <SpeakButton text="Medical Roadmap. Vaccination tracker: BCG and Hepatitis B done. OPV 1 and DTP 1 due next week. Genetic monitoring: Birth data is analyzed for genetic markers. Follow up on infant metabolic screening results." size={12} />
              </div>
 
              {/* Vaccination Tracker */}

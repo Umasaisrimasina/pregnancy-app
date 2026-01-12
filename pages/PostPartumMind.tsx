@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
-import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Activity, Heart, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
+import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Activity, Heart, AlertCircle, CheckCircle2, Sparkles, Loader2 } from 'lucide-react';
 import { AppPhase } from '../types';
+import { SpeakButton } from '../components/SpeakButton';
+import { sendChatMessage, ChatMessage } from '../services/aiService';
 
 interface PageProps {
   phase: AppPhase;
@@ -83,6 +85,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   const [inputValue, setInputValue] = useState('');
   const [selectedMood, setSelectedMood] = useState<string>('good');
   const [selectedFactors, setSelectedFactors] = useState<string[]>(['My Body']);
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'ai', text: "Welcome to your safe space. How are you feeling today, mama?" }
   ]);
@@ -102,20 +105,28 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
     scrollToBottom();
   }, [messages, isChatOpen]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleSend = async () => {
+    if (!inputValue.trim() || isLoading) return;
     
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        id: Date.now() + 1, 
-        sender: 'ai', 
-        text: "Thank you for sharing. It takes courage to express these feelings. Remember, your emotions are valid, and recovery takes time. Would you like to explore some coping strategies together?" 
-      }]);
-    }, 1000);
+    // Build conversation history for context
+    const conversationHistory: ChatMessage[] = messages.map(msg => ({
+      role: msg.sender === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
+
+    const response = await sendChatMessage(inputValue, 'postpartum', conversationHistory);
+    
+    setMessages(prev => [...prev, { 
+      id: Date.now() + 1, 
+      sender: 'ai', 
+      text: response.success ? response.message! : "Thank you for sharing. It takes courage to express these feelings. Remember, your emotions are valid, and recovery takes time. Would you like to explore some coping strategies together?"
+    }]);
+    setIsLoading(false);
   };
 
   const handleAnswerSelect = (optionIndex: number) => {
@@ -152,7 +163,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
       
       {/* Motivational Quote - Centered */}
       <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
-        <Heart size={40} className="text-purple-400 mb-6" />
+        <div className="flex items-center gap-3 mb-6">
+          <Heart size={40} className="text-purple-400" />
+          <SpeakButton text="Healing takes time, and that's okay. You're doing an incredible job." size="sm" />
+        </div>
         <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
           Healing takes time, and that's okay. You're doing an incredible job.
         </p>
@@ -160,7 +174,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Stress & Mind</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-display font-extrabold text-slate-900">Stress & Mind</h1>
+            <SpeakButton text="Stress and Mind: Your postpartum mental wellness companion." size="sm" />
+          </div>
           <p className="text-slate-500 mt-1">Your postpartum mental wellness companion.</p>
         </div>
       </div>
@@ -176,7 +193,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
             
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                  <SpeakButton text="Daily Check-In: How are you feeling today?" size="sm" />
+                </div>
                 <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
               </div>
 
@@ -253,7 +273,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center">
                   <Activity size={20} className="text-purple-600" />
                 </div>
-                <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-bold font-display text-slate-900">Mood Trends</h2>
+                  <SpeakButton text="Mood Trends: Your weekly mood chart for this week." size="sm" />
+                </div>
               </div>
               <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-md">
                 This Week
@@ -318,8 +341,11 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center">
                 <Sparkles size={24} className="text-white" />
               </div>
-              <div>
-                <h2 className="text-lg font-bold font-display text-slate-900">EPDS Wellness Screening</h2>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-bold font-display text-slate-900">EPDS Wellness Screening</h2>
+                  <SpeakButton text="EPDS Wellness Screening: Edinburgh Postnatal Depression Scale questionnaire." size="sm" />
+                </div>
                 <p className="text-xs text-slate-500">Edinburgh Postnatal Depression Scale</p>
               </div>
             </div>
