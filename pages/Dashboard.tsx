@@ -263,7 +263,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
   // Fetch AQI Data using geo coordinates
   const fetchAQIWithCoords = useCallback(async (lat: number, lon: number) => {
-    const url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=fef4df9b706eceba16b55babc3bb4e57d7978a9c`;
+    const token = import.meta.env.VITE_WAQI_API_TOKEN;
+    const url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${token}`;
     console.log("Fetching AQI from:", url);
     
     const res = await fetch(url);
