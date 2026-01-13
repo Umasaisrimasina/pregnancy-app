@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutGrid, Utensils, BrainCircuit, GraduationCap, ArrowRightCircle, LogOut, Leaf, ChevronDown, Baby, Heart, Stethoscope, Users } from 'lucide-react';
+import { LayoutGrid, Utensils, BrainCircuit, GraduationCap, ArrowRightCircle, LogOut, Leaf, ChevronDown, Baby, Heart, Stethoscope, Users, Activity } from 'lucide-react';
 import { ViewState, AppPhase, UserRole, PHASE_CONFIG } from '../types';
 
 interface SidebarProps {
@@ -15,7 +15,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentPhase, currentRole, setPhase, isMobileOpen, setIsMobileOpen, onLogout }) => {
   const [isPhaseMenuOpen, setIsPhaseMenuOpen] = useState(false);
-  
+
   const getNavItems = () => {
     const baseItems = [
       { id: 'overview', label: 'Overview', icon: LayoutGrid },
@@ -46,6 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
 
     return [
       ...baseItems,
+      // Add Risk Analysis only for pregnancy phase
+      ...(currentPhase === 'pregnancy' ? [{ id: 'risk-analysis', label: 'Risk Analysis', icon: Activity }] : []),
       { id: 'mind', label: mindLabel, icon: BrainCircuit },
       { id: 'education', label: educationLabel, icon: GraduationCap },
       { id: 'community', label: 'Mom Community', icon: Users },
@@ -68,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
 
   // Dynamic Tailwind classes based on phase
   const getPhaseColor = (phase: AppPhase) => {
-    switch(phase) {
+    switch (phase) {
       case 'pre-pregnancy': return 'text-emerald-600 bg-emerald-50 border-emerald-100';
       case 'pregnancy': return 'text-rose-600 bg-rose-50 border-rose-100';
       case 'post-partum': return 'text-indigo-600 bg-indigo-50 border-indigo-100';
@@ -79,17 +81,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
 
   const getActiveClass = (isActive: boolean) => {
     if (!isActive) return 'text-gray-500 hover:bg-gray-50 hover:text-slate-900';
-    switch(currentPhase) {
-       case 'pre-pregnancy': return 'bg-emerald-50 text-emerald-700 shadow-sm ring-1 ring-emerald-100';
-       case 'pregnancy': return 'bg-rose-50 text-rose-700 shadow-sm ring-1 ring-rose-100';
-       case 'post-partum': return 'bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-100';
-       case 'baby-care': return 'bg-sky-50 text-sky-700 shadow-sm ring-1 ring-sky-100';
+    switch (currentPhase) {
+      case 'pre-pregnancy': return 'bg-emerald-50 text-emerald-700 shadow-sm ring-1 ring-emerald-100';
+      case 'pregnancy': return 'bg-rose-50 text-rose-700 shadow-sm ring-1 ring-rose-100';
+      case 'post-partum': return 'bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-100';
+      case 'baby-care': return 'bg-sky-50 text-sky-700 shadow-sm ring-1 ring-sky-100';
     }
   };
 
   const sidebarClasses = `
     fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out
-    lg:translate-x-0 lg:static lg:inset-0
+    lg:translate-x-0 overflow-y-auto
     ${isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
   `;
 
@@ -97,7 +99,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
     <>
       {/* Mobile Backdrop */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-gray-900/20 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
@@ -125,15 +127,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
 
           {/* User Profile & Phase Selector */}
           <div className="px-6 mb-8 relative">
-            <button 
+            <button
               onClick={() => setIsPhaseMenuOpen(!isPhaseMenuOpen)}
               className="w-full bg-gray-50 p-4 rounded-2xl flex items-center gap-4 border border-gray-100 hover:border-gray-300 transition-all text-left group"
             >
               <div className="relative">
-                <img 
-                  alt="User" 
-                  className="w-12 h-12 rounded-full object-cover ring-2 ring-white" 
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop" 
+                <img
+                  alt="User"
+                  className="w-12 h-12 rounded-full object-cover ring-2 ring-white"
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop"
                 />
                 <span className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full
                   ${currentPhase === 'pre-pregnancy' ? 'bg-emerald-500' : ''}
@@ -205,7 +207,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
 
           {/* Bottom Actions */}
           <div className="p-6 mt-auto space-y-2">
-            <button 
+            <button
               onClick={onLogout}
               className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
             >

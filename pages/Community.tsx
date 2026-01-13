@@ -3,6 +3,7 @@ import { Users, MessageCircle, Send, Heart, Image, Camera, Lock, Shield, X, Arro
 import { AppPhase } from '../types';
 import { SpeakButton } from '../components/SpeakButton';
 import { analyzeSentiment, getSentimentBadge, SentimentLabel } from '../services/sentimentService';
+import { useRiskData } from '../contexts/RiskDataContext';
 
 interface CommunityProps {
   phase: AppPhase;
@@ -22,8 +23,8 @@ interface Post {
 
 const getPhaseColor = (phase: AppPhase) => {
   switch (phase) {
-    case 'pre-pregnancy': return { 
-      primary: 'emerald', 
+    case 'pre-pregnancy': return {
+      primary: 'emerald',
       gradient: 'from-emerald-500 to-teal-500',
       bg: 'bg-emerald-50',
       text: 'text-emerald-600',
@@ -31,8 +32,8 @@ const getPhaseColor = (phase: AppPhase) => {
       button: 'bg-emerald-600 hover:bg-emerald-700',
       lightBg: 'bg-emerald-100'
     };
-    case 'pregnancy': return { 
-      primary: 'rose', 
+    case 'pregnancy': return {
+      primary: 'rose',
       gradient: 'from-rose-500 to-pink-500',
       bg: 'bg-rose-50',
       text: 'text-rose-600',
@@ -40,8 +41,8 @@ const getPhaseColor = (phase: AppPhase) => {
       button: 'bg-rose-600 hover:bg-rose-700',
       lightBg: 'bg-rose-100'
     };
-    case 'post-partum': return { 
-      primary: 'purple', 
+    case 'post-partum': return {
+      primary: 'purple',
       gradient: 'from-purple-500 to-indigo-500',
       bg: 'bg-purple-50',
       text: 'text-purple-600',
@@ -49,8 +50,8 @@ const getPhaseColor = (phase: AppPhase) => {
       button: 'bg-purple-600 hover:bg-purple-700',
       lightBg: 'bg-purple-100'
     };
-    case 'baby-care': return { 
-      primary: 'sky', 
+    case 'baby-care': return {
+      primary: 'sky',
       gradient: 'from-sky-500 to-blue-500',
       bg: 'bg-sky-50',
       text: 'text-sky-600',
@@ -58,8 +59,8 @@ const getPhaseColor = (phase: AppPhase) => {
       button: 'bg-sky-600 hover:bg-sky-700',
       lightBg: 'bg-sky-100'
     };
-    default: return { 
-      primary: 'slate', 
+    default: return {
+      primary: 'slate',
       gradient: 'from-slate-500 to-gray-500',
       bg: 'bg-slate-50',
       text: 'text-slate-600',
@@ -143,6 +144,7 @@ const sampleDMs = [
 ];
 
 export const Community: React.FC<CommunityProps> = ({ phase }) => {
+  const { latestAssessment } = useRiskData();
   const [activeTab, setActiveTab] = useState<'moments' | 'groups' | 'dms'>('moments');
   const [selectedGroup, setSelectedGroup] = useState<typeof sampleGroups[0] | null>(null);
   const [selectedDM, setSelectedDM] = useState<typeof sampleDMs[0] | null>(null);
@@ -153,7 +155,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [livePreviewSentiment, setLivePreviewSentiment] = useState<SentimentLabel | null>(null);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
-  
+
   const colors = getPhaseColor(phase);
 
   // Live sentiment preview with debounce
@@ -181,14 +183,14 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
   // Handle new post creation with sentiment analysis
   const handleCreatePost = async () => {
     if (!newPostText.trim()) return;
-    
+
     setIsAnalyzing(true);
-    
+
     try {
       // Analyze sentiment using Azure AI Language
       const sentimentResult = await analyzeSentiment(newPostText);
       const badge = getSentimentBadge(sentimentResult.sentiment);
-      
+
       const newPost: Post = {
         id: Date.now(),
         user: { name: 'Sarah M.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
@@ -200,7 +202,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
         sentiment: sentimentResult.sentiment,
         needsSupport: badge.needsSupport
       };
-      
+
       setPosts([newPost, ...posts]);
       setNewPostText('');
       setShowNewPostModal(false);
@@ -240,11 +242,10 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
           <button
             key={tab.id}
             onClick={() => { setActiveTab(tab.id); setSelectedGroup(null); setSelectedDM(null); }}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all ${
-              activeTab === tab.id
+            className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all ${activeTab === tab.id
                 ? `bg-gradient-to-r ${colors.gradient} text-white shadow-lg`
                 : 'text-slate-500 hover:bg-slate-50'
-            }`}
+              }`}
           >
             <tab.icon size={18} />
             {tab.label}
@@ -252,15 +253,38 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
         ))}
       </div>
 
+      {/* Community Recommendation Banner - Based on Risk Analysis */}
+      {latestAssessment && latestAssessment.systemActions.some(a => a.type === 'community_suggest') && (
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-100 rounded-2xl p-4 flex items-center justify-between shadow-sm animate-in slide-in-from-top-4 duration-500">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 text-xl shadow-sm">
+              💜
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-800 text-sm mb-0.5">Recommended for You: Wellness & Balance Circle</h3>
+              <p className="text-xs text-slate-500">
+                {latestAssessment.systemActions.find(a => a.type === 'community_suggest')?.description}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => { setActiveTab('groups'); }}
+            className={`px-4 py-2 ${colors.button} text-white rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all`}
+          >
+            Attributes.Join
+          </button>
+        </div>
+      )}
+
       {/* Share Moments Tab */}
       {activeTab === 'moments' && (
         <div className="space-y-6">
           {/* New Post Input */}
           <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
             <div className="flex gap-4">
-              <img 
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" 
-                alt="You" 
+              <img
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100"
+                alt="You"
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div className="flex-1">
@@ -271,7 +295,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
                   onChange={(e) => setNewPostText(e.target.value)}
                   rows={3}
                 />
-                
+
                 {/* Live Sentiment Preview */}
                 {(livePreviewSentiment || isPreviewLoading) && newPostText.length >= 10 && (
                   <div className="mt-2 flex items-center gap-2">
@@ -303,13 +327,13 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
                     )}
                   </div>
                 )}
-                
+
                 <div className="flex justify-between items-center mt-3">
                   <button className={`flex items-center gap-2 ${colors.text} text-sm font-medium hover:opacity-80`}>
                     <Image size={18} />
                     Add Photo
                   </button>
-                  <button 
+                  <button
                     onClick={handleCreatePost}
                     disabled={isAnalyzing || !newPostText.trim()}
                     className={`${colors.button} text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg transition-colors disabled:opacity-50 flex items-center gap-2`}
@@ -342,7 +366,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
                       <span className="text-xs text-red-500 ml-auto">Community, let's rally around this mama!</span>
                     </div>
                   )}
-                  
+
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <img src={post.user.avatar} alt={post.user.name} className="w-10 h-10 rounded-full object-cover" />
@@ -363,24 +387,24 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
                       <MoreHorizontal size={18} />
                     </button>
                   </div>
-                
-                <p className="text-slate-700 text-sm leading-relaxed mb-4">{post.content}</p>
-                
-                {post.image && (
-                  <img src={post.image} alt="Post" className="w-full rounded-2xl mb-4 object-cover max-h-80" />
-                )}
-                
-                <div className="flex items-center gap-6 pt-4 border-t border-slate-50">
-                  <button className="flex items-center gap-2 text-slate-500 hover:text-rose-500 transition-colors">
-                    <Heart size={18} />
-                    <span className="text-sm font-medium">{post.likes}</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-slate-500 hover:text-slate-700 transition-colors">
-                    <MessageCircle size={18} />
-                    <span className="text-sm font-medium">{post.comments}</span>
-                  </button>
+
+                  <p className="text-slate-700 text-sm leading-relaxed mb-4">{post.content}</p>
+
+                  {post.image && (
+                    <img src={post.image} alt="Post" className="w-full rounded-2xl mb-4 object-cover max-h-80" />
+                  )}
+
+                  <div className="flex items-center gap-6 pt-4 border-t border-slate-50">
+                    <button className="flex items-center gap-2 text-slate-500 hover:text-rose-500 transition-colors">
+                      <Heart size={18} />
+                      <span className="text-sm font-medium">{post.likes}</span>
+                    </button>
+                    <button className="flex items-center gap-2 text-slate-500 hover:text-slate-700 transition-colors">
+                      <MessageCircle size={18} />
+                      <span className="text-sm font-medium">{post.comments}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
               );
             })}
           </div>
@@ -406,9 +430,8 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               <div
                 key={group.id}
                 onClick={() => setSelectedGroup(group)}
-                className={`flex items-center gap-4 p-5 cursor-pointer hover:bg-slate-50 transition-colors ${
-                  i !== sampleGroups.length - 1 ? 'border-b border-slate-50' : ''
-                }`}
+                className={`flex items-center gap-4 p-5 cursor-pointer hover:bg-slate-50 transition-colors ${i !== sampleGroups.length - 1 ? 'border-b border-slate-50' : ''
+                  }`}
               >
                 <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl">
                   {group.emoji}
@@ -481,9 +504,9 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
             <div className="flex gap-3 justify-end">
               <div className={`bg-gradient-to-r ${colors.gradient} p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-white`}>
                 <p className="text-sm mb-2">Look at this little angel! She's being so good today, finally napping peacefully 🥹💕</p>
-                <img 
-                  src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400" 
-                  alt="Sleeping baby" 
+                <img
+                  src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400"
+                  alt="Sleeping baby"
                   className="w-full rounded-xl object-cover max-h-48"
                 />
               </div>
@@ -537,9 +560,8 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               <div
                 key={dm.id}
                 onClick={() => setSelectedDM(dm)}
-                className={`flex items-center gap-4 p-5 cursor-pointer hover:bg-slate-50 transition-colors ${
-                  i !== sampleDMs.length - 1 ? 'border-b border-slate-50' : ''
-                }`}
+                className={`flex items-center gap-4 p-5 cursor-pointer hover:bg-slate-50 transition-colors ${i !== sampleDMs.length - 1 ? 'border-b border-slate-50' : ''
+                  }`}
               >
                 <div className="relative">
                   <img src={dm.avatar} alt={dm.name} className="w-12 h-12 rounded-full object-cover" />
@@ -641,7 +663,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
           <div className="bg-white w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between">
               <h3 className="font-bold text-slate-900 text-lg">Create Post</h3>
-              <button 
+              <button
                 onClick={() => setShowNewPostModal(false)}
                 className="p-2 hover:bg-slate-50 rounded-lg text-slate-400"
               >
@@ -650,9 +672,9 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
             </div>
             <div className="p-6">
               <div className="flex gap-4 mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" 
-                  alt="You" 
+                <img
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100"
+                  alt="You"
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <span className="font-bold text-slate-900 text-sm mt-2">Sarah Jenkins</span>
@@ -671,7 +693,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               </div>
             </div>
             <div className="p-6 bg-slate-50 flex justify-end">
-              <button 
+              <button
                 onClick={() => setShowNewPostModal(false)}
                 className={`${colors.button} text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg transition-colors`}
               >

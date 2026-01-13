@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, Plus, Check, MoreHorizontal, Utensils, Zap, Droplet, Sparkles, ArrowRight, X, Send, Shield, Minus, Clock, Calendar, Loader2 } from 'lucide-react';
 import { AppPhase } from '../types';
 import { processFood, isAIEnabled, NutrientInfo } from '../utils/nutritionAI';
+import { sendChatMessage, ChatMessage } from '../services/aiService';
+import { useRiskData } from '../contexts/RiskDataContext';
+import { AlertCircle } from 'lucide-react';
 
 interface PageProps {
   phase: AppPhase;
@@ -44,6 +47,7 @@ const formatTime = (date: Date): string => {
 };
 
 export const Nutrition: React.FC<PageProps> = ({ phase }) => {
+  const { latestAssessment } = useRiskData();
   const [activeTab, setActiveTab] = useState('today');
 
   // Chat State
@@ -67,6 +71,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
   // AI Processing State
   const [isProcessingAI, setIsProcessingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [isChatLoading, setIsChatLoading] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -76,21 +81,28 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
     scrollToBottom();
   }, [messages, isChatOpen]);
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
+  const handleSend = async () => {
+    if (!inputValue.trim() || isChatLoading) return;
 
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
+    setIsChatLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        id: Date.now() + 1,
-        sender: 'ai',
-        text: "That sounds like a great choice! Adding some citrus (Vitamin C) can help your body absorb the iron better. Would you like a recipe?"
-      }]);
-    }, 1000);
+    // Build conversation history for context
+    const conversationHistory: ChatMessage[] = messages.map(msg => ({
+      role: msg.sender === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
+
+    const response = await sendChatMessage(inputValue, 'nutrition', conversationHistory);
+
+    setMessages(prev => [...prev, {
+      id: Date.now() + 1,
+      sender: 'ai',
+      text: response.success ? response.message! : "That sounds like a great choice! Would you like some nutrition tips or recipe ideas?"
+    }]);
+    setIsChatLoading(false);
   };
 
   // Add Food Modal Functions
@@ -217,6 +229,31 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
         {/* Left Column: Log */}
         <div className="lg:col-span-2 space-y-6">
+
+          {/* Risk-Aware Nutrition Banner */}
+          {latestAssessment && latestAssessment.systemActions.some(a => a.type === 'nutrition_adjust') && (
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-5 flex items-start gap-4 animate-in slide-in-from-top-4 duration-500">
+              <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 shadow-sm">
+                <AlertCircle size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                  Personalized Nutrition Focus
+                  <span className="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wide">Dynamic</span>
+                </h3>
+                <div className="space-y-1.5">
+                  {latestAssessment.systemActions
+                    .filter(a => a.type === 'nutrition_adjust')
+                    .map((action, i) => (
+                      <p key={i} className="text-sm text-slate-700 flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0"></span>
+                        {action.description}
+                      </p>
+                    ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Search Bar */}
           <div
@@ -759,6 +796,29 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                 <X size={18} />
               </button>
             </div>
+
+            {/* Risk-Aware Nutrition Banner - Only shows if there are nutrition actions */}
+            {latestAssessment && latestAssessment.systemActions.some(a => a.type === 'nutrition_adjust') && (
+              <div className="mb-8 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4 flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                  <AlertCircle size={20} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">Personalized Nutrition Focus</h3>
+                  <div className="space-y-1">
+                    {latestAssessment.systemActions
+                      .filter(a => a.type === 'nutrition_adjust')
+                      .map((action, i) => (
+                        <p key={i} className="text-sm text-slate-600 flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                          {action.description}
+                        </p>
+                      ))}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-2 font-medium">Adapted based on your latest check-in</p>
+                </div>
+              </div>
+            )}
 
             {/* Modal Content */}
             <div className="p-6 space-y-6">
