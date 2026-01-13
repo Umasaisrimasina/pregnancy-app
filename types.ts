@@ -1,7 +1,7 @@
 export type AppPhase = 'pre-pregnancy' | 'pregnancy' | 'post-partum' | 'baby-care';
 export type UserRole = 'mother' | 'partner' | 'family' | 'medical';
 
-export type ViewState = 'overview' | 'nutrition' | 'mind' | 'education' | 'community' | 'transition';
+export type ViewState = 'overview' | 'nutrition' | 'mind' | 'education' | 'community' | 'transition' | 'risk-analysis';
 
 export interface User {
   name: string;

@@ -18,7 +18,10 @@ import { PostPartumEducation } from './pages/PostPartumEducation';
 import { BabyCareEducation } from './pages/BabyCareEducation';
 import { ViewState, AppPhase, UserRole, PHASE_CONFIG } from './types';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { HealthDataProvider } from './contexts/HealthDataContext';
+import { RiskDataProvider } from './contexts/RiskDataContext';
 import { LanguageSelector } from './components/LanguageSelector';
+import { RiskAnalysis } from './pages/RiskAnalysis';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -44,7 +47,7 @@ const App: React.FC = () => {
     switch (currentView) {
       case 'overview': return <Dashboard phase={currentPhase} role={currentRole} />;
       case 'nutrition': return <Nutrition phase={currentPhase} />;
-      case 'mind': 
+      case 'mind':
         switch (currentPhase) {
           case 'pre-pregnancy': return <PreConceptionMind />;
           case 'pregnancy': return <PregnancyMind />;
@@ -62,6 +65,7 @@ const App: React.FC = () => {
         }
       case 'community': return <Community phase={currentPhase} />;
       case 'transition': return <Transition phase={currentPhase} setPhase={setPhase} />;
+      case 'risk-analysis': return <RiskAnalysis />;
       default: return <Dashboard phase={currentPhase} role={currentRole} />;
     }
   };
@@ -78,53 +82,57 @@ const App: React.FC = () => {
 
   return (
     <LanguageProvider>
-      <div className={`min-h-screen bg-gray-50/50 flex text-slate-900 font-sans theme-${themeColor}`}>
-        
-        {/* Sidebar Component */}
-        <Sidebar 
-          currentView={currentView} 
-          setView={setView} 
-          currentPhase={currentPhase}
-          currentRole={currentRole}
-          setPhase={setPhase}
-          isMobileOpen={isMobileOpen}
-          setIsMobileOpen={setIsMobileOpen}
-          onLogout={handleLogout}
-        />
+      <HealthDataProvider>
+        <RiskDataProvider>
+          <div className={`min-h-screen bg-gray-50/50 flex text-slate-900 font-sans theme-${themeColor}`}>
 
-        {/* Main Content Area */}
-        <main className="flex-1 flex flex-col min-w-0 transition-all duration-300">
-          
-          {/* Mobile Header */}
-          <header className="lg:hidden sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 p-4 flex items-center justify-between">
-            <button 
-              onClick={() => setIsMobileOpen(true)}
-              className="p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg"
-            >
-              <Menu size={24} />
-            </button>
-            <span className="font-display font-bold text-lg text-slate-900">PreConceive</span>
-            <div className="flex items-center gap-2">
-              <LanguageSelector compact />
-              <div className="w-8 h-8 rounded-full bg-slate-100 border border-white shadow-sm overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop" alt="User" />
+            {/* Sidebar Component */}
+            <Sidebar
+              currentView={currentView}
+              setView={setView}
+              currentPhase={currentPhase}
+              currentRole={currentRole}
+              setPhase={setPhase}
+              isMobileOpen={isMobileOpen}
+              setIsMobileOpen={setIsMobileOpen}
+              onLogout={handleLogout}
+            />
+
+            {/* Main Content Area */}
+            <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 lg:ml-72">
+
+              {/* Mobile Header */}
+              <header className="lg:hidden sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 p-4 flex items-center justify-between">
+                <button
+                  onClick={() => setIsMobileOpen(true)}
+                  className="p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                >
+                  <Menu size={24} />
+                </button>
+                <span className="font-display font-bold text-lg text-slate-900">PreConceive</span>
+                <div className="flex items-center gap-2">
+                  <LanguageSelector compact />
+                  <div className="w-8 h-8 rounded-full bg-slate-100 border border-white shadow-sm overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop" alt="User" />
+                  </div>
+                </div>
+              </header>
+
+              {/* Desktop Language Selector */}
+              <div className="hidden lg:flex justify-end p-4 pb-0">
+                <LanguageSelector />
               </div>
-            </div>
-          </header>
 
-          {/* Desktop Language Selector */}
-          <div className="hidden lg:flex justify-end p-4 pb-0">
-            <LanguageSelector />
+              {/* Page Content */}
+              <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto max-h-screen scroll-smooth">
+                <div className="max-w-[1600px] mx-auto">
+                  {renderView()}
+                </div>
+              </div>
+            </main>
           </div>
-
-          {/* Page Content */}
-          <div className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto max-h-screen scroll-smooth">
-            <div className="max-w-[1600px] mx-auto">
-              {renderView()}
-            </div>
-          </div>
-        </main>
-      </div>
+        </RiskDataProvider>
+      </HealthDataProvider>
     </LanguageProvider>
   );
 };
