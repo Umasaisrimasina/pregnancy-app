@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid, Dot, BarChart, Bar } from 'recharts';
 import { Activity, ArrowRight, CheckCircle2, AlertCircle, Calendar, Scale, Moon, Milk, Plus, Clock, Sparkles, Send, Heart, Shield, Lock, Stethoscope, ClipboardList, Watch, Smartphone, Cloud, Link2, MoreHorizontal, Info, Check, Wind, Brain, Volume2, Droplets, Minus, MapPin, Smile, Meh, Frown, Baby, Utensils, FlaskConical, Tv, ShieldCheck, Zap, Flame, Users, HeartHandshake, CheckSquare, ChefHat, ShoppingCart, MessageCircle, Play, Lightbulb, Camera, Mic, Gift, Search, Bell, FileText, AlertTriangle, TrendingUp, User, ChevronRight, RefreshCw, SmartphoneNfc, Loader2 } from 'lucide-react';
 import { AppPhase, UserRole } from '../types';
@@ -15,6 +15,48 @@ interface DashboardProps {
   phase: AppPhase;
   role: UserRole;
 }
+
+// --- AQI TYPES AND HELPERS ---
+interface AQIData {
+  aqi: number;
+  station: string;
+  dominantPollutant: string;
+  lastUpdated: string;
+}
+
+interface AQIState {
+  data: AQIData | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const getAQICategory = (aqi: number): { label: string; color: string; bgColor: string; textColor: string } => {
+  if (aqi <= 50) return { label: 'Good', color: 'bg-emerald-500', bgColor: 'bg-emerald-50', textColor: 'text-emerald-700' };
+  if (aqi <= 100) return { label: 'Moderate', color: 'bg-yellow-500', bgColor: 'bg-yellow-50', textColor: 'text-yellow-700' };
+  if (aqi <= 150) return { label: 'Unhealthy for Sensitive', color: 'bg-orange-500', bgColor: 'bg-orange-50', textColor: 'text-orange-700' };
+  if (aqi <= 200) return { label: 'Unhealthy', color: 'bg-red-500', bgColor: 'bg-red-50', textColor: 'text-red-700' };
+  if (aqi <= 300) return { label: 'Very Unhealthy', color: 'bg-purple-500', bgColor: 'bg-purple-50', textColor: 'text-purple-700' };
+  return { label: 'Hazardous', color: 'bg-rose-600', bgColor: 'bg-rose-100', textColor: 'text-rose-800' };
+};
+
+const getBabySafetyGuidance = (aqi: number): { message: string; icon: 'safe' | 'caution' | 'warning' | 'danger' } => {
+  if (aqi <= 50) return { message: 'Safe for outdoor activities with baby', icon: 'safe' };
+  if (aqi <= 100) return { message: 'Limit prolonged outdoor exposure for baby', icon: 'caution' };
+  if (aqi <= 150) return { message: 'Avoid outdoor activity with baby if possible', icon: 'warning' };
+  return { message: 'Stay indoors with baby, use mask or air purifier', icon: 'danger' };
+};
+
+const formatPollutant = (pollutant: string): string => {
+  const pollutantMap: Record<string, string> = {
+    'pm25': 'PM2.5',
+    'pm10': 'PM10',
+    'o3': 'Ozone (O₃)',
+    'no2': 'NO₂',
+    'so2': 'SO₂',
+    'co': 'CO',
+  };
+  return pollutantMap[pollutant?.toLowerCase()] || pollutant?.toUpperCase() || 'N/A';
+};
 
 // --- SHARED DATA ---
 
@@ -173,6 +215,110 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   ]);
   const [isMidwifeChatLoading, setIsMidwifeChatLoading] = useState(false);
   const midwifeChatRef = useRef<HTMLDivElement>(null);
+
+  // AQI State
+  const [aqiState, setAqiState] = useState<AQIState>({
+    data: null,
+    loading: true,
+    error: null,
+  });
+
+  // Get user's location using browser geolocation
+  const getUserLocation = useCallback((): Promise<{ lat: number; lon: number }> => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        console.error("Geolocation not supported by browser");
+        reject(new Error('Geolocation not supported'));
+        return;
+      }
+      
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          console.log("LAT:", lat);
+          console.log("LON:", lon);
+          resolve({ lat, lon });
+        },
+        (err) => {
+          console.error("Location error:", err);
+          reject(err);
+        },
+        { timeout: 10000, enableHighAccuracy: false }
+      );
+    });
+  }, []);
+
+  // Fallback: Get location from IP address
+  const getLocationFromIP = useCallback(async (): Promise<{ lat: number; lon: number }> => {
+    console.log("Falling back to IP-based location...");
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    if (data.latitude && data.longitude) {
+      console.log("IP Location - LAT:", data.latitude, "LON:", data.longitude);
+      return { lat: data.latitude, lon: data.longitude };
+    }
+    throw new Error('Could not get location from IP');
+  }, []);
+
+  // Fetch AQI Data using geo coordinates
+  const fetchAQIWithCoords = useCallback(async (lat: number, lon: number) => {
+    const url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=fef4df9b706eceba16b55babc3bb4e57d7978a9c`;
+    console.log("Fetching AQI from:", url);
+    
+    const res = await fetch(url);
+    const data = await res.json();
+    
+    console.log("AQI DATA:", data.data);
+    console.log("Station:", data.data?.city?.name);
+    
+    if (data.status === 'ok' && data.data) {
+      return {
+        aqi: data.data.aqi,
+        station: data.data.city?.name || 'Unknown Location',
+        dominantPollutant: data.data.dominentpol || 'N/A',
+        lastUpdated: data.data.time?.s || new Date().toISOString(),
+      };
+    }
+    throw new Error(data.data || 'Failed to fetch AQI data');
+  }, []);
+
+  // Main AQI fetch function with location handling
+  const fetchAQI = useCallback(async () => {
+    setAqiState(prev => ({ ...prev, loading: true, error: null }));
+    
+    try {
+      let coords: { lat: number; lon: number };
+      
+      // Try browser geolocation first
+      try {
+        coords = await getUserLocation();
+      } catch (geoError) {
+        // Fallback to IP-based location if geolocation fails/denied
+        console.log('Geolocation failed, falling back to IP location:', geoError);
+        coords = await getLocationFromIP();
+      }
+      
+      // Fetch AQI with coordinates
+      const aqiData = await fetchAQIWithCoords(coords.lat, coords.lon);
+      setAqiState({ data: aqiData, loading: false, error: null });
+      
+    } catch (err) {
+      console.error("AQI fetch failed:", err);
+      setAqiState({
+        data: null,
+        loading: false,
+        error: err instanceof Error ? err.message : 'Enable location to see local air quality',
+      });
+    }
+  }, [getUserLocation, getLocationFromIP, fetchAQIWithCoords]);
+
+  // Initial AQI fetch and auto-refresh every 10 minutes
+  useEffect(() => {
+    fetchAQI();
+    const interval = setInterval(fetchAQI, 10 * 60 * 1000); // 10 minutes
+    return () => clearInterval(interval);
+  }, [fetchAQI]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -1561,12 +1707,25 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
       {/* Environmental Safety */}
       <div className="bg-[#fffbeb] rounded-[2rem] p-8 border border-amber-50">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-emerald-100 text-emerald-600 rounded-full">
-            <Wind size={24} />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-emerald-100 text-emerald-600 rounded-full">
+              <Wind size={24} />
+            </div>
+            <h2 className="text-2xl font-bold font-display text-slate-900">Environmental Safety</h2>
+            <SpeakButton text={aqiState.data 
+              ? `Environmental Safety. Current Air Quality Index is ${aqiState.data.aqi}, which is ${getAQICategory(aqiState.data.aqi).label}. ${getBabySafetyGuidance(aqiState.data.aqi).message}. Location: ${aqiState.data.station}. Dominant pollutant: ${formatPollutant(aqiState.data.dominantPollutant)}.`
+              : "Environmental Safety. Air quality awareness for infants: In many Indian cities, carrying infants in high AQI without coverups is dangerously normalized. Babies breathe 3 times faster than adults."
+            } />
           </div>
-          <h2 className="text-2xl font-bold font-display text-slate-900">Environmental Safety</h2>
-          <SpeakButton text="Environmental Safety. Air quality awareness for infants: In many Indian cities, carrying infants in high AQI without coverups is dangerously normalized. Babies breathe 3 times faster than adults. Avoid TV and screens for children under 2 years. Use baby coverups." />
+          <button
+            onClick={fetchAQI}
+            disabled={aqiState.loading}
+            className="p-2 rounded-xl bg-white border border-amber-200 text-emerald-600 hover:bg-emerald-50 transition-colors disabled:opacity-50"
+            title="Refresh AQI"
+          >
+            <RefreshCw size={18} className={aqiState.loading ? 'animate-spin' : ''} />
+          </button>
         </div>
 
         {/* AQI Card */}
@@ -1574,19 +1733,84 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-1/4 translate-y-1/4">
             <Wind size={200} />
           </div>
-          <div className="relative z-10 max-w-2xl">
-            <h3 className="text-2xl font-bold font-display mb-3">AQI Awareness for Infants</h3>
-            <p className="text-emerald-100 text-sm leading-relaxed mb-8 max-w-xl">
-              In many Indian cities, carrying infants in high AQI (&gt;150) without coverups is dangerously normalized. Babies breathe 3x faster than adults.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <span className="px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-xs font-bold uppercase tracking-wide text-emerald-50">
-                Avoid TV/Screens &lt; 2yr
-              </span>
-              <span className="px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-xs font-bold uppercase tracking-wide text-emerald-50">
-                Use Baby Coverups
-              </span>
-            </div>
+          <div className="relative z-10">
+            {/* Loading State */}
+            {aqiState.loading && !aqiState.data ? (
+              <div className="flex items-center justify-center gap-3 py-4">
+                <Loader2 size={24} className="animate-spin text-emerald-300" />
+                <span className="text-emerald-200 text-sm">Fetching live air quality...</span>
+              </div>
+            ) : aqiState.error ? (
+              <div className="flex items-center justify-center gap-3 py-4">
+                <AlertTriangle size={20} className="text-red-300" />
+                <span className="text-red-300 text-sm">Unable to load AQI</span>
+                <button onClick={fetchAQI} className="text-xs text-emerald-200 underline hover:text-white">Retry</button>
+              </div>
+            ) : aqiState.data ? (
+              <div className="flex flex-col lg:flex-row lg:items-center gap-6">
+                {/* Left: Large AQI Number - Main Attraction */}
+                <div className="flex items-center gap-6">
+                  <div className="text-center">
+                    <div className="text-[10px] text-emerald-300 uppercase tracking-widest font-bold mb-1">Live AQI</div>
+                    <div className={`text-6xl font-bold font-display leading-none ${
+                      aqiState.data.aqi <= 50 ? 'text-emerald-400' :
+                      aqiState.data.aqi <= 100 ? 'text-yellow-400' :
+                      aqiState.data.aqi <= 150 ? 'text-orange-400' :
+                      aqiState.data.aqi <= 200 ? 'text-red-400' :
+                      'text-purple-400'
+                    }`}>
+                      {aqiState.data.aqi}
+                    </div>
+                    <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mt-2 ${getAQICategory(aqiState.data.aqi).color} text-white`}>
+                      {getAQICategory(aqiState.data.aqi).label}
+                    </div>
+                  </div>
+                  
+                  {/* Divider */}
+                  <div className="hidden lg:block w-px h-20 bg-white/20"></div>
+                </div>
+
+                {/* Right: Info and Safety */}
+                <div className="flex-1">
+                  {/* Safety Guidance */}
+                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl mb-4 ${
+                    getBabySafetyGuidance(aqiState.data.aqi).icon === 'safe'
+                      ? 'bg-emerald-500/20 border border-emerald-400/30'
+                      : getBabySafetyGuidance(aqiState.data.aqi).icon === 'caution'
+                        ? 'bg-yellow-500/20 border border-yellow-400/30'
+                        : getBabySafetyGuidance(aqiState.data.aqi).icon === 'warning'
+                          ? 'bg-orange-500/20 border border-orange-400/30'
+                          : 'bg-red-500/20 border border-red-400/30'
+                  }`}>
+                    {getBabySafetyGuidance(aqiState.data.aqi).icon === 'safe' && <CheckCircle2 size={16} />}
+                    {getBabySafetyGuidance(aqiState.data.aqi).icon === 'caution' && <AlertTriangle size={16} />}
+                    {getBabySafetyGuidance(aqiState.data.aqi).icon === 'warning' && <AlertTriangle size={16} />}
+                    {getBabySafetyGuidance(aqiState.data.aqi).icon === 'danger' && <Shield size={16} />}
+                    <span className="text-sm font-medium">{getBabySafetyGuidance(aqiState.data.aqi).message}</span>
+                  </div>
+
+                  <p className="text-emerald-100/80 text-sm mb-4">
+                    Babies breathe 3x faster than adults. In high AQI (&gt;150), use baby coverups outdoors.
+                  </p>
+
+                  {/* Details Row */}
+                  <div className="flex flex-wrap items-center gap-4 text-emerald-200 text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <MapPin size={12} className="shrink-0" />
+                      <span>{aqiState.data.station}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Wind size={12} />
+                      <span>{formatPollutant(aqiState.data.dominantPollutant)}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-emerald-300/60">
+                      <Clock size={12} />
+                      <span>{new Date(aqiState.data.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
 
