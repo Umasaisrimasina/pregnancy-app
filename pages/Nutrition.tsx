@@ -247,7 +247,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                     .map((action, i) => (
                       <p key={i} className="text-sm text-slate-700 flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 shrink-0"></span>
-                        {action.description}
+                        {action.aiContent || action.description}
                       </p>
                     ))}
                 </div>
@@ -811,7 +811,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                       .map((action, i) => (
                         <p key={i} className="text-sm text-slate-600 flex items-center gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                          {action.description}
+                          {action.aiContent || action.description}
                         </p>
                       ))}
                   </div>

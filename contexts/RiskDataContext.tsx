@@ -15,6 +15,7 @@ import {
     generateDoctorSummary,
     RiskLevel
 } from '../services/riskEngine';
+import { generateActionContent } from '../services/aiService';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -144,8 +145,36 @@ export const RiskDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             const assessment = assessRisk(latest, sorted.slice(1));
             setLatestAssessment(assessment);
             setChatTone(determineChatTone(assessment.overallLevel));
+
+            // Enrich with AI content (async)
+            enrichAssessmentWithAI(assessment, storedWeek);
         }
     }, []);
+
+    // Helper to enrich system actions with AI content
+    const enrichAssessmentWithAI = async (assessment: RiskAssessment, week: number) => {
+        const newActions = [...assessment.systemActions];
+        let changed = false;
+
+        for (let i = 0; i < newActions.length; i++) {
+            const action = newActions[i];
+            if (action.type === 'nutrition_adjust' || action.type === 'community_suggest') {
+                try {
+                    const response = await generateActionContent(action.type, action.description, week);
+                    if (response.success && response.message) {
+                        newActions[i] = { ...action, aiContent: response.message };
+                        changed = true;
+                    }
+                } catch (e) {
+                    console.error('Failed to generate AI content for action', e);
+                }
+            }
+        }
+
+        if (changed) {
+            setLatestAssessment(prev => prev ? { ...prev, systemActions: newActions } : null);
+        }
+    };
 
     // Save on changes
     useEffect(() => {
@@ -175,6 +204,9 @@ export const RiskDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
         setLatestAssessment(assessment);
         setChatTone(determineChatTone(assessment.overallLevel));
+
+        // Enrich with AI content
+        enrichAssessmentWithAI(assessment, fullCheckIn.week);
 
         // Update trajectory
         const allCheckIns = [...checkInHistory.filter(c => c.week !== checkIn.week), fullCheckIn];
@@ -221,6 +253,9 @@ export const RiskDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         const assessment = assessRisk(sorted[0], sorted.slice(1));
         setLatestAssessment(assessment);
         setChatTone(determineChatTone(assessment.overallLevel));
+
+        // Enrich with AI content
+        enrichAssessmentWithAI(assessment, 22);
 
         saveData(demoCheckIns, 22);
     }, []);

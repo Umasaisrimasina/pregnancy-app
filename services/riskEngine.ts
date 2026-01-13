@@ -56,6 +56,8 @@ export interface SystemAction {
     type: 'nutrition_adjust' | 'chat_tone' | 'community_suggest' | 'doctor_alert';
     description: string;
     priority: 'low' | 'medium' | 'high';
+    // AI generated dynamic content (optional)
+    aiContent?: string;
 }
 
 export interface RiskTrajectoryPoint {

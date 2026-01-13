@@ -290,3 +290,56 @@ Keep it to 2 sentences max. Make it feel like a caring friend's suggestion, not 
     return { success: false, error: 'An error occurred.' };
   }
 }
+
+/**
+ * Generate specific content for a system action
+ */
+export async function generateActionContent(
+  actionType: 'nutrition_adjust' | 'community_suggest',
+  description: string,
+  week: number
+): Promise<ChatResponse> {
+  try {
+    if (!BYTEZ_API_KEY) return { success: false, error: 'AI service not configured.' };
+
+    let systemPrompt = '';
+    let userPrompt = '';
+
+    if (actionType === 'nutrition_adjust') {
+      systemPrompt = `You are a knowledgeable prenatal nutrition guide. 
+Suggest ONE specific, delicious food or meal addition that addresses: "${description}".
+Be brief (1 sentence). Start with a verb like "Try...", "Add...", "Snack on...".
+Do not sound clinical. Sound like a helpful friend.`;
+      userPrompt = `Pregnant woman at week ${week}. Need a quick nutrition tip for: ${description}.`;
+    } else if (actionType === 'community_suggest') {
+      systemPrompt = `You are a helpful community guide for moms.
+Suggest a specific support group name and a reason to join, based on: "${description}".
+Format: "Recommended Group: [Creative Name] - [Brief Reason]"
+Keep it under 15 words.`;
+      userPrompt = `Pregnant woman at week ${week}. Suggest a community group for: ${description}.`;
+    } else {
+      return { success: false, error: 'Unsupported action type.' };
+    }
+
+    const messages = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ];
+
+    const { error, output } = await model.run(messages);
+
+    if (error) return { success: false, error: 'Could not generate content.' };
+
+    const responseText = output?.choices?.[0]?.message?.content ||
+      output?.message?.content ||
+      output?.content ||
+      (typeof output === 'string' ? output : null);
+
+    return responseText
+      ? { success: true, message: responseText }
+      : { success: false, error: 'No content generated.' };
+
+  } catch (err) {
+    return { success: false, error: 'An error occurred.' };
+  }
+}

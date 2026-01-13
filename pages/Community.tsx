@@ -243,8 +243,8 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
             key={tab.id}
             onClick={() => { setActiveTab(tab.id); setSelectedGroup(null); setSelectedDM(null); }}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all ${activeTab === tab.id
-                ? `bg-gradient-to-r ${colors.gradient} text-white shadow-lg`
-                : 'text-slate-500 hover:bg-slate-50'
+              ? `bg-gradient-to-r ${colors.gradient} text-white shadow-lg`
+              : 'text-slate-500 hover:bg-slate-50'
               }`}
           >
             <tab.icon size={18} />
@@ -261,9 +261,12 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               💜
             </div>
             <div>
-              <h3 className="font-bold text-slate-800 text-sm mb-0.5">Recommended for You: Wellness & Balance Circle</h3>
+              <h3 className="font-bold text-slate-800 text-sm mb-0.5">Recommended for You</h3>
               <p className="text-xs text-slate-500">
-                {latestAssessment.systemActions.find(a => a.type === 'community_suggest')?.description}
+                {(() => {
+                  const action = latestAssessment.systemActions.find(a => a.type === 'community_suggest');
+                  return action ? (action.aiContent || action.description) : '';
+                })()}
               </p>
             </div>
           </div>
