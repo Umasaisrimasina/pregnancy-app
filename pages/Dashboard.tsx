@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid, Dot, BarChart, Bar } from 'recharts';
 import { Activity, ArrowRight, CheckCircle2, AlertCircle, Calendar, Scale, Moon, Milk, Plus, Clock, Sparkles, Send, Heart, Shield, Lock, Stethoscope, ClipboardList, Watch, Smartphone, Cloud, Link2, MoreHorizontal, Info, Check, Wind, Brain, Volume2, Droplets, Minus, MapPin, Smile, Meh, Frown, Baby, Utensils, FlaskConical, Tv, ShieldCheck, Zap, Flame, Users, HeartHandshake, CheckSquare, ChefHat, ShoppingCart, MessageCircle, Play, Lightbulb, Camera, Mic, Gift, Search, Bell, FileText, AlertTriangle, TrendingUp, User, ChevronRight, RefreshCw, SmartphoneNfc, Loader2 } from 'lucide-react';
 import { AppPhase, UserRole } from '../types';
@@ -1620,7 +1620,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary-800/50 hover:bg-secondary-700 transition-colors">
                     <Meh size={32} className="text-amber-400" />
                     <span className="text-secondary-200 text-xs font-medium">Neutral</span>
-                  </button>
+                  </button >
                   <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary-800/50 hover:bg-secondary-700 transition-colors">
                     <span className="text-3xl">😊</span>
                     <span className="text-secondary-200 text-xs font-medium">Good</span>
@@ -1629,8 +1629,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                     <span className="text-3xl">🤩</span>
                     <span className="text-secondary-200 text-xs font-medium">Great</span>
                   </button>
-                </div>
-              </div>
+                </div >
+              </div >
 
               <div className="mt-4">
                 <label className="text-secondary-200 text-sm font-medium mb-2 block">What's on your mind?</label>
@@ -1640,10 +1640,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   className="w-full px-4 py-3 rounded-xl bg-secondary-800/50 border border-secondary-700/50 text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all"
                 />
               </div>
-            </div>
+            </div >
 
             {/* Mood Snapshot Card */}
-            <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
+            < div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border" >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
@@ -1689,15 +1689,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </div>
+            </div >
 
-          </div>
+          </div >
 
           {/* Right Column */}
-          <div className="space-y-6">
+          < div className="space-y-6" >
 
             {/* Wellness Screening Card */}
-            <div className="bg-gradient-to-br from-purple-500 to-secondary-600 rounded-[2rem] p-8 relative overflow-hidden">
+            < div className="bg-gradient-to-br from-purple-500 to-secondary-600 rounded-[2rem] p-8 relative overflow-hidden" >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
                   <Sparkles size={28} className="text-white" />
@@ -1725,17 +1725,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 Take Full Screening
                 <ArrowRight size={18} />
               </button>
-            </div>
+            </div >
 
-          </div>
+          </div >
 
-        </div>
+        </div >
 
         {/* Bottom 2-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        < div className="grid grid-cols-1 lg:grid-cols-2 gap-6" >
 
           {/* Sleep Pattern Card */}
-          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
+          < div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border" >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
@@ -1780,10 +1780,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </div >
 
           {/* Recovery Checklist */}
-          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+          < div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm" >
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-xl">Recovery Checklist</h3>
               <span className="text-purple-600 font-bold text-sm">
@@ -1816,10 +1816,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 </div>
               ))}
             </div>
-          </div>
+          </div >
 
-        </div>
-      </div>
+        </div >
+      </div >
     );
   }
 
