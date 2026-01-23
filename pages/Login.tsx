@@ -1,14 +1,16 @@
 ﻿import React, { useState } from 'react';
-import { ArrowRight, Leaf, Heart, Stethoscope, Baby, Mail, Lock, User, CheckCircle2, Users, HeartHandshake, ArrowLeft } from 'lucide-react';
+import { ArrowRight, Leaf, Heart, Stethoscope, Baby, Mail, Lock, User, CheckCircle2, Users, HeartHandshake, ArrowLeft, Moon, Sun } from 'lucide-react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase';
 import { AppPhase, PHASE_CONFIG, UserRole } from '../types';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface LoginProps {
   onLogin: (phase: AppPhase, role: UserRole) => void;
 }
 
 export const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  const { theme, toggleTheme } = useTheme();
   const [isSignUp, setIsSignUp] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [selectedPhase, setSelectedPhase] = useState<AppPhase>('pre-pregnancy');
@@ -207,7 +209,15 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="lg:w-1/2 flex items-center justify-center p-6 lg:p-16 bg-white dark:bg-dm-background animate-in slide-in-from-right-4 duration-500">
+      <div className="lg:w-1/2 flex items-center justify-center p-6 lg:p-16 bg-white dark:bg-dm-background animate-in slide-in-from-right-4 duration-500 relative">
+        <button
+          onClick={toggleTheme}
+          className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 dark:bg-dm-muted text-slate-600 dark:text-dm-muted-fg hover:bg-slate-200 dark:hover:bg-dm-border transition-colors"
+          aria-label="Toggle dark mode"
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+
         <div className="w-full max-w-md">
 
           <div className="text-center mb-8">
