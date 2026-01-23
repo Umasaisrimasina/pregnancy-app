@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Info, Link, RotateCw, Plus, Flame } from 'lucide-react';
 import { SpeakButton } from './SpeakButton';
 
@@ -30,8 +30,8 @@ export const CycleCalendar: React.FC = () => {
           ${isSelected
             ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl scale-105 z-10'
             : isPeriod
-              ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-900 dark:text-rose-100 hover:bg-rose-100 dark:hover:bg-rose-900/30'
-              : 'bg-white dark:bg-dark-900 hover:bg-slate-50 dark:hover:bg-dark-800 text-slate-700 dark:text-slate-300'
+              ? 'bg-primary-50 dark:bg-primary-800/20 text-primary-800 dark:text-primary-100 hover:bg-primary-100 dark:hover:bg-primary-800/30'
+              : 'bg-white dark:bg-dm-card hover:bg-slate-50 dark:bg-dm-muted dark:hover:bg-slate-50 dark:bg-dm-muted text-slate-700 dark:text-slate-300'
           }
         `}
       >
@@ -40,33 +40,33 @@ export const CycleCalendar: React.FC = () => {
         {/* Indicators */}
         <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
           {isFertile && !isSelected && (
-            <div className="w-8 h-1 rounded-full bg-emerald-400"></div>
+            <div className="w-8 h-1 rounded-full bg-primary-400"></div>
           )}
         </div>
 
         {isOvulation && !isSelected && (
-          <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 absolute top-2 right-2"></div>
+          <div className="w-1.5 h-1.5 rounded-full bg-secondary-500 absolute top-2 right-2"></div>
         )}
       </button>
     );
   };
 
   return (
-    <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dark-700 transition-colors duration-300">
+    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-dark-700 dark:border-dm-border transition-colors duration-300">
 
       {/* Component Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-6 border-b border-slate-50 dark:border-dark-700">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-6 border-b border-slate-50 dark:border-slate-100 dark:border-dm-border">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-900/20 text-rose-500 dark:text-rose-400 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-primary-50 dark:bg-primary-800/20 text-primary-400 dark:text-primary-300 flex items-center justify-center">
             <Flame size={24} fill="currentColor" />
           </div>
           <div>
-            <h2 className="text-xl font-display font-bold text-slate-900 dark:text-white">Menstrual Cycle Tracker</h2>
-            <p className="text-xs font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest mt-0.5">Conception Planning & Cycle Awareness</p>
+            <h2 className="text-xl font-display font-bold text-slate-900 dark:text-dm-foreground">Menstrual Cycle Tracker</h2>
+            <p className="text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Conception Planning & Cycle Awareness</p>
           </div>
           <SpeakButton text="Menstrual Cycle Tracker for Conception Planning and Cycle Awareness. Track your period days, fertile window, and ovulation day to optimize your chances of conception." size={14} />
         </div>
-        <button className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-rose-500/20 transition-all flex items-center gap-2">
+        <button className="bg-primary-400 hover:bg-primary-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-400/20 transition-all flex items-center gap-2">
           <Plus size={18} />
           Log Period
         </button>
@@ -76,37 +76,37 @@ export const CycleCalendar: React.FC = () => {
 
         {/* Left Panel: Stats (Simplified version of the left card in screenshot) */}
         <div className="xl:w-1/4 space-y-6">
-          <div className="bg-rose-50 dark:bg-rose-900/20 rounded-[1.5rem] p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 text-rose-200 dark:text-rose-900/40 -mt-4 -mr-4">
+          <div className="bg-primary-50 dark:bg-primary-800/20 rounded-[1.5rem] p-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 text-primary-200 dark:text-primary-800/40 -mt-4 -mr-4">
               <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
             </div>
             <div className="relative z-10">
-              <span className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-1 block">Current Phase</span>
-              <h3 className="text-2xl font-display font-bold text-rose-900 dark:text-rose-100 mb-4">Follicular Phase</h3>
-              <div className="h-2 bg-rose-200 dark:bg-rose-800 rounded-full overflow-hidden mb-2">
-                <div className="h-full bg-rose-500 w-1/2 rounded-full"></div>
+              <span className="text-xs font-bold text-primary-300 uppercase tracking-widest mb-1 block">Current Phase</span>
+              <h3 className="text-2xl font-display font-bold text-primary-800 dark:text-primary-100 mb-4">Follicular Phase</h3>
+              <div className="h-2 bg-primary-200 dark:bg-primary-700 rounded-full overflow-hidden mb-2">
+                <div className="h-full bg-primary-400 w-1/2 rounded-full"></div>
               </div>
-              <div className="flex justify-end text-xs font-bold text-rose-500 dark:text-rose-400">Day 14/28</div>
+              <div className="flex justify-end text-xs font-bold text-primary-400 dark:text-primary-300">Day 14/28</div>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-slate-50 dark:bg-dark-800 rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+            <div className="bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted rounded-2xl p-4 flex flex-col items-center justify-center text-center">
               <span className="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase mb-1">Basal Temp</span>
-              <span className="text-xl font-display font-bold text-slate-900 dark:text-white">36.5°C</span>
+              <span className="text-xl font-display font-bold text-slate-900 dark:text-dm-foreground">36.5Ãƒ€šÃ‚°C</span>
             </div>
-            <div className="bg-slate-50 dark:bg-dark-800 rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+            <div className="bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted rounded-2xl p-4 flex flex-col items-center justify-center text-center">
               <span className="text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase mb-1">Fertility</span>
-              <span className="text-xl font-display font-bold text-rose-500 dark:text-rose-400">High</span>
+              <span className="text-xl font-display font-bold text-primary-400 dark:text-primary-300">High</span>
             </div>
           </div>
 
           <div className="space-y-2">
-            <button className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-dark-700 hover:border-slate-200 dark:hover:border-dark-600 hover:bg-slate-50 dark:hover:bg-dark-800 transition-all group group">
+            <button className="w-full flex items-center justify-between p-4 rounded-2xl border border-dark-700 dark:border-dm-border hover:border-dark-700 dark:hover:border-dark-600 hover:bg-slate-50 dark:bg-dm-muted dark:hover:bg-slate-50 dark:bg-dm-muted transition-all group group">
               <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">Symptoms & Mood</span>
               <ChevronRight size={16} className="text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
             </button>
-            <button className="w-full flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-dark-700 hover:border-slate-200 dark:hover:border-dark-600 hover:bg-slate-50 dark:hover:bg-dark-800 transition-all group group">
+            <button className="w-full flex items-center justify-between p-4 rounded-2xl border border-dark-700 dark:border-dm-border hover:border-dark-700 dark:hover:border-dark-600 hover:bg-slate-50 dark:bg-dm-muted dark:hover:bg-slate-50 dark:bg-dm-muted transition-all group group">
               <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">Cervical Mucus</span>
               <ChevronRight size={16} className="text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
             </button>
@@ -117,31 +117,31 @@ export const CycleCalendar: React.FC = () => {
         <div className="flex-1">
           {/* Calendar Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-            <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-white">{month}</h3>
+            <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">{month}</h3>
 
             <div className="flex flex-wrap items-center gap-6">
               {/* Legend */}
               <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-wider">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-rose-300"></div>
-                  <span className="text-slate-500 dark:text-slate-400">Period</span>
+                  <div className="w-2 h-2 rounded-full bg-primary-300"></div>
+                  <span className="text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Period</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
-                  <span className="text-slate-500 dark:text-slate-400">Fertile</span>
+                  <div className="w-2 h-2 rounded-full bg-primary-400"></div>
+                  <span className="text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Fertile</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
-                  <span className="text-slate-500 dark:text-slate-400">Ovulation</span>
+                  <div className="w-2 h-2 rounded-full bg-secondary-500"></div>
+                  <span className="text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Ovulation</span>
                 </div>
               </div>
 
               {/* Navigation */}
               <div className="flex items-center gap-2">
-                <button className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-dark-800 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <button className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-50 dark:bg-dm-muted rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                   <ChevronLeft size={18} />
                 </button>
-                <button className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-dark-800 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <button className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-50 dark:bg-dm-muted rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                   <ChevronRight size={18} />
                 </button>
               </div>
@@ -162,11 +162,11 @@ export const CycleCalendar: React.FC = () => {
           </div>
 
           {/* Footer Insight */}
-          <div className="bg-indigo-50/50 dark:bg-indigo-900/10 rounded-2xl p-4 flex gap-4 items-start border border-indigo-100/50 dark:border-indigo-900/30">
-            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-full shrink-0 mt-0.5">
+          <div className="bg-secondary-50/50 dark:bg-secondary-900/10 rounded-2xl p-4 flex gap-4 items-start border border-secondary-100/50 dark:border-secondary-900/30">
+            <div className="p-2 bg-secondary-100 dark:bg-secondary-900/40 text-secondary-600 dark:text-secondary-400 rounded-full shrink-0 mt-0.5">
               <Info size={16} />
             </div>
-            <div className="text-sm text-indigo-900 dark:text-indigo-200 leading-relaxed">
+            <div className="text-sm text-secondary-900 dark:text-secondary-200 leading-relaxed">
               <span className="font-bold">Your estimated ovulation</span> is in <span className="font-bold">1 day</span>. This is your most fertile window. Consistent basal body temperature (BBT) tracking can help pinpoint exact timing.
             </div>
           </div>
@@ -176,3 +176,9 @@ export const CycleCalendar: React.FC = () => {
     </div>
   );
 };
+
+
+
+
+
+

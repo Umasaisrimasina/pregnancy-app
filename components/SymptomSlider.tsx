@@ -33,36 +33,36 @@ export const SymptomSlider: React.FC<SymptomSliderProps> = ({
 
     // Warm, pregnancy-friendly color scheme
     const getButtonColor = (tick: number, isSelected: boolean): string => {
-        if (!isSelected) return 'bg-white text-slate-400 border border-slate-200 hover:border-rose-200 hover:text-rose-400';
+        if (!isSelected) return 'bg-white text-slate-400 border border-dark-700 hover:border-primary-200 hover:text-primary-300';
 
         if (type === 'symptom') {
             // Symptoms: 1-2 = soft mint, 3 = soft peach, 4-5 = soft rose
-            if (tick <= 2) return 'bg-[#a8e6cf] text-emerald-800 shadow-sm';
+            if (tick <= 2) return 'bg-[#a8e6cf] text-primary-800 shadow-sm';
             if (tick === 3) return 'bg-[#ffd3b6] text-amber-800 shadow-sm';
-            return 'bg-[#ffaaa5] text-rose-800 shadow-sm';
+            return 'bg-[#ffaaa5] text-primary-700 shadow-sm';
         } else {
             // Feelings: 1-2 = soft rose, 3 = soft peach, 4-5 = soft mint
-            if (tick <= 2) return 'bg-[#ffaaa5] text-rose-800 shadow-sm';
+            if (tick <= 2) return 'bg-[#ffaaa5] text-primary-700 shadow-sm';
             if (tick === 3) return 'bg-[#ffd3b6] text-amber-800 shadow-sm';
-            return 'bg-[#a8e6cf] text-emerald-800 shadow-sm';
+            return 'bg-[#a8e6cf] text-primary-800 shadow-sm';
         }
     };
 
     // Card background - always warm and soft
     const getCardBg = (): string => {
-        return 'bg-white border-slate-100';
+        return 'bg-white border-dark-700';
     };
 
     // Get status label styling
     const getStatusStyle = (): string => {
         if (type === 'symptom') {
-            if (value <= 2) return 'text-emerald-600 bg-emerald-50';
+            if (value <= 2) return 'text-primary-600 bg-primary-50';
             if (value === 3) return 'text-amber-600 bg-amber-50';
-            return 'text-rose-600 bg-rose-50';
+            return 'text-primary-500 bg-primary-50';
         } else {
-            if (value <= 2) return 'text-rose-600 bg-rose-50';
+            if (value <= 2) return 'text-primary-500 bg-primary-50';
             if (value === 3) return 'text-amber-600 bg-amber-50';
-            return 'text-emerald-600 bg-emerald-50';
+            return 'text-primary-600 bg-primary-50';
         }
     };
 
@@ -71,7 +71,7 @@ export const SymptomSlider: React.FC<SymptomSliderProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                    {icon && <span className="text-rose-400">{icon}</span>}
+                    {icon && <span className="text-primary-300">{icon}</span>}
                     <span className="font-bold text-slate-700 text-sm">{label}</span>
                 </div>
                 <div className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${getStatusStyle()}`}>
@@ -106,3 +106,7 @@ export const SymptomSlider: React.FC<SymptomSliderProps> = ({
 };
 
 export default SymptomSlider;
+
+
+
+

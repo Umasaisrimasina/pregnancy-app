@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Users, MessageCircle, Send, Heart, Image, Camera, Lock, Shield, X, ArrowLeft, Search, Plus, Smile, MoreHorizontal, AlertTriangle, Loader2 } from 'lucide-react';
 import { AppPhase } from '../types';
 import { SpeakButton } from '../components/SpeakButton';
@@ -25,25 +25,25 @@ const getPhaseColor = (phase: AppPhase) => {
   switch (phase) {
     case 'pre-pregnancy': return {
       primary: 'emerald',
-      gradient: 'from-emerald-500 to-teal-500',
-      bg: 'bg-emerald-50',
-      text: 'text-emerald-600',
-      border: 'border-emerald-200',
-      button: 'bg-emerald-600 hover:bg-emerald-700',
-      lightBg: 'bg-emerald-100'
+      gradient: 'from-primary-500 to-teal-500',
+      bg: 'bg-primary-50',
+      text: 'text-primary-600',
+      border: 'border-primary-200',
+      button: 'bg-primary-600 hover:bg-primary-700',
+      lightBg: 'bg-primary-100'
     };
     case 'pregnancy': return {
       primary: 'rose',
-      gradient: 'from-rose-500 to-pink-500',
-      bg: 'bg-rose-50',
-      text: 'text-rose-600',
-      border: 'border-rose-200',
-      button: 'bg-rose-600 hover:bg-rose-700',
-      lightBg: 'bg-rose-100'
+      gradient: 'from-primary-400 to-pink-500',
+      bg: 'bg-primary-50',
+      text: 'text-primary-500',
+      border: 'border-primary-200',
+      button: 'bg-primary-500 hover:bg-primary-600',
+      lightBg: 'bg-primary-100'
     };
     case 'post-partum': return {
       primary: 'purple',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-purple-500 to-secondary-500',
       bg: 'bg-purple-50',
       text: 'text-purple-600',
       border: 'border-purple-200',
@@ -52,19 +52,19 @@ const getPhaseColor = (phase: AppPhase) => {
     };
     case 'baby-care': return {
       primary: 'sky',
-      gradient: 'from-sky-500 to-blue-500',
-      bg: 'bg-sky-50',
-      text: 'text-sky-600',
-      border: 'border-sky-200',
-      button: 'bg-sky-600 hover:bg-sky-700',
-      lightBg: 'bg-sky-100'
+      gradient: 'from-secondary-400 to-blue-500',
+      bg: 'bg-secondary-50',
+      text: 'text-secondary-500',
+      border: 'border-secondary-200',
+      button: 'bg-secondary-500 hover:bg-secondary-600',
+      lightBg: 'bg-secondary-100'
     };
     default: return {
       primary: 'slate',
       gradient: 'from-slate-500 to-gray-500',
       bg: 'bg-slate-50',
       text: 'text-slate-600',
-      border: 'border-slate-200',
+      border: 'border-dark-700',
       button: 'bg-slate-600 hover:bg-slate-700',
       lightBg: 'bg-slate-100'
     };
@@ -76,7 +76,7 @@ const samplePosts: Post[] = [
   {
     id: 1,
     user: { name: 'Priya M.', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
-    content: 'Finally got some sleep last night! Baby slept for 4 hours straight 🎉',
+    content: 'Finally got some sleep last night! Baby slept for 4 hours straight Ž‰',
     image: null,
     likes: 24,
     comments: 8,
@@ -87,7 +87,7 @@ const samplePosts: Post[] = [
   {
     id: 2,
     user: { name: 'Anita R.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
-    content: 'Look at this little munchkin! She smiled at me for the first time today and my heart completely melted 🥹💕 Being a mom is the best thing ever!',
+    content: 'Look at this little munchkin! She smiled at me for the first time today and my heart completely melted ¥¹’• Being a mom is the best thing ever!',
     image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400',
     likes: 87,
     comments: 32,
@@ -98,7 +98,7 @@ const samplePosts: Post[] = [
   {
     id: 3,
     user: { name: 'Kavya T.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100' },
-    content: 'Week 6 postpartum check-up went great! Doctor says I\'m healing well. Remember mamas, recovery takes time 💜',
+    content: 'Week 6 postpartum check-up went great! Doctor says I\'m healing well. Remember mamas, recovery takes time ’œ',
     image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=400',
     likes: 42,
     comments: 15,
@@ -109,7 +109,7 @@ const samplePosts: Post[] = [
   {
     id: 4,
     user: { name: 'Meera S.', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
-    content: 'Anyone else dealing with cluster feeding? Need tips! 😅',
+    content: 'Anyone else dealing with cluster feeding? Need tips! ˜…',
     image: null,
     likes: 18,
     comments: 23,
@@ -131,10 +131,10 @@ const samplePosts: Post[] = [
 ];
 
 const sampleGroups = [
-  { id: 1, name: 'January 2026 Mamas', emoji: '👶', members: 342, lastMessage: 'Anyone else up for the 3am feed?', unread: 5 },
-  { id: 2, name: 'Postpartum Support Circle', emoji: '💜', members: 128, lastMessage: 'Today was a hard day...', unread: 0 },
-  { id: 3, name: 'Breastfeeding Journey', emoji: '🤱', members: 256, lastMessage: 'Finally got the latch right!', unread: 12 },
-  { id: 4, name: 'First-Time Moms', emoji: '🌟', members: 489, lastMessage: 'Is this normal?', unread: 3 },
+  { id: 1, name: 'January 2026 Mamas', emoji: '‘¶', members: 342, lastMessage: 'Anyone else up for the 3am feed?', unread: 5 },
+  { id: 2, name: 'Postpartum Support Circle', emoji: '’œ', members: 128, lastMessage: 'Today was a hard day...', unread: 0 },
+  { id: 3, name: 'Breastfeeding Journey', emoji: 'Œ±', members: 256, lastMessage: 'Finally got the latch right!', unread: 12 },
+  { id: 4, name: 'First-Time Moms', emoji: 'ŒŸ', members: 489, lastMessage: 'Is this normal?', unread: 3 },
 ];
 
 const sampleDMs = [
@@ -200,12 +200,13 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
         comments: 0,
         time: 'Just now',
         sentiment: sentimentResult.sentiment,
-        needsSupport: badge.needsSupport
+        needsSupport: sentimentResult.sentiment === 'negative'
       };
 
       setPosts([newPost, ...posts]);
       setNewPostText('');
       setShowNewPostModal(false);
+      setLivePreviewSentiment(null);
     } catch (error) {
       console.error('Error creating post:', error);
     } finally {
@@ -213,38 +214,38 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
     }
   };
 
-  const tabs = [
-    { id: 'moments' as const, label: 'Share Moments', icon: Camera },
-    { id: 'groups' as const, label: 'Group Chats', icon: Users },
-    { id: 'dms' as const, label: 'Direct Messages', icon: MessageCircle },
-  ];
+  const handleSendMessage = () => {
+    if (!messageInput.trim()) return;
+    setMessageInput('');
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex items-center justify-between mb-2">
         <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Mom Community</h1>
-            <SpeakButton text="Mom Community: Connect, share, and support each other. All conversations are encrypted and secure." size="sm" />
-          </div>
-          <p className="text-slate-500 mt-1">Connect, share, and support each other.</p>
+          <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Community</h1>
+          <p className="text-slate-500 mt-1">Connect with other moms in your stage.</p>
         </div>
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${colors.bg} ${colors.text} text-xs font-bold`}>
-          <Shield size={14} />
-          All conversations are encrypted & secure
-        </div>
+        <button className="bg-white dark:bg-dm-card border border-slate-200 dark:border-dm-border p-2.5 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
+          <Search size={20} />
+        </button>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="flex gap-2 bg-white p-2 rounded-2xl border border-slate-100 shadow-sm">
-        {tabs.map((tab) => (
+      {/* Navigation Tabs */}
+      <div className="bg-white dark:bg-dm-card p-1 rounded-2xl border border-slate-100 dark:border-dm-border flex gap-1">
+        {[
+          { id: 'moments', label: 'Moments', icon: Image },
+          { id: 'groups', label: 'Groups', icon: Users },
+          { id: 'dms', label: 'Messages', icon: MessageCircle },
+        ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => { setActiveTab(tab.id); setSelectedGroup(null); setSelectedDM(null); }}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all ${activeTab === tab.id
-              ? `bg-gradient-to-r ${colors.gradient} text-white shadow-lg`
-              : 'text-slate-500 hover:bg-slate-50'
+            onClick={() => setActiveTab(tab.id as any)}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === tab.id
+              ? `${colors.bg} ${colors.text} shadow-sm`
+              : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-dm-muted'
               }`}
           >
             <tab.icon size={18} />
@@ -253,454 +254,299 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
         ))}
       </div>
 
-      {/* Community Recommendation Banner - Based on Risk Analysis */}
-      {latestAssessment && latestAssessment.systemActions.some(a => a.type === 'community_suggest') && (
-        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-100 rounded-2xl p-4 flex items-center justify-between shadow-sm animate-in slide-in-from-top-4 duration-500">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 text-xl shadow-sm">
-              💜
-            </div>
-            <div>
-              <h3 className="font-bold text-slate-800 text-sm mb-0.5">Recommended for You</h3>
-              <p className="text-xs text-slate-500">
-                {(() => {
-                  const action = latestAssessment.systemActions.find(a => a.type === 'community_suggest');
-                  return action ? (action.aiContent || action.description) : '';
-                })()}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => { setActiveTab('groups'); }}
-            className={`px-4 py-2 ${colors.button} text-white rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all`}
-          >
-            Attributes.Join
-          </button>
-        </div>
-      )}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-      {/* Share Moments Tab */}
-      {activeTab === 'moments' && (
-        <div className="space-y-6">
-          {/* New Post Input */}
-          <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+        {/* Main Feed / Content */}
+        <div className="lg:col-span-8 space-y-6">
+
+          {/* Create Post Input */}
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 shadow-sm border border-slate-100 dark:border-dm-border" onClick={() => setShowNewPostModal(true)}>
             <div className="flex gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100"
-                alt="You"
-                className="w-12 h-12 rounded-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="User" className="w-12 h-12 rounded-full object-cover border-2 border-slate-100 dark:border-dm-border" />
               <div className="flex-1">
-                <textarea
-                  placeholder="Share what's on your mind, mama..."
-                  className="w-full bg-slate-50 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 resize-none min-h-[80px]"
-                  value={newPostText}
-                  onChange={(e) => setNewPostText(e.target.value)}
-                  rows={3}
-                />
-
-                {/* Live Sentiment Preview */}
-                {(livePreviewSentiment || isPreviewLoading) && newPostText.length >= 10 && (
-                  <div className="mt-2 flex items-center gap-2">
-                    {isPreviewLoading ? (
-                      <div className="flex items-center gap-2 text-xs text-slate-400">
-                        <Loader2 size={12} className="animate-spin" />
-                        Analyzing sentiment...
-                      </div>
-                    ) : livePreviewSentiment && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-500">Detected tone:</span>
-                        {(() => {
-                          const badge = getSentimentBadge(livePreviewSentiment);
-                          return (
-                            <>
-                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badge.bgColor} ${badge.color}`}>
-                                {badge.label}
-                              </span>
-                              {badge.needsSupport && (
-                                <span className="text-xs text-red-500 flex items-center gap-1">
-                                  <AlertTriangle size={12} />
-                                  Will show support tag
-                                </span>
-                              )}
-                            </>
-                          );
-                        })()}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="flex justify-between items-center mt-3">
-                  <button className={`flex items-center gap-2 ${colors.text} text-sm font-medium hover:opacity-80`}>
-                    <Image size={18} />
-                    Add Photo
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-4 text-slate-400 dark:text-slate-500 text-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-dm-accent transition-colors">
+                  Share your journey, ask a question, or post a photo...
+                </div>
+                <div className="flex items-center gap-4 mt-4 px-2">
+                  <button className="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
+                    <Image size={16} className={colors.text} />
+                    Photo
                   </button>
-                  <button
-                    onClick={handleCreatePost}
-                    disabled={isAnalyzing || !newPostText.trim()}
-                    className={`${colors.button} text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg transition-colors disabled:opacity-50 flex items-center gap-2`}
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <Loader2 size={16} className="animate-spin" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      'Post'
-                    )}
+                  <button className="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
+                    <Camera size={16} className={colors.text} />
+                    Video
+                  </button>
+                  <div className="flex-1"></div>
+                  <button className={`${colors.button} text-white px-6 py-2 rounded-xl text-xs font-bold shadow-md shadow-slate-200 dark:shadow-none`}>
+                    Post
                   </button>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Feed */}
-          <div className="space-y-4">
-            {posts.map((post) => {
-              const badge = post.sentiment ? getSentimentBadge(post.sentiment) : null;
-              return (
-                <div key={post.id} className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
-                  {/* Needs Support Alert */}
-                  {post.needsSupport && (
-                    <div className="flex items-center gap-2 mb-4 p-3 bg-red-50 border border-red-100 rounded-xl">
-                      <AlertTriangle size={18} className="text-red-500" />
-                      <span className="text-sm font-medium text-red-700">⚠️ Needs Support</span>
-                      <span className="text-xs text-red-500 ml-auto">Community, let's rally around this mama!</span>
-                    </div>
-                  )}
-
-                  <div className="flex items-start justify-between mb-4">
+          {/* Posts Feed */}
+          {activeTab === 'moments' && (
+            <div className="space-y-6">
+              {posts.map((post) => (
+                <div key={post.id} className="bg-white dark:bg-dm-card rounded-[2rem] p-6 shadow-sm border border-slate-100 dark:border-dm-border animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
                       <img src={post.user.avatar} alt={post.user.name} className="w-10 h-10 rounded-full object-cover" />
                       <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-slate-900 text-sm">{post.user.name}</span>
-                          {/* Sentiment Badge */}
-                          {badge && (
-                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${badge.bgColor} ${badge.color}`}>
-                              {badge.label}
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs text-slate-400 block">{post.time}</span>
+                        <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-sm">{post.user.name}</h3>
+                        <p className="text-xs text-slate-400">{post.time}</p>
                       </div>
                     </div>
-                    <button className="p-2 text-slate-400 hover:bg-slate-50 rounded-lg">
-                      <MoreHorizontal size={18} />
-                    </button>
-                  </div>
 
-                  <p className="text-slate-700 text-sm leading-relaxed mb-4">{post.content}</p>
-
-                  {post.image && (
-                    <img src={post.image} alt="Post" className="w-full rounded-2xl mb-4 object-cover max-h-80" />
-                  )}
-
-                  <div className="flex items-center gap-6 pt-4 border-t border-slate-50">
-                    <button className="flex items-center gap-2 text-slate-500 hover:text-rose-500 transition-colors">
-                      <Heart size={18} />
-                      <span className="text-sm font-medium">{post.likes}</span>
-                    </button>
-                    <button className="flex items-center gap-2 text-slate-500 hover:text-slate-700 transition-colors">
-                      <MessageCircle size={18} />
-                      <span className="text-sm font-medium">{post.comments}</span>
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Group Chats Tab */}
-      {activeTab === 'groups' && !selectedGroup && (
-        <div className="space-y-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input
-              type="text"
-              placeholder="Search groups..."
-              className="w-full bg-white border border-slate-100 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
-            />
-          </div>
-
-          {/* Groups List */}
-          <div className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100">
-            {sampleGroups.map((group, i) => (
-              <div
-                key={group.id}
-                onClick={() => setSelectedGroup(group)}
-                className={`flex items-center gap-4 p-5 cursor-pointer hover:bg-slate-50 transition-colors ${i !== sampleGroups.length - 1 ? 'border-b border-slate-50' : ''
-                  }`}
-              >
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl">
-                  {group.emoji}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900 text-sm">{group.name}</span>
-                    {group.unread > 0 && (
-                      <span className={`${colors.button} text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}>
-                        {group.unread}
-                      </span>
+                    {/* Sentiment Badge */}
+                    {post.sentiment && (
+                      <div className={`px-2 py-1 rounded-full flex items-center gap-1 ${getSentimentBadge(post.sentiment).className}`}>
+                        {getSentimentBadge(post.sentiment).icon}
+                        <span className="text-[10px] font-bold uppercase tracking-wider">{getSentimentBadge(post.sentiment).label}</span>
+                      </div>
                     )}
                   </div>
-                  <p className="text-xs text-slate-400 truncate mt-0.5">{group.members} members</p>
-                  <p className="text-xs text-slate-500 truncate mt-1">{group.lastMessage}</p>
+
+                  <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-4">
+                    {post.content}
+                  </p>
+
+                  {post.image && (
+                    <div className="rounded-2xl overflow-hidden mb-4 border border-slate-100 dark:border-dm-border">
+                      <img src={post.image} alt="Post content" className="w-full h-64 object-cover" />
+                    </div>
+                  )}
+
+                  {/* Negativity/Support Alert */}
+                  {post.needsSupport && (
+                    <div className="mb-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30 rounded-xl p-3 flex items-start gap-3">
+                      <AlertTriangle size={16} className="text-amber-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-xs font-bold text-amber-800 dark:text-amber-200 mb-0.5">Support Needed</p>
+                        <p className="text-xs text-amber-700 dark:text-amber-300">
+                          This mom might be going through a tough time. Send some love and encouragement! ’œ
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-dark-800">
+                    <div className="flex items-center gap-6">
+                      <button className="flex items-center gap-2 text-slate-400 hover:text-primary-400 transition-colors group">
+                        <Heart size={20} className="group-hover:fill-primary-400 transition-all" />
+                        <span className="text-xs font-bold">{post.likes}</span>
+                      </button>
+                      <button className="flex items-center gap-2 text-slate-400 hover:text-blue-500 transition-colors">
+                        <MessageCircle size={20} />
+                        <span className="text-xs font-bold">{post.comments}</span>
+                      </button>
+                      <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                        <Send size={20} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
-          <button className={`w-full py-4 ${colors.bg} ${colors.text} rounded-2xl font-bold text-sm hover:opacity-80 transition-opacity`}>
-            Browse More Groups
-          </button>
-        </div>
-      )}
-
-      {/* Group Chat View */}
-      {activeTab === 'groups' && selectedGroup && (
-        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden h-[600px] flex flex-col">
-          {/* Chat Header */}
-          <div className={`bg-gradient-to-r ${colors.gradient} p-4 flex items-center gap-4 text-white`}>
-            <button onClick={() => setSelectedGroup(null)} className="p-2 hover:bg-white/10 rounded-lg">
-              <ArrowLeft size={20} />
-            </button>
-            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">
-              {selectedGroup.emoji}
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold">{selectedGroup.name}</h3>
-              <div className="flex items-center gap-2 text-xs opacity-80">
-                <Lock size={10} />
-                <span>Secure & Encrypted</span>
-                <span>•</span>
-                <span>{selectedGroup.members} members</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Messages */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50">
-            <div className="flex gap-3">
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" className="w-8 h-8 rounded-full object-cover" alt="" />
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
-                <span className="text-xs font-bold text-slate-900 block mb-1">Priya M.</span>
-                <p className="text-sm text-slate-600">Anyone else up for the 3am feed? 😅</p>
-              </div>
-            </div>
-            <div className="flex gap-3 justify-end">
-              <div className={`bg-gradient-to-r ${colors.gradient} p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-white`}>
-                <p className="text-sm">Right here! Little one decided 2:30am was party time 🎉</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" className="w-8 h-8 rounded-full object-cover" alt="" />
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
-                <span className="text-xs font-bold text-slate-900 block mb-1">Meera S.</span>
-                <p className="text-sm text-slate-600">Solidarity, mamas! 💜 We got this!</p>
-              </div>
-            </div>
-            <div className="flex gap-3 justify-end">
-              <div className={`bg-gradient-to-r ${colors.gradient} p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-white`}>
-                <p className="text-sm mb-2">Look at this little angel! She's being so good today, finally napping peacefully 🥹💕</p>
-                <img
-                  src="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400"
-                  alt="Sleeping baby"
-                  className="w-full rounded-xl object-cover max-h-48"
-                />
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" className="w-8 h-8 rounded-full object-cover" alt="" />
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
-                <span className="text-xs font-bold text-slate-900 block mb-1">Kavya T.</span>
-                <p className="text-sm text-slate-600">Omg so adorable!! 😍 Those cheeks! 🥰</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Input */}
-          <div className="p-4 bg-white border-t border-slate-100">
-            <div className="flex items-center gap-2">
-              <button className="p-2 text-slate-400 hover:text-slate-600">
-                <Smile size={20} />
-              </button>
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="flex-1 bg-slate-50 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
-                value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
-              />
-              <button className={`p-3 ${colors.button} text-white rounded-xl transition-colors`}>
-                <Send size={18} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Direct Messages Tab */}
-      {activeTab === 'dms' && !selectedDM && (
-        <div className="space-y-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input
-              type="text"
-              placeholder="Search conversations..."
-              className="w-full bg-white border border-slate-100 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
-            />
-          </div>
-
-          {/* DM List */}
-          <div className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100">
-            {sampleDMs.map((dm, i) => (
-              <div
-                key={dm.id}
-                onClick={() => setSelectedDM(dm)}
-                className={`flex items-center gap-4 p-5 cursor-pointer hover:bg-slate-50 transition-colors ${i !== sampleDMs.length - 1 ? 'border-b border-slate-50' : ''
-                  }`}
-              >
-                <div className="relative">
-                  <img src={dm.avatar} alt={dm.name} className="w-12 h-12 rounded-full object-cover" />
-                  {dm.online && (
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white"></span>
+          {/* Groups List */}
+          {activeTab === 'groups' && (
+            <div className="space-y-4">
+              {sampleGroups.map((group) => (
+                <div key={group.id} className="bg-white dark:bg-dm-card rounded-2xl p-5 border border-slate-100 dark:border-dm-border flex items-center justify-between hover:border-slate-300 dark:hover:border-dark-600 transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-14 h-14 rounded-2xl ${colors.lightBg} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300`}>
+                      {group.emoji}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1 group-hover:text-primary-600 transition-colors">{group.name}</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{group.members} members</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 truncate max-w-[200px]">{group.lastMessage}</p>
+                    </div>
+                  </div>
+                  {group.unread > 0 && (
+                    <div className={`${colors.bg} ${colors.text} text-xs font-bold px-3 py-1 rounded-full`}>
+                      {group.unread} new
+                    </div>
                   )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900 text-sm">{dm.name}</span>
-                    <span className="text-xs text-slate-400">{dm.time}</span>
+              ))}
+            </div>
+          )}
+
+          {/* DMs List */}
+          {activeTab === 'dms' && (
+            <div className="space-y-4">
+              {sampleDMs.map((dm) => (
+                <div key={dm.id} className="bg-white dark:bg-dm-card rounded-2xl p-5 border border-slate-100 dark:border-dm-border flex items-center justify-between hover:border-slate-300 dark:hover:border-dark-600 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <img src={dm.avatar} alt={dm.name} className="w-14 h-14 rounded-full object-cover" />
+                      {dm.online && (
+                        <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-dark-900 rounded-full"></div>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1">{dm.name}</h3>
+                      <p className={`text-xs ${dm.unread > 0 ? 'text-slate-800 dark:text-slate-200 font-bold' : 'text-slate-400 dark:text-slate-500'} truncate max-w-[200px]`}>
+                        {dm.lastMessage}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-xs text-slate-500 truncate mt-1">{dm.lastMessage}</p>
+                  <div className="flex flex-col items-end gap-2">
+                    <span className="text-xs text-slate-400">{dm.time}</span>
+                    {dm.unread > 0 && (
+                      <div className="w-2.5 h-2.5 bg-primary-400 rounded-full"></div>
+                    )}
+                  </div>
                 </div>
-                {dm.unread > 0 && (
-                  <span className={`${colors.button} text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}>
-                    {dm.unread}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <button className={`w-full py-4 ${colors.bg} ${colors.text} rounded-2xl font-bold text-sm hover:opacity-80 transition-opacity flex items-center justify-center gap-2`}>
-            <Plus size={18} />
-            Start New Conversation
-          </button>
+              ))}
+            </div>
+          )}
         </div>
-      )}
 
-      {/* DM Chat View */}
-      {activeTab === 'dms' && selectedDM && (
-        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden h-[600px] flex flex-col">
-          {/* Chat Header */}
-          <div className="p-4 flex items-center gap-4 border-b border-slate-100">
-            <button onClick={() => setSelectedDM(null)} className="p-2 hover:bg-slate-50 rounded-lg text-slate-400">
-              <ArrowLeft size={20} />
+        {/* Sidebar */}
+        <div className="lg:col-span-4 space-y-6">
+
+          {/* Risk Alert Card */}
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2rem] p-6 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+
+            <div className="flex items-start gap-4 mb-4 relative z-10">
+              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                <Shield size={24} className="text-primary-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg leading-tight mb-1">Safe Space</h3>
+                <p className="text-slate-400 text-xs">Moderated & Secure</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-300 leading-relaxed mb-6 relative z-10">
+              This community is monitored for safety. Bullying, medical misinformation, and hate speech are not tolerated.
+            </p>
+
+            <button className="w-full bg-white/10 hover:bg-white/20 transition-colors rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2">
+              <Lock size={16} />
+              Community Guidelines
             </button>
-            <div className="relative">
-              <img src={selectedDM.avatar} alt={selectedDM.name} className="w-10 h-10 rounded-full object-cover" />
-              {selectedDM.online && (
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white"></span>
-              )}
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-slate-900">{selectedDM.name}</h3>
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <Lock size={10} />
-                <span>Private</span>
+          </div>
+
+          {/* Expert Card */}
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 shadow-sm border border-slate-100 dark:border-dm-border">
+            <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-4 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+              Experts Online
+            </h3>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100" alt="Doctor" className="w-10 h-10 rounded-full object-cover" />
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-dm-foreground">Dr. Sarah Johnson</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">OB/GYN • 12 yr exp</p>
+                </div>
+                <button className={`ml-auto ${colors.lightBg} ${colors.text} px-3 py-1.5 rounded-lg text-xs font-bold`}>
+                  Chat
+                </button>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=100" alt="Expert" className="w-10 h-10 rounded-full object-cover" />
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-dm-foreground">Lisa Chen</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Lactation Consultant</p>
+                </div>
+                <button className="ml-auto bg-slate-50 dark:bg-dm-muted text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-lg text-xs font-bold">
+                  Offline
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50">
-            <div className="flex gap-3">
-              <img src={selectedDM.avatar} className="w-8 h-8 rounded-full object-cover" alt="" />
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
-                <p className="text-sm text-slate-600">Hi! How are you feeling today?</p>
-              </div>
-            </div>
-            <div className="flex gap-3 justify-end">
-              <div className={`bg-gradient-to-r ${colors.gradient} p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-white`}>
-                <p className="text-sm">Much better, thank you! The tips you shared really helped.</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <img src={selectedDM.avatar} className="w-8 h-8 rounded-full object-cover" alt="" />
-              <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%]">
-                <p className="text-sm text-slate-600">That's wonderful to hear! Remember, I'm here if you need anything. 💜</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Input */}
-          <div className="p-4 bg-white border-t border-slate-100">
-            <div className="flex items-center gap-2">
-              <button className="p-2 text-slate-400 hover:text-slate-600">
-                <Smile size={20} />
-              </button>
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="flex-1 bg-slate-50 rounded-xl py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200"
-                value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
-              />
-              <button className={`p-3 ${colors.button} text-white rounded-xl transition-colors`}>
-                <Send size={18} />
-              </button>
-            </div>
-          </div>
         </div>
-      )}
+      </div>
 
       {/* New Post Modal */}
       {showNewPostModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="font-bold text-slate-900 text-lg">Create Post</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-dm-card w-full max-w-lg rounded-[2rem] shadow-2xl p-6 animate-in zoom-in-95 duration-200 border border-slate-100 dark:border-dm-border">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Create Post</h3>
               <button
                 onClick={() => setShowNewPostModal(false)}
-                className="p-2 hover:bg-slate-50 rounded-lg text-slate-400"
+                className="w-10 h-10 rounded-full bg-slate-50 dark:bg-dm-muted flex items-center justify-center text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
-            <div className="p-6">
-              <div className="flex gap-4 mb-4">
-                <img
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100"
-                  alt="You"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <span className="font-bold text-slate-900 text-sm mt-2">Sarah Jenkins</span>
-              </div>
-              <textarea
-                placeholder="What would you like to share with the community?"
-                className="w-full h-32 bg-slate-50 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 resize-none"
-                value={newPostText}
-                onChange={(e) => setNewPostText(e.target.value)}
-              ></textarea>
-              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-slate-100">
-                <button className={`flex items-center gap-2 ${colors.text} text-sm font-medium hover:opacity-80`}>
-                  <Image size={18} />
-                  Add Photo
-                </button>
+
+            <div className="flex gap-3 mb-4">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="User" className="w-12 h-12 rounded-full object-cover border-2 border-slate-100 dark:border-dm-border" />
+              <div>
+                <p className="font-bold text-slate-900 dark:text-dm-foreground">Sarah M.</p>
+                <div className={`text-xs ${colors.text} bg-slate-50 dark:bg-dm-muted px-2 py-0.5 rounded-md inline-block mt-0.5`}>
+                  {phase.replace('-', ' ')}
+                </div>
               </div>
             </div>
-            <div className="p-6 bg-slate-50 flex justify-end">
+
+            <textarea
+              value={newPostText}
+              onChange={(e) => setNewPostText(e.target.value)}
+              placeholder="What's on your mind? Share your journey..."
+              className="w-full h-40 resize-none bg-slate-50 dark:bg-dm-muted border-0 rounded-2xl p-4 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-slate-200 dark:focus:ring-dark-600 mb-4"
+              autoFocus
+            ></textarea>
+
+            {/* Live Sentiment Preview */}
+            {(isPreviewLoading || livePreviewSentiment) && newPostText.length >= 10 && (
+              <div className="mb-4 flex items-center gap-2 bg-slate-50 dark:bg-dm-muted p-3 rounded-xl border border-slate-100 dark:border-dm-border">
+                {isPreviewLoading ? (
+                  <>
+                    <Loader2 size={16} className={`animate-spin ${colors.text}`} />
+                    <span className="text-xs text-slate-500 dark:text-slate-400">Analyzing tone...</span>
+                  </>
+                ) : livePreviewSentiment && (
+                  <>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 text-right w-24">Detected tone:</span>
+                    <div className={`px-2 py-1 rounded-full flex items-center gap-1.5 ${getSentimentBadge(livePreviewSentiment).className}`}>
+                      {getSentimentBadge(livePreviewSentiment).icon}
+                      <span className="text-[10px] font-bold uppercase tracking-wider">{getSentimentBadge(livePreviewSentiment).label}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            <div className="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-dm-border">
+              <div className="flex gap-2">
+                <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-dm-muted rounded-xl transition-all">
+                  <Image size={20} />
+                </button>
+                <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-dm-muted rounded-xl transition-all">
+                  <Smile size={20} />
+                </button>
+              </div>
+
               <button
-                onClick={() => setShowNewPostModal(false)}
-                className={`${colors.button} text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg transition-colors`}
+                onClick={handleCreatePost}
+                disabled={!newPostText.trim() || isAnalyzing}
+                className={`${colors.button} text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                Share with Community
+                {isAnalyzing ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Posting...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Post
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -709,3 +555,9 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
     </div>
   );
 };
+
+
+
+
+
+

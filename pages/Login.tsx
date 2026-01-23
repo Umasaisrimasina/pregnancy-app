@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ArrowRight, Leaf, Heart, Stethoscope, Baby, Mail, Lock, User, CheckCircle2, Users, HeartHandshake, ArrowLeft } from 'lucide-react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -168,22 +168,22 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row font-sans">
+    <div className="min-h-screen bg-white dark:bg-dm-background flex flex-col lg:flex-row font-sans">
 
       {/* Left Side - Visuals */}
-      <div className="lg:w-1/2 bg-slate-900 relative overflow-hidden flex flex-col justify-between p-8 lg:p-16 text-white min-h-[300px] lg:min-h-screen">
+      <div className="lg:w-1/2 bg-dm-background relative overflow-hidden flex flex-col justify-between p-8 lg:p-16 text-white min-h-[300px] lg:min-h-screen">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/mother-baby-illustration.png"
             alt="Mother and Baby"
             className="w-full h-full object-cover opacity-90"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-dm-background/90 via-dm-background/30 to-transparent"></div>
         </div>
 
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-md bg-primary-500 flex items-center justify-center">
               <Leaf size={16} className="text-white" />
             </div>
             <span className="font-display font-bold text-lg tracking-tight">PreConceive</span>
@@ -194,12 +194,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
           <h1 className="text-4xl lg:text-5xl font-display font-extrabold mb-6 leading-tight">
             Your companion for every step of the journey.
           </h1>
-          <p className="text-slate-300 text-lg leading-relaxed">
+          <p className="text-dm-muted-fg text-lg leading-relaxed">
             From pre-conception nutrition to baby milestones, we provide the science-backed tools you need to thrive.
           </p>
         </div>
 
-        <div className="relative z-10 hidden lg:flex gap-8 text-sm font-medium text-slate-400">
+        <div className="relative z-10 hidden lg:flex gap-8 text-sm font-medium text-dm-muted-fg">
           <span>© 2024 PreConceive</span>
           <span>Privacy Policy</span>
           <span>Terms</span>
@@ -207,22 +207,22 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="lg:w-1/2 flex items-center justify-center p-6 lg:p-16 bg-white animate-in slide-in-from-right-4 duration-500">
+      <div className="lg:w-1/2 flex items-center justify-center p-6 lg:p-16 bg-white dark:bg-dm-background animate-in slide-in-from-right-4 duration-500">
         <div className="w-full max-w-md">
 
           <div className="text-center mb-8">
             {isForgotPassword && (
               <button
                 onClick={() => { setIsForgotPassword(false); setError(null); setSuccessMessage(null); }}
-                className="flex items-center gap-1 text-slate-500 hover:text-slate-900 mb-4 mx-auto"
+                className="flex items-center gap-1 text-slate-500 hover:text-slate-900 dark:text-dm-muted-fg dark:hover:text-dm-foreground mb-4 mx-auto"
               >
                 <ArrowLeft size={16} /> Back to login
               </button>
             )}
-            <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">
+            <h2 className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground mb-2">
               {isForgotPassword ? 'Reset password' : isSignUp ? 'Create an account' : 'Welcome back'}
             </h2>
-            <p className="text-slate-500">
+            <p className="text-slate-400 dark:text-dm-muted-fg">
               {isForgotPassword
                 ? 'Enter your email and we\'ll send you a reset link.'
                 : 'Enter your details to access your dashboard.'}
@@ -237,12 +237,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-1.5">Email Address</label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400 dark:text-slate-500" size={18} />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all"
+                      className="w-full bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border rounded-lg py-3 pl-10 pr-4 text-slate-900 dark:text-dm-foreground focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all"
                       placeholder="sarah@example.com"
                       required
                     />
@@ -251,7 +251,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
                 {/* Success Message */}
                 {successMessage && (
-                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+                  <div className="bg-primary-50 border border-primary-200 text-primary-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
                     <CheckCircle2 size={18} />
                     {successMessage}
                   </div>
@@ -267,7 +267,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <button
                   disabled={isLoading}
                   className={`
-                    w-full bg-slate-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-all flex items-center justify-center gap-2
+                    w-full bg-slate-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-dark-950/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2
                     ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
                   `}
                 >
@@ -295,11 +295,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           className={`
                           flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all
                           ${isActive
-                              ? 'border-slate-900 bg-slate-50 text-slate-900'
-                              : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200 hover:text-slate-600'}
+                              ? 'border-slate-900 bg-dark-800 text-slate-900 dark:text-dm-foreground'
+                              : 'border-slate-100 bg-white text-slate-400 hover:border-dark-700 hover:text-slate-600'}
                         `}
                         >
-                          <Icon size={20} className={isActive ? 'text-slate-900' : 'text-slate-400'} />
+                          <Icon size={20} className={isActive ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-400'} />
                           <span className="text-[10px] font-bold uppercase tracking-wide">{r.label}</span>
                         </button>
                       );
@@ -313,8 +313,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <div>
                       <label className="block text-sm font-bold text-slate-700 mb-1.5">Full Name</label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                        <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all" placeholder="Sarah Jenkins" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400 dark:text-slate-500" size={18} />
+                        <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border rounded-lg py-3 pl-10 pr-4 text-slate-900 dark:text-dm-foreground focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all" placeholder="Sarah Jenkins" />
                       </div>
                     </div>
 
@@ -329,7 +329,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                             className={`cursor-pointer rounded-xl p-3 border-2 transition-all flex flex-col gap-2 relative overflow-hidden
                            ${selectedPhase === p.id
                                 ? `border-${PHASE_CONFIG[p.id].theme}-500 bg-${PHASE_CONFIG[p.id].theme}-50`
-                                : 'border-slate-100 bg-white hover:border-slate-200'}
+                                : 'border-slate-100 bg-white hover:border-dark-700'}
                          `}
                           >
                             {selectedPhase === p.id && (
@@ -344,7 +344,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                               <p.icon size={16} />
                             </div>
                             <div>
-                              <span className={`block text-xs font-bold ${selectedPhase === p.id ? 'text-slate-900' : 'text-slate-600'}`}>{PHASE_CONFIG[p.id].label}</span>
+                              <span className={`block text-xs font-bold ${selectedPhase === p.id ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-600'}`}>{PHASE_CONFIG[p.id].label}</span>
                             </div>
                           </div>
                         ))}
@@ -358,23 +358,23 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">Email Address</label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all" placeholder="sarah@example.com" required />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400 dark:text-slate-500" size={18} />
+                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border rounded-lg py-3 pl-10 pr-4 text-slate-900 dark:text-dm-foreground focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all" placeholder="sarah@example.com" required />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-1.5">Password</label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent outline-none transition-all" placeholder="••••••••" required />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400 dark:text-slate-500" size={18} />
+                      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border rounded-lg py-3 pl-10 pr-4 text-slate-900 dark:text-dm-foreground focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all" placeholder="€¢€¢€¢€¢€¢€¢€¢€¢" required />
                     </div>
                   </div>
                 </div>
 
                 {/* Success Message */}
                 {successMessage && (
-                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+                  <div className="bg-primary-50 border border-primary-200 text-primary-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
                     <CheckCircle2 size={18} />
                     <div>
                       <p>{successMessage}</p>
@@ -382,7 +382,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                         <button
                           type="button"
                           onClick={handleResendVerification}
-                          className="text-emerald-800 underline text-xs mt-1"
+                          className="text-primary-800 underline text-xs mt-1"
                         >
                           Resend verification email
                         </button>
@@ -413,7 +413,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <button
                       type="button"
                       onClick={() => { setIsForgotPassword(true); setError(null); setSuccessMessage(null); }}
-                      className="text-sm text-slate-500 hover:text-slate-900 hover:underline"
+                      className="text-sm text-slate-500 hover:text-slate-900 dark:text-dm-foreground hover:underline"
                     >
                       Forgot password?
                     </button>
@@ -423,7 +423,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <button
                   disabled={isLoading}
                   className={`
-                    w-full bg-slate-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group
+                    w-full bg-slate-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-dark-950/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2 group
                     ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
                   `}
                 >
@@ -439,7 +439,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
                 <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-slate-200"></div>
+                    <div className="w-full border-t border-slate-100 dark:border-dm-border"></div>
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
                     <span className="bg-white px-2 text-slate-400 font-bold tracking-wider">Or continue with</span>
@@ -450,7 +450,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   type="button"
                   onClick={handleGoogleLogin}
                   disabled={isLoading}
-                  className="w-full bg-white border-2 border-slate-100 text-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 transition-all flex items-center justify-center gap-3"
+                  className="w-full bg-white border-2 border-slate-100 text-slate-700 font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-3"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -471,7 +471,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 {isSignUp ? "Already have an account?" : "Don't have an account yet?"}{' '}
                 <button
                   onClick={() => { setIsSignUp(!isSignUp); setError(null); setSuccessMessage(null); }}
-                  className="font-bold text-slate-900 hover:underline"
+                  className="font-bold text-slate-900 dark:text-dm-foreground hover:underline"
                 >
                   {isSignUp ? 'Log in' : 'Sign up'}
                 </button>
@@ -484,3 +484,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
     </div>
   );
 };
+
+
+
+
+

@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid } from 'recharts';
 import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Activity, Heart, AlertCircle, CheckCircle2, Sparkles, Loader2, AlertTriangle, TrendingUp, Calendar } from 'lucide-react';
 import { AppPhase } from '../types';
 import { SpeakButton } from '../components/SpeakButton';
 import { sendChatMessage, ChatMessage } from '../services/aiService';
-import { 
-  analyzeSentiment, 
-  getSentimentBadge, 
-  checkEmojiMismatch, 
+import {
+  analyzeSentiment,
+  getSentimentBadge,
+  checkEmojiMismatch,
   sentimentToScore,
   DailyCheckIn,
   getCheckIns,
@@ -103,7 +103,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
     { id: 1, sender: 'ai', text: "Welcome to your safe space. How are you feeling today, mama?" }
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   // EPDS State
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
@@ -112,7 +112,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
   // Daily Check-in State (Sentiment Analysis)
   const [checkInText, setCheckInText] = useState('');
-  const [checkInEmoji, setCheckInEmoji] = useState('😊');
+  const [checkInEmoji, setCheckInEmoji] = useState('˜Š');
   const [isAnalyzingCheckIn, setIsAnalyzingCheckIn] = useState(false);
   const [checkIns, setCheckIns] = useState<DailyCheckIn[]>(() => {
     const stored = getCheckIns();
@@ -124,7 +124,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   // Check for safety alerts
   const safetyAlert = detectNegativeStreak(checkIns, 3);
 
-  const availableEmojis = ['😢', '😞', '😐', '🙂', '😊', '😄', '🥰'];
+  const availableEmojis = ['˜¢', '˜ž', '˜', '™‚', '˜Š', '˜„', '¥°'];
 
   // Live sentiment preview state
   const [livePreviewSentiment, setLivePreviewSentiment] = useState<SentimentLabel | null>(null);
@@ -162,7 +162,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
   const handleSend = async () => {
     if (!inputValue.trim() || isLoading) return;
-    
+
     const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
     setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
@@ -175,10 +175,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
     }));
 
     const response = await sendChatMessage(inputValue, 'postpartum', conversationHistory);
-    
-    setMessages(prev => [...prev, { 
-      id: Date.now() + 1, 
-      sender: 'ai', 
+
+    setMessages(prev => [...prev, {
+      id: Date.now() + 1,
+      sender: 'ai',
       text: response.success ? response.message! : "Thank you for sharing. It takes courage to express these feelings. Remember, your emotions are valid, and recovery takes time. Would you like to explore some coping strategies together?"
     }]);
     setIsLoading(false);
@@ -187,7 +187,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   const handleAnswerSelect = (optionIndex: number) => {
     const newAnswers = [...answers, optionIndex];
     setAnswers(newAnswers);
-    
+
     if (currentQuestion < epdsQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -206,8 +206,8 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   };
 
   const toggleFactor = (factor: string) => {
-    setSelectedFactors(prev => 
-      prev.includes(factor) 
+    setSelectedFactors(prev =>
+      prev.includes(factor)
         ? prev.filter(f => f !== factor)
         : [...prev, factor]
     );
@@ -216,14 +216,14 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   // Handle daily check-in submission with sentiment analysis
   const handleCheckInSubmit = async () => {
     if (!checkInText.trim()) return;
-    
+
     setIsAnalyzingCheckIn(true);
-    
+
     try {
       const result = await analyzeSentiment(checkInText);
       const mismatch = checkEmojiMismatch(checkInEmoji, result.sentiment);
       const score = sentimentToScore(result.sentiment, result.confidenceScores);
-      
+
       const newCheckIn: DailyCheckIn = {
         id: `checkin-${Date.now()}`,
         date: new Date().toISOString(),
@@ -234,13 +234,13 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
         sentimentScore: score,
         emojiMismatch: mismatch
       };
-      
+
       saveCheckIn(newCheckIn);
       setCheckIns(prev => [...prev, newCheckIn]);
       setLastCheckInResult({ sentiment: result.sentiment, mismatch });
       setShowCheckInSuccess(true);
       setCheckInText('');
-      
+
       // Hide success message after 5 seconds
       setTimeout(() => setShowCheckInSuccess(false), 5000);
     } catch (error) {
@@ -253,13 +253,13 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   // Emoji to mood score mapping (0-100 scale)
   const emojiToMoodScore = (emoji: string): number => {
     const emojiScores: { [key: string]: number } = {
-      '😊': 90,  // Happy
-      '😌': 75,  // Calm
-      '😐': 50,  // Neutral
-      '😔': 30,  // Sad
-      '😢': 15,  // Crying
-      '😰': 20,  // Anxious
-      '😡': 25   // Angry
+      '˜Š': 90,  // Happy
+      '˜Œ': 75,  // Calm
+      '˜': 50,  // Neutral
+      '˜ž': 30,  // Sad
+      '˜¢': 15,  // Crying
+      '˜°': 20,  // Anxious
+      '˜¡': 25   // Angry
     };
     return emojiScores[emoji] || 50;
   };
@@ -277,7 +277,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
-      
+
       {/* Motivational Quote - Centered */}
       <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4">
         <div className="flex items-center gap-3 mb-6">
@@ -292,7 +292,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Stress & Mind</h1>
+            <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Stress & Mind</h1>
             <SpeakButton text="Stress and Mind: Your postpartum mental wellness companion." size="sm" />
           </div>
           <p className="text-slate-500 mt-1">Your postpartum mental wellness companion.</p>
@@ -300,21 +300,21 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         {/* Left Column - Daily Check-In & Mood Trends */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          
+
           {/* Daily Check-In Card */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 relative overflow-hidden">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none opacity-60"></div>
-            
+
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                  <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Daily Check-In</h2>
                   <SpeakButton text="Daily Check-In: How are you feeling today?" size="sm" />
                 </div>
-                <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
+                <span className="text-xs font-medium text-slate-400 bg-dark-800 px-3 py-1 rounded-full">Today</span>
               </div>
 
               {/* Emoji Selector */}
@@ -325,11 +325,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                     <button
                       key={emoji}
                       onClick={() => setCheckInEmoji(emoji)}
-                      className={`text-4xl p-3 rounded-2xl transition-all duration-300 ${
-                        checkInEmoji === emoji
-                          ? 'bg-purple-100 scale-110 ring-4 ring-purple-200'
-                          : 'bg-slate-50 hover:bg-slate-100'
-                      }`}
+                      className={`text-4xl p-3 rounded-2xl transition-all duration-300 ${checkInEmoji === emoji
+                        ? 'bg-purple-100 scale-110 ring-4 ring-purple-200'
+                        : 'bg-dark-800 hover:bg-slate-100 dark:hover:bg-dm-accent'
+                        }`}
                     >
                       {emoji}
                     </button>
@@ -343,21 +342,21 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                 <textarea
                   value={checkInText}
                   onChange={(e) => setCheckInText(e.target.value)}
-                  className="w-full h-32 bg-slate-50 border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-purple-200 placeholder:text-slate-400 text-sm leading-relaxed"
+                  className="w-full h-32 bg-slate-50 dark:bg-dm-muted border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-purple-200 placeholder:text-slate-400 dark:text-slate-500 text-sm leading-relaxed"
                   placeholder="How are you feeling today? What's on your mind?"
                 ></textarea>
-                
+
                 {/* Live Sentiment Preview */}
                 {(isPreviewLoading || livePreviewSentiment) && (
                   <div className="mt-3 flex items-center gap-2">
                     {isPreviewLoading ? (
                       <>
                         <Loader2 size={14} className="animate-spin text-purple-500" />
-                        <span className="text-xs text-slate-500">Analyzing sentiment...</span>
+                        <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Analyzing sentiment...</span>
                       </>
                     ) : livePreviewSentiment && (
                       <>
-                        <span className="text-xs text-slate-500">Detected sentiment:</span>
+                        <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Detected sentiment:</span>
                         <span className={`text-xs px-2 py-1 rounded-full font-medium ${getSentimentBadge(livePreviewSentiment).className}`}>
                           {getSentimentBadge(livePreviewSentiment).icon} {getSentimentBadge(livePreviewSentiment).label}
                         </span>
@@ -390,11 +389,10 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
               {/* Success/Mismatch Alert */}
               {showCheckInSuccess && lastCheckInResult && (
-                <div className={`mt-6 p-4 rounded-xl border ${
-                  lastCheckInResult.mismatch 
-                    ? 'bg-amber-50 border-amber-200' 
-                    : 'bg-green-50 border-green-200'
-                }`}>
+                <div className={`mt-6 p-4 rounded-xl border ${lastCheckInResult.mismatch
+                  ? 'bg-amber-50 border-amber-200'
+                  : 'bg-green-50 border-green-200'
+                  }`}>
                   <div className="flex items-start gap-3">
                     {lastCheckInResult.mismatch ? (
                       <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
@@ -402,16 +400,14 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                       <CheckCircle2 size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
                     )}
                     <div className="flex-1">
-                      <p className={`font-bold text-sm mb-1 ${
-                        lastCheckInResult.mismatch ? 'text-amber-900' : 'text-green-900'
-                      }`}>
-                        {lastCheckInResult.mismatch 
-                          ? 'We noticed something...' 
+                      <p className={`font-bold text-sm mb-1 ${lastCheckInResult.mismatch ? 'text-amber-900' : 'text-green-900'
+                        }`}>
+                        {lastCheckInResult.mismatch
+                          ? 'We noticed something...'
                           : 'Check-in recorded!'}
                       </p>
-                      <p className={`text-xs ${
-                        lastCheckInResult.mismatch ? 'text-amber-700' : 'text-green-700'
-                      }`}>
+                      <p className={`text-xs ${lastCheckInResult.mismatch ? 'text-amber-700' : 'text-green-700'
+                        }`}>
                         {lastCheckInResult.mismatch
                           ? `Your emoji and the sentiment in your text don't quite match. Sometimes we mask our feelings. It's okay to not be okay. Would you like to talk to someone?`
                           : `Your daily sentiment has been recorded. Keep tracking how you feel each day.`}
@@ -424,14 +420,14 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
           </div>
 
           {/* Sentiment Trends Chart */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-100 to-secondary-100 flex items-center justify-center">
                   <TrendingUp size={20} className="text-purple-600" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold font-display text-slate-900">Sentiment Trends</h2>
+                  <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">Sentiment Trends</h2>
                   <SpeakButton text="Sentiment Trends: Your weekly sentiment chart based on daily check-ins." size="sm" />
                 </div>
               </div>
@@ -439,43 +435,43 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                 Last 7 Days
               </span>
             </div>
-            
+
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={sentimentTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <XAxis 
-                    dataKey="day" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 12 }} 
+                  <XAxis
+                    dataKey="day"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#94a3b8', fontSize: 12 }}
                   />
-                  <YAxis 
+                  <YAxis
                     domain={[0, 100]}
                     axisLine={false}
                     tickLine={false}
                     tick={{ fill: '#94a3b8', fontSize: 12 }}
                   />
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
                     formatter={(value: number, name: string) => [
-                      `${value.toFixed(0)}%`, 
+                      `${value.toFixed(0)}%`,
                       name === 'score' ? 'Text Sentiment' : 'Selected Mood'
                     ]}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="score" 
-                    stroke="#8b5cf6" 
+                  <Line
+                    type="monotone"
+                    dataKey="score"
+                    stroke="#8b5cf6"
                     strokeWidth={3}
                     name="score"
                     dot={{ r: 5, fill: "#8b5cf6", stroke: "#ffffff", strokeWidth: 2 }}
                     activeDot={{ r: 7, fill: "#8b5cf6", stroke: "#ffffff", strokeWidth: 2 }}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="moodScore" 
-                    stroke="#3b82f6" 
+                  <Line
+                    type="monotone"
+                    dataKey="moodScore"
+                    stroke="#3b82f6"
                     strokeWidth={2}
                     strokeDasharray="5 5"
                     name="moodScore"
@@ -485,30 +481,30 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-4 mt-4">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-0.5 bg-purple-500"></div>
-                <span className="text-xs font-medium text-slate-600">Text Sentiment (AI analyzed)</span>
+                <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Text Sentiment (AI analyzed)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-0.5 bg-blue-500 border-dashed" style={{borderStyle: 'dashed'}}></div>
-                <span className="text-xs font-medium text-slate-600">Selected Mood (emoji)</span>
+                <div className="w-8 h-0.5 bg-blue-500 border-dashed" style={{ borderStyle: 'dashed' }}></div>
+                <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Selected Mood (emoji)</span>
               </div>
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-4 mt-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span className="text-xs text-slate-500">Negative (0-33%)</span>
+                <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Negative (0-33%)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-                <span className="text-xs text-slate-500">Neutral (34-66%)</span>
+                <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Neutral (34-66%)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-xs text-slate-500">Positive (67-100%)</span>
+                <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Positive (67-100%)</span>
               </div>
             </div>
           </div>
@@ -516,12 +512,12 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
         {/* Right Column - Safety Alert & EPDS Screening */}
         <div className="lg:col-span-5 flex flex-col gap-6">
-          
+
           {/* Safety Alert - Consecutive Negative Sentiment */}
           {safetyAlert.hasAlert && (
-            <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-[2rem] p-8 shadow-sm border-2 border-red-200 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-red-50 to-primary-50 rounded-[2rem] p-8 shadow-sm border-2 border-red-200 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-200 rounded-full blur-2xl -mr-8 -mt-8 pointer-events-none opacity-50"></div>
-              
+
               <div className="relative z-10">
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
@@ -530,18 +526,18 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                   <div>
                     <h3 className="text-lg font-bold font-display text-red-900 mb-1">We're Here for You</h3>
                     <p className="text-sm text-red-700">
-                      We've noticed {safetyAlert.streakCount} consecutive days of negative sentiment. 
+                      We've noticed {safetyAlert.streakCount} consecutive days of negative sentiment.
                       You don't have to go through this alone.
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-xl p-5 mb-4">
+                <div className="bg-white dark:bg-dm-card rounded-xl p-5 mb-4">
                   <p className="text-xs font-medium text-slate-600 mb-4">
-                    <strong>This is not a medical diagnosis.</strong> If you're experiencing persistent sadness, 
+                    <strong>This is not a medical diagnosis.</strong> If you're experiencing persistent sadness,
                     anxiety, or thoughts of self-harm, please reach out to a mental health professional.
                   </p>
-                  
+
                   <div className="space-y-3">
                     {MENTAL_HEALTH_RESOURCES.slice(0, 2).map((resource) => (
                       <div key={resource.name} className="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
@@ -567,19 +563,19 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
               </div>
             </div>
           )}
-          
+
           {/* EPDS Clinical Wellness Screening */}
-          <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-[2rem] p-8 shadow-sm border border-purple-100 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-purple-50 to-secondary-50 rounded-[2rem] p-8 shadow-sm border border-purple-100 relative overflow-hidden">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-secondary-500 flex items-center justify-center">
                 <Sparkles size={24} className="text-white" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold font-display text-slate-900">EPDS Wellness Screening</h2>
+                  <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">EPDS Wellness Screening</h2>
                   <SpeakButton text="EPDS Wellness Screening: Edinburgh Postnatal Depression Scale questionnaire." size="sm" />
                 </div>
-                <p className="text-xs text-slate-500">Edinburgh Postnatal Depression Scale</p>
+                <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Edinburgh Postnatal Depression Scale</p>
               </div>
             </div>
 
@@ -592,15 +588,15 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                     <span>{Math.round(((currentQuestion) / epdsQuestions.length) * 100)}% Complete</span>
                   </div>
                   <div className="h-2 bg-white rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-300"
+                    <div
+                      className="h-full bg-gradient-to-r from-purple-500 to-secondary-500 transition-all duration-300"
                       style={{ width: `${(currentQuestion / epdsQuestions.length) * 100}%` }}
                     ></div>
                   </div>
                 </div>
 
                 {/* Current Question */}
-                <div className="bg-white rounded-2xl p-6 mb-4">
+                <div className="bg-white dark:bg-dm-card rounded-2xl p-6 mb-4">
                   <p className="text-sm font-medium text-slate-700 mb-4 leading-relaxed">
                     {epdsQuestions[currentQuestion].question}
                   </p>
@@ -609,7 +605,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                       <button
                         key={idx}
                         onClick={() => handleAnswerSelect(idx)}
-                        className="w-full text-left p-3 rounded-xl border border-slate-100 text-sm text-slate-600 hover:border-purple-300 hover:bg-purple-50 transition-all"
+                        className="w-full text-left p-3 rounded-xl border border-slate-100 dark:border-dm-border text-sm text-slate-600 hover:border-purple-300 hover:bg-purple-50 transition-all"
                       >
                         {option}
                       </button>
@@ -619,25 +615,23 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
               </>
             ) : (
               /* Results */
-              <div className="bg-white rounded-2xl p-6">
+              <div className="bg-white dark:bg-dm-card rounded-2xl p-6">
                 <div className="text-center mb-6">
-                  <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${
-                    isHighRisk ? 'bg-red-100' : 'bg-purple-100'
-                  }`}>
+                  <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${isHighRisk ? 'bg-red-100' : 'bg-purple-100'
+                    }`}>
                     {isHighRisk ? (
                       <AlertCircle size={32} className="text-red-500" />
                     ) : (
                       <Heart size={32} className="text-purple-500" />
                     )}
                   </div>
-                  <h3 className="font-bold text-slate-900 text-lg mb-2">
+                  <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg mb-2">
                     Your Score: {totalScore}/30
                   </h3>
-                  <span className={`inline-block px-4 py-1 rounded-full text-sm font-bold ${
-                    isHighRisk 
-                      ? 'bg-red-100 text-red-700' 
-                      : 'bg-purple-100 text-purple-700'
-                  }`}>
+                  <span className={`inline-block px-4 py-1 rounded-full text-sm font-bold ${isHighRisk
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-purple-100 text-purple-700'
+                    }`}>
                     {isHighRisk ? 'Elevated Risk' : 'Low Risk'}
                   </span>
                 </div>
@@ -649,8 +643,8 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                     </p>
                     <div className="space-y-2 text-xs">
                       <p className="font-bold text-red-700">Crisis Resources:</p>
-                      <p className="text-red-600">• iCall: 9152987821</p>
-                      <p className="text-red-600">• Vandrevala Foundation: 1860-2662-345</p>
+                      <p className="text-red-600">€¢ iCall: 9152987821</p>
+                      <p className="text-red-600">€¢ Vandrevala Foundation: 1860-2662-345</p>
                     </div>
                   </div>
                 ) : (
@@ -661,7 +655,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                   </div>
                 )}
 
-                <button 
+                <button
                   onClick={resetScreening}
                   className="w-full text-center text-purple-600 font-bold text-sm hover:text-purple-700"
                 >
@@ -672,65 +666,65 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
           </div>
 
           {/* Screening History */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold font-display text-slate-900">Screening History</h2>
+              <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">Screening History</h2>
             </div>
-            
+
             <div className="h-40 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={screeningHistoryData}>
-                  <XAxis 
-                    dataKey="month" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 11 }} 
+                  <XAxis
+                    dataKey="month"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#94a3b8', fontSize: 11 }}
                   />
                   <YAxis hide domain={[0, 20]} />
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                   />
-                  <Bar 
-                    dataKey="score" 
-                    fill="#8b5cf6" 
-                    radius={[4, 4, 4, 4]} 
+                  <Bar
+                    dataKey="score"
+                    fill="#8b5cf6"
+                    radius={[4, 4, 4, 4]}
                     barSize={28}
                   />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            
+
             <div className="flex justify-center gap-6 mt-4">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded bg-purple-200"></div>
-                <span className="text-xs font-medium text-slate-500">Low (0-9)</span>
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-400 dark:text-slate-500">Low (0-9)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded bg-red-200"></div>
-                <span className="text-xs font-medium text-slate-500">High (10+)</span>
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-400 dark:text-slate-500">High (10+)</span>
               </div>
             </div>
           </div>
 
           {/* Silent Chat AI Promo */}
-          <div 
+          <div
             onClick={() => setIsChatOpen(true)}
-            className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all"
+            className="bg-dark-950 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500 rounded-full blur-[60px] opacity-20"></div>
-            
+
             <div className="relative z-10">
-               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
-                 <Lock size={20} className="text-purple-300" />
-               </div>
-               <h3 className="text-lg font-bold font-display mb-2">Silent Chat</h3>
-               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                 Need to vent in a safe, anonymous space? Our AI companion is here to listen without judgment.
-               </p>
-               
-               <div className="flex items-center gap-2 text-sm font-bold text-purple-300 group-hover:text-purple-200 transition-colors">
-                 Start Secure Session <ArrowRight size={16} />
-               </div>
+              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
+                <Lock size={20} className="text-purple-300" />
+              </div>
+              <h3 className="text-lg font-bold font-display mb-2">Silent Chat</h3>
+              <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                Need to vent in a safe, anonymous space? Our AI companion is here to listen without judgment.
+              </p>
+
+              <div className="flex items-center gap-2 text-sm font-bold text-purple-300 group-hover:text-purple-200 transition-colors">
+                Start Secure Session <ArrowRight size={16} />
+              </div>
             </div>
           </div>
 
@@ -739,78 +733,83 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
       {/* Chat Popup Modal */}
       {isChatOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div 
-             className="bg-white w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
-             onClick={(e) => e.stopPropagation()}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-dm-background/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div
+            className="bg-white w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
           >
-             {/* Chat Header */}
-             <div className="bg-slate-900 p-6 flex items-center justify-between text-white shrink-0">
-                <div className="flex items-center gap-3">
-                   <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
-                     <Lock size={18} className="text-purple-400" />
-                   </div>
-                   <div>
-                     <h3 className="font-bold font-display">Silent Chat</h3>
-                     <div className="flex items-center gap-1.5 opacity-80">
-                       <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-                       <span className="text-[10px] font-bold uppercase tracking-wider">Secure & Encrypted</span>
-                     </div>
-                   </div>
+            {/* Chat Header */}
+            <div className="bg-dark-950 p-6 flex items-center justify-between text-white shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-dark-900 flex items-center justify-center border border-slate-700">
+                  <Lock size={18} className="text-purple-400" />
                 </div>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); setIsChatOpen(false); }}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                >
-                  <X size={18} />
-                </button>
-             </div>
+                <div>
+                  <h3 className="font-bold font-display">Silent Chat</h3>
+                  <div className="flex items-center gap-1.5 opacity-80">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">Secure & Encrypted</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); setIsChatOpen(false); }}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
 
-             {/* Messages */}
-             <div className="flex-1 bg-slate-50 p-6 overflow-y-auto space-y-4">
-               {messages.map((msg) => (
-                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                   <div className={`
+            {/* Messages */}
+            <div className="flex-1 bg-slate-50 dark:bg-dm-muted p-6 overflow-y-auto space-y-4">
+              {messages.map((msg) => (
+                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`
                      max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
-                     ${msg.sender === 'user' 
-                       ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-slate-900/10' 
-                       : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none shadow-sm'}
+                     ${msg.sender === 'user'
+                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-dark-950/10'
+                      : 'bg-white text-slate-700 border border-slate-100 dark:border-dm-border rounded-tl-none shadow-sm'}
                    `}>
-                     {msg.text}
-                   </div>
-                 </div>
-               ))}
-               <div ref={messagesEndRef} />
-             </div>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
 
-             {/* Input Area */}
-             <div className="p-4 bg-white border-t border-slate-100 shrink-0">
-               <div className="relative flex items-center gap-2">
-                 <input 
-                   type="text" 
-                   value={inputValue}
-                   onChange={(e) => setInputValue(e.target.value)}
-                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                   placeholder="Type your thoughts..."
-                   className="flex-1 bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all"
-                   autoFocus
-                 />
-                 <button 
-                   onClick={handleSend}
-                   disabled={!inputValue.trim()}
-                   className="absolute right-2 p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
-                 >
-                   <Send size={16} />
-                 </button>
-               </div>
-               <p className="text-center text-[10px] text-slate-400 mt-3 flex items-center justify-center gap-1.5">
-                 <Shield size={10} />
-                 Conversations are anonymous and not stored permanently.
-               </p>
-             </div>
+            {/* Input Area */}
+            <div className="p-4 bg-white border-t border-slate-100 shrink-0">
+              <div className="relative flex items-center gap-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                  placeholder="Type your thoughts..."
+                  className="flex-1 bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-400 dark:text-slate-500 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all"
+                  autoFocus
+                />
+                <button
+                  onClick={handleSend}
+                  disabled={!inputValue.trim()}
+                  className="absolute right-2 p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                >
+                  <Send size={16} />
+                </button>
+              </div>
+              <p className="text-center text-[10px] text-slate-400 mt-3 flex items-center justify-center gap-1.5">
+                <Shield size={10} />
+                Conversations are anonymous and not stored permanently.
+              </p>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 };
+
+
+
+
+

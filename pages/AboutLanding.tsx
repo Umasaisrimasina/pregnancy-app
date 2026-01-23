@@ -774,3 +774,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
 };
 
 export default AboutLanding;
+
+
+
+

@@ -120,7 +120,7 @@ export const RiskIndicatorCard: React.FC<RiskIndicatorCardProps> = ({ indicator 
                     </div>
                     <div>
                         <h4 className="font-bold text-slate-700 dark:text-slate-200 text-sm">{conditionInfo.name}</h4>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{conditionInfo.description}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">{conditionInfo.description}</p>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@ export const RiskIndicatorCard: React.FC<RiskIndicatorCardProps> = ({ indicator 
                     >
                         {colors.label}
                     </div>
-                    {isExpanded ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+                    {isExpanded ? <ChevronUp size={16} className="text-slate-400 dark:text-slate-400 dark:text-slate-500" /> : <ChevronDown size={16} className="text-slate-400 dark:text-slate-400 dark:text-slate-500" />}
                 </div>
             </button>
 
@@ -184,3 +184,7 @@ export const RiskIndicatorCard: React.FC<RiskIndicatorCardProps> = ({ indicator 
 };
 
 export default RiskIndicatorCard;
+
+
+
+

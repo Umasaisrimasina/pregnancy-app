@@ -70,31 +70,31 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
     { id: 'baby-care', icon: Baby, label: 'Baby Care' },
   ];
 
-  // Dynamic Tailwind classes based on phase (updated for dark mode)
+  // Dynamic Tailwind classes based on phase (Dark Matter warm palette)
   const getPhaseColor = (phase: AppPhase) => {
     switch (phase) {
-      case 'pre-pregnancy': return 'text-emerald-600 bg-emerald-50 border-emerald-100 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400';
-      case 'pregnancy': return 'text-rose-600 bg-rose-50 border-rose-100 dark:bg-rose-900/20 dark:border-rose-800 dark:text-rose-400';
-      case 'post-partum': return 'text-indigo-600 bg-indigo-50 border-indigo-100 dark:bg-indigo-900/20 dark:border-indigo-800 dark:text-indigo-400';
-      case 'baby-care': return 'text-sky-600 bg-sky-50 border-sky-100 dark:bg-sky-900/20 dark:border-sky-800 dark:text-sky-400';
-      default: return 'text-slate-600 bg-slate-50 border-slate-100 dark:bg-dark-800 dark:border-dark-700 dark:text-slate-300';
+      case 'pre-pregnancy': return 'text-primary-600 bg-primary-50 border-primary-100 dark:bg-primary-900/20 dark:border-primary-800 dark:text-primary-400';
+      case 'pregnancy': return 'text-primary-500 bg-primary-50 border-primary-100 dark:bg-primary-900/30 dark:border-primary-700 dark:text-primary-300';
+      case 'post-partum': return 'text-secondary-600 bg-secondary-50 border-secondary-100 dark:bg-secondary-900/20 dark:border-secondary-800 dark:text-secondary-400';
+      case 'baby-care': return 'text-secondary-500 bg-secondary-50 border-secondary-100 dark:bg-secondary-900/30 dark:border-secondary-700 dark:text-secondary-300';
+      default: return 'text-slate-600 bg-slate-50 dark:bg-dm-muted border-dm-border dark:text-dm-muted-fg';
     }
   };
 
   const getActiveClass = (isActive: boolean) => {
-    if (!isActive) return 'text-gray-500 hover:bg-gray-50 hover:text-slate-900 dark:text-dark-text-muted dark:hover:bg-dark-800 dark:hover:text-dark-text-primary';
+    if (!isActive) return 'text-gray-500 hover:bg-gray-50 hover:text-slate-900 dark:text-dm-muted-fg dark:hover:bg-dm-accent dark:hover:text-dm-foreground';
     switch (currentPhase) {
-      case 'pre-pregnancy': return 'bg-emerald-50 text-emerald-700 shadow-sm ring-1 ring-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:ring-emerald-800';
-      case 'pregnancy': return 'bg-rose-50 text-rose-700 shadow-sm ring-1 ring-rose-100 dark:bg-rose-900/20 dark:text-rose-400 dark:ring-rose-800';
-      case 'post-partum': return 'bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-100 dark:bg-indigo-900/20 dark:text-indigo-400 dark:ring-indigo-800';
-      case 'baby-care': return 'bg-sky-50 text-sky-700 shadow-sm ring-1 ring-sky-100 dark:bg-sky-900/20 dark:text-sky-400 dark:ring-sky-800';
+      case 'pre-pregnancy': return 'bg-primary-50 text-primary-700 shadow-dm-sm ring-1 ring-primary-100 dark:bg-primary-900/20 dark:text-primary-400 dark:ring-primary-800';
+      case 'pregnancy': return 'bg-primary-50 text-primary-600 shadow-dm-sm ring-1 ring-primary-100 dark:bg-primary-900/30 dark:text-primary-300 dark:ring-primary-700';
+      case 'post-partum': return 'bg-secondary-50 text-secondary-700 shadow-dm-sm ring-1 ring-secondary-100 dark:bg-secondary-900/20 dark:text-secondary-400 dark:ring-secondary-800';
+      case 'baby-care': return 'bg-secondary-50 text-secondary-600 shadow-dm-sm ring-1 ring-secondary-100 dark:bg-secondary-900/30 dark:text-secondary-300 dark:ring-secondary-700';
     }
   };
 
   const sidebarClasses = `
-    fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-dark-900 border-r border-gray-100 dark:border-dark-700 transform transition-transform duration-300 ease-in-out
+    fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-dm-sidebar border-r border-gray-100 dark:border-dm-border transform transition-transform duration-300 ease-in-out
     lg:translate-x-0 overflow-y-auto
-    ${isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
+    ${isMobileOpen ? 'translate-x-0 shadow-dm-xl' : '-translate-x-full'}
   `;
 
   return (
@@ -113,17 +113,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
           <div className="p-8 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg transition-colors duration-500
-                ${currentPhase === 'pre-pregnancy' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-emerald-500/20' : ''}
-                ${currentPhase === 'pregnancy' ? 'bg-gradient-to-br from-rose-400 to-rose-600 shadow-rose-500/20' : ''}
-                ${currentPhase === 'post-partum' ? 'bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-indigo-500/20' : ''}
-                ${currentPhase === 'baby-care' ? 'bg-gradient-to-br from-sky-400 to-sky-600 shadow-sky-500/20' : ''}
+                ${currentPhase === 'pre-pregnancy' ? 'bg-gradient-to-br from-primary-400 to-primary-600 shadow-primary-500/20' : ''}
+                ${currentPhase === 'pregnancy' ? 'bg-gradient-to-br from-primary-300 to-primary-500 shadow-primary-400/20' : ''}
+                ${currentPhase === 'post-partum' ? 'bg-gradient-to-br from-secondary-400 to-secondary-600 shadow-secondary-500/20' : ''}
+                ${currentPhase === 'baby-care' ? 'bg-gradient-to-br from-secondary-300 to-secondary-500 shadow-secondary-400/20' : ''}
               `}>
                 {currentPhase === 'pre-pregnancy' && <Leaf size={20} fill="currentColor" />}
                 {currentPhase === 'pregnancy' && <Heart size={20} fill="currentColor" />}
                 {currentPhase === 'post-partum' && <Stethoscope size={20} />}
                 {currentPhase === 'baby-care' && <Baby size={20} />}
               </div>
-              <span className="font-display font-bold text-xl tracking-tight text-slate-900 dark:text-white">
+              <span className="font-display font-bold text-xl tracking-tight text-slate-900 dark:text-dm-foreground">
                 PreConceive
               </span>
             </div>
@@ -134,39 +134,39 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
           <div className="px-6 mb-8 relative">
             <button
               onClick={() => setIsPhaseMenuOpen(!isPhaseMenuOpen)}
-              className="w-full bg-gray-50 dark:bg-dark-800 p-4 rounded-2xl flex items-center gap-4 border border-gray-100 dark:border-dark-700 hover:border-gray-300 dark:hover:border-dark-600 transition-all text-left group"
+              className="w-full bg-gray-50 dark:bg-dm-muted p-4 rounded-lg flex items-center gap-4 border border-gray-100 dark:border-dm-border hover:border-gray-300 dark:hover:border-dm-accent transition-all text-left group"
             >
               <div className="relative">
                 <img
                   alt="User"
-                  className="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-dark-700"
+                  className="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-dm-border"
                   src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop"
                 />
-                <span className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-white dark:border-dark-800 rounded-full
-                  ${currentPhase === 'pre-pregnancy' ? 'bg-emerald-500' : ''}
-                  ${currentPhase === 'pregnancy' ? 'bg-rose-500' : ''}
-                  ${currentPhase === 'post-partum' ? 'bg-indigo-500' : ''}
-                  ${currentPhase === 'baby-care' ? 'bg-sky-500' : ''}
+                <span className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-white dark:border-dm-card rounded-full
+                  ${currentPhase === 'pre-pregnancy' ? 'bg-primary-500' : ''}
+                  ${currentPhase === 'pregnancy' ? 'bg-primary-400' : ''}
+                  ${currentPhase === 'post-partum' ? 'bg-secondary-500' : ''}
+                  ${currentPhase === 'baby-care' ? 'bg-secondary-400' : ''}
                 `}></span>
               </div>
               <div className="flex flex-col flex-1">
-                <span className="text-sm font-bold font-display text-slate-900 dark:text-white">Sarah Jenkins</span>
+                <span className="text-sm font-bold font-display text-slate-900 dark:text-dm-foreground">Sarah Jenkins</span>
                 <span className={`text-[10px] font-bold uppercase tracking-wider mt-1 truncate max-w-[100px]
-                   ${currentPhase === 'pre-pregnancy' ? 'text-emerald-600 dark:text-emerald-400' : ''}
-                   ${currentPhase === 'pregnancy' ? 'text-rose-600 dark:text-rose-400' : ''}
-                   ${currentPhase === 'post-partum' ? 'text-indigo-600 dark:text-indigo-400' : ''}
-                   ${currentPhase === 'baby-care' ? 'text-sky-600 dark:text-sky-400' : ''}
+                   ${currentPhase === 'pre-pregnancy' ? 'text-primary-600 dark:text-primary-400' : ''}
+                   ${currentPhase === 'pregnancy' ? 'text-primary-500 dark:text-primary-300' : ''}
+                   ${currentPhase === 'post-partum' ? 'text-secondary-600 dark:text-secondary-400' : ''}
+                   ${currentPhase === 'baby-care' ? 'text-secondary-500 dark:text-secondary-300' : ''}
                 `}>
                   {currentRole === 'mother' ? PHASE_CONFIG[currentPhase].label : `${currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} View`}
                 </span>
               </div>
-              <ChevronDown size={16} className={`text-gray-400 transition-transform ${isPhaseMenuOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={16} className={`text-gray-400 dark:text-dm-muted-fg transition-transform ${isPhaseMenuOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Phase Selection Dropdown */}
             {isPhaseMenuOpen && (
-              <div className="absolute top-full left-6 right-6 mt-2 bg-white dark:bg-dark-800 rounded-2xl shadow-xl border border-gray-100 dark:border-dark-700 p-2 z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="text-xs font-bold text-gray-400 px-3 py-2 uppercase tracking-wider">Switch Phase</div>
+              <div className="absolute top-full left-6 right-6 mt-2 bg-white dark:bg-dm-card rounded-lg shadow-dm-xl border border-gray-100 dark:border-dm-border p-2 z-50 animate-in fade-in slide-in-from-top-2">
+                <div className="text-xs font-bold text-gray-400 dark:text-dm-muted-fg px-3 py-2 uppercase tracking-wider">Switch Phase</div>
                 {phases.map((p) => (
                   <button
                     key={p.id}
@@ -175,12 +175,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
                       setIsPhaseMenuOpen(false);
                       setView('overview');
                     }}
-                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors
-                      ${currentPhase === p.id ? 'bg-gray-50 dark:bg-dark-700 text-slate-900 dark:text-white' : 'text-gray-500 dark:text-dark-text-muted hover:bg-gray-50 dark:hover:bg-dark-700 hover:text-slate-900 dark:hover:text-white'}
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors
+                      ${currentPhase === p.id ? 'bg-gray-50 dark:bg-dm-accent text-slate-900 dark:text-dm-foreground' : 'text-gray-500 dark:text-dm-muted-fg hover:bg-gray-50 dark:hover:bg-dm-accent hover:text-slate-900 dark:hover:text-dm-foreground'}
                     `}
                   >
-                    <div className={`p-1.5 rounded-lg ${currentPhase === p.id ? 'bg-white dark:bg-dark-600 shadow-sm' : 'bg-gray-100 dark:bg-dark-700'}`}>
-                      <p.icon size={14} className={currentPhase === p.id ? 'text-slate-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'} />
+                    <div className={`p-1.5 rounded-md ${currentPhase === p.id ? 'bg-white dark:bg-dm-muted shadow-dm-sm' : 'bg-gray-100 dark:bg-dm-muted'}`}>
+                      <p.icon size={14} className={currentPhase === p.id ? 'text-slate-900 dark:text-dm-foreground' : 'text-gray-500 dark:text-dm-muted-fg'} />
                     </div>
                     {p.label}
                   </button>
@@ -199,11 +199,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
                   key={item.id}
                   onClick={() => handleNavClick(item.id as ViewState)}
                   className={`
-                    w-full flex items-center gap-3.5 px-4 py-3.5 text-sm font-semibold rounded-2xl transition-all duration-200
+                    w-full flex items-center gap-3.5 px-4 py-3.5 text-sm font-semibold rounded-lg transition-all duration-200
                     ${getActiveClass(isActive)}
                   `}
                 >
-                  <Icon size={22} className={isActive ? 'currentColor' : 'text-gray-400 dark:text-gray-500'} />
+                  <Icon size={22} className={isActive ? 'currentColor' : 'text-gray-400 dark:text-dm-muted-fg'} />
                   {item.label}
                 </button>
               );
@@ -214,14 +214,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
           <div className="p-6 mt-auto space-y-2">
             <button
               onClick={toggleTheme}
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-dark-800 rounded-xl transition-all"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 dark:text-dm-muted-fg hover:text-slate-900 dark:hover:text-dm-foreground hover:bg-gray-50 dark:hover:bg-dm-accent rounded-md transition-all"
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
               {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
             </button>
             <button
               onClick={onLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-400 dark:text-dm-muted-fg hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-all"
             >
               <LogOut size={20} />
               Log Out
@@ -232,3 +232,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
     </>
   );
 };
+
+
+
+

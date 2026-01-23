@@ -1,8 +1,8 @@
-/**
+﻿/**
  * SpeakButton.tsx
  * 
  * Reusable component for text-to-speech functionality.
- * Displays a 🔊 icon that triggers translation and speech.
+ * Displays a ”Š icon that triggers translation and speech.
  * Shows loading indicator while processing.
  */
 
@@ -147,10 +147,10 @@ export const SpeakButton: React.FC<SpeakButtonProps> = ({
         shadow-sm border
         active:scale-95
         disabled:opacity-50 disabled:cursor-wait
-        focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1
+        focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1
         ${isPlaying 
-          ? 'bg-emerald-500 text-white border-emerald-600 shadow-emerald-200' 
-          : 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100 hover:text-emerald-700 hover:border-emerald-300'}
+          ? 'bg-primary-500 text-white border-primary-600 shadow-primary-200' 
+          : 'bg-primary-50 text-primary-600 border-primary-200 hover:bg-primary-100 hover:text-primary-700 hover:border-primary-300'}
         ${error ? 'bg-red-50 text-red-500 border-red-200 hover:bg-red-100' : ''}
         ${className}
       `}
@@ -210,3 +210,9 @@ export const SpeakableText: React.FC<SpeakableTextProps> = ({
 };
 
 export default SpeakButton;
+
+
+
+
+
+

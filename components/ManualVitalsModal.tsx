@@ -66,18 +66,18 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
             <div
-                className="bg-white dark:bg-dark-900 w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 ring-1 ring-slate-900/5 dark:ring-white/10"
+                className="bg-white dark:bg-dm-card w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 ring-1 ring-slate-900/5 dark:ring-white/10"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="bg-gradient-to-r from-rose-500 to-rose-600 p-6 flex items-center justify-between text-white">
+                <div className="bg-gradient-to-r from-primary-400 to-primary-500 p-6 flex items-center justify-between text-white">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
                             <Activity size={20} />
                         </div>
                         <div>
                             <h3 className="font-bold font-display text-lg">Manual Entry</h3>
-                            <p className="text-rose-100 text-xs">Enter your health vitals</p>
+                            <p className="text-primary-100 text-xs">Enter your health vitals</p>
                         </div>
                     </div>
                     <button
@@ -105,9 +105,9 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
                                         min={min}
                                         max={max}
                                         step={step}
-                                        className="w-full bg-slate-50 dark:bg-dark-800 border border-slate-200 dark:border-dark-700 rounded-xl py-3 px-4 pr-16 text-slate-900 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-300 dark:focus:border-rose-700 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                                        className="w-full bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted border border-dark-700 dark:border-dm-border rounded-xl py-3 px-4 pr-16 text-slate-900 dark:text-dm-foreground font-bold focus:outline-none focus:ring-2 focus:ring-primary-400/20 focus:border-primary-300 dark:focus:border-primary-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-slate-300"
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 dark:text-slate-500">
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">
                                         {unit}
                                     </span>
                                 </div>
@@ -116,7 +116,7 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
                     </div>
 
                     {/* Blood Pressure Section */}
-                    <div className="mt-6 pt-6 border-t border-slate-100 dark:border-dark-700">
+                    <div className="mt-6 pt-6 border-t border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
                         <label className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-3">
                             <Thermometer size={14} className="text-blue-500" />
                             Blood Pressure
@@ -130,7 +130,7 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
                                     onChange={(e) => handleChange('systolicBP', e.target.value)}
                                     min={70}
                                     max={200}
-                                    className="w-full bg-slate-50 dark:bg-dark-800 border border-slate-200 dark:border-dark-700 rounded-xl py-3 px-4 text-slate-900 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-300 dark:focus:border-rose-700 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                                    className="w-full bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted border border-dark-700 dark:border-dm-border rounded-xl py-3 px-4 text-slate-900 dark:text-dm-foreground font-bold focus:outline-none focus:ring-2 focus:ring-primary-400/20 focus:border-primary-300 dark:focus:border-primary-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-slate-300"
                                 />
                                 <span className="text-xs text-slate-400 dark:text-slate-500 mt-1 block text-center">Systolic</span>
                             </div>
@@ -143,7 +143,7 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
                                     onChange={(e) => handleChange('diastolicBP', e.target.value)}
                                     min={40}
                                     max={130}
-                                    className="w-full bg-slate-50 dark:bg-dark-800 border border-slate-200 dark:border-dark-700 rounded-xl py-3 px-4 text-slate-900 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-300 dark:focus:border-rose-700 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                                    className="w-full bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted border border-dark-700 dark:border-dm-border rounded-xl py-3 px-4 text-slate-900 dark:text-dm-foreground font-bold focus:outline-none focus:ring-2 focus:ring-primary-400/20 focus:border-primary-300 dark:focus:border-primary-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-slate-300"
                                 />
                                 <span className="text-xs text-slate-400 dark:text-slate-500 mt-1 block text-center">Diastolic</span>
                             </div>
@@ -153,17 +153,17 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 bg-slate-50 dark:bg-dark-800 border-t border-slate-100 dark:border-dark-700 flex gap-3">
+                <div className="p-6 bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted border-t border-slate-100 dark:border-dm-border flex gap-3">
                     <button
                         onClick={handleReset}
-                        className="flex-1 py-3 px-4 border border-slate-200 dark:border-dark-600 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-sm hover:bg-white dark:hover:bg-dark-700 transition-colors flex items-center justify-center gap-2"
+                        className="flex-1 py-3 px-4 border border-dark-700 dark:border-dm-accent text-slate-600 dark:text-slate-300 rounded-xl font-bold text-sm hover:bg-white dark:hover:bg-dm-accent transition-colors flex items-center justify-center gap-2"
                     >
                         <RotateCcw size={16} />
                         Reset
                     </button>
                     <button
                         onClick={handleSave}
-                        className="flex-[2] py-3 px-4 bg-rose-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-rose-600/20 hover:bg-rose-700 transition-colors flex items-center justify-center gap-2"
+                        className="flex-[2] py-3 px-4 bg-primary-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-primary-500/20 hover:bg-primary-600 transition-colors flex items-center justify-center gap-2"
                     >
                         <Save size={16} />
                         Save Vitals
@@ -175,3 +175,8 @@ export const ManualVitalsModal: React.FC<ManualVitalsModalProps> = ({ isOpen, on
 };
 
 export default ManualVitalsModal;
+
+
+
+
+

@@ -66,26 +66,26 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         className={`
           flex items-center gap-2
           px-3 py-2 rounded-xl
-          bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm
-          border border-slate-200 dark:border-dark-700
-          hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20
+          bg-white/80 dark:bg-dm-muted/80 backdrop-blur-sm
+          border border-dark-700 dark:border-dm-border
+          hover:border-primary-300 dark:hover:border-primary-700 hover:bg-primary-50/50 dark:hover:bg-primary-900/20
           transition-all duration-200
-          focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
-          ${isOpen ? 'border-emerald-400 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : ''}
+          focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+          ${isOpen ? 'border-primary-400 dark:border-primary-600 bg-primary-50 dark:bg-primary-900/20' : ''}
         `}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-label="Select language"
       >
-        <Globe size={18} className="text-emerald-600 dark:text-emerald-400" />
+        <Globe size={18} className="text-primary-600 dark:text-primary-400" />
         {!compact && (
           <>
-            <span className="text-sm font-medium text-slate-700 dark:text-dark-text-primary">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-900 dark:text-dm-foreground">
               {currentLanguage.nativeName}
             </span>
             <ChevronDown
               size={16}
-              className={`text-slate-400 dark:text-dark-text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+              className={`text-slate-400 dark:text-slate-400 dark:text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
             />
           </>
         )}
@@ -97,8 +97,8 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           className="
             absolute top-full mt-2 right-0 z-50
             min-w-[200px] max-h-[400px] overflow-y-auto
-            bg-white dark:bg-dark-800 rounded-2xl shadow-xl
-            border border-slate-100 dark:border-dark-700
+            bg-white dark:bg-slate-50 dark:bg-dm-muted rounded-2xl shadow-xl
+            border border-dark-700 dark:border-dm-border
             py-2
             animate-in fade-in slide-in-from-top-2 duration-200
           "
@@ -106,10 +106,10 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           aria-label="Available languages"
         >
           {/* Header */}
-          <div className="px-4 py-2 border-b border-slate-100 dark:border-dark-700 mb-2">
+          <div className="px-4 py-2 border-b border-dark-700 dark:border-dm-border mb-2">
             <div className="flex items-center gap-2">
-              <Volume2 size={14} className="text-emerald-500" />
-              <span className="text-xs font-semibold text-slate-500 dark:text-dark-text-muted uppercase tracking-wider">
+              <Volume2 size={14} className="text-primary-500" />
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                 Select Language
               </span>
             </div>
@@ -124,9 +124,9 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                 w-full flex items-center justify-between
                 px-4 py-3
                 text-left
-                hover:bg-emerald-50 dark:hover:bg-emerald-900/20
+                hover:bg-primary-50 dark:hover:bg-primary-900/20
                 transition-colors duration-150
-                ${currentLanguage.code === language.code ? 'bg-emerald-50 dark:bg-emerald-900/20' : ''}
+                ${currentLanguage.code === language.code ? 'bg-primary-50 dark:bg-primary-900/20' : ''}
               `}
               role="option"
               aria-selected={currentLanguage.code === language.code}
@@ -134,23 +134,23 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               <div className="flex flex-col">
                 <span className={`
                   text-sm font-medium
-                  ${currentLanguage.code === language.code ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-700 dark:text-dark-text-primary'}
+                  ${currentLanguage.code === language.code ? 'text-primary-700 dark:text-primary-400' : 'text-slate-700 dark:text-slate-900 dark:text-dm-foreground'}
                 `}>
                   {language.nativeName}
                 </span>
-                <span className="text-xs text-slate-400 dark:text-dark-text-muted">
+                <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">
                   {language.name}
                 </span>
               </div>
               {currentLanguage.code === language.code && (
-                <Check size={16} className="text-emerald-600 dark:text-emerald-400" />
+                <Check size={16} className="text-primary-600 dark:text-primary-400" />
               )}
             </button>
           ))}
 
           {/* Footer */}
-          <div className="px-4 py-2 border-t border-slate-100 dark:border-dark-700 mt-2">
-            <p className="text-[10px] text-slate-400 dark:text-dark-text-muted text-center">
+          <div className="px-4 py-2 border-t border-slate-100 dark:border-dm-border mt-2">
+            <p className="text-[10px] text-slate-400 dark:text-slate-400 dark:text-slate-500 text-center">
               Audio will be spoken in selected language
             </p>
           </div>
@@ -182,14 +182,14 @@ export const CompactLanguageSelector: React.FC = () => {
       className="
         flex items-center gap-2
         p-2 rounded-xl
-        bg-slate-100 dark:bg-dark-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30
+        bg-slate-100 dark:bg-dm-accent hover:bg-primary-100 dark:hover:bg-primary-900/30
         transition-colors duration-200
         group
       "
       title={`Current: ${currentLanguage.name} - Click to change`}
     >
-      <Globe size={18} className="text-slate-500 dark:text-dark-text-muted group-hover:text-emerald-600 dark:group-hover:text-emerald-400" />
-      <span className="text-xs font-bold text-slate-600 dark:text-dark-text-secondary group-hover:text-emerald-700 dark:group-hover:text-emerald-400 uppercase">
+      <Globe size={18} className="text-slate-500 dark:text-slate-400 dark:text-slate-500 group-hover:text-primary-600 dark:group-hover:text-primary-400" />
+      <span className="text-xs font-bold text-slate-600 dark:text-slate-300 group-hover:text-primary-700 dark:group-hover:text-primary-400 uppercase">
         {currentLanguage.code}
       </span>
     </button>
@@ -197,3 +197,8 @@ export const CompactLanguageSelector: React.FC = () => {
 };
 
 export default LanguageSelector;
+
+
+
+
+

@@ -96,7 +96,7 @@ const MainApp: React.FC<{
     <LanguageProvider>
       <HealthDataProvider>
         <RiskDataProvider>
-          <div className={`min-h-screen bg-gray-50/50 dark:bg-dark-950 flex text-slate-900 dark:text-dark-text-primary font-sans theme-${themeColor} transition-colors duration-300`}>
+          <div className={`min-h-screen bg-gray-50/50 dark:bg-dm-background flex text-slate-900 dark:text-dm-foreground font-sans theme-${themeColor} transition-colors duration-300`}>
             <Sidebar
               currentView={currentView}
               setView={setView}
@@ -108,17 +108,17 @@ const MainApp: React.FC<{
               onLogout={onLogout}
             />
             <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 lg:ml-72">
-              <header className="lg:hidden sticky top-0 z-30 bg-white/80 dark:bg-dark-900/80 backdrop-blur-md border-b border-gray-100 dark:border-dark-700 p-4 flex items-center justify-between transition-colors duration-300">
+              <header className="lg:hidden sticky top-0 z-30 bg-white/80 dark:bg-dm-card/80 backdrop-blur-md border-b border-gray-100 dark:border-dm-border p-4 flex items-center justify-between transition-colors duration-300">
                 <button
                   onClick={() => setIsMobileOpen(true)}
-                  className="p-2 -ml-2 text-slate-600 dark:text-dark-text-secondary hover:bg-slate-100 dark:hover:bg-dark-800 rounded-lg transition-colors"
+                  className="p-2 -ml-2 text-slate-600 dark:text-dm-muted-fg hover:bg-slate-100 dark:hover:bg-dm-muted rounded-lg transition-colors"
                 >
                   <Menu size={24} />
                 </button>
-                <span className="font-display font-bold text-lg text-slate-900 dark:text-white">PreConceive</span>
+                <span className="font-display font-bold text-lg text-slate-900 dark:text-dm-foreground">PreConceive</span>
                 <div className="flex items-center gap-2">
                   <LanguageSelector compact />
-                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-dark-800 border border-white dark:border-dark-700 shadow-sm overflow-hidden">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-dm-muted border border-white dark:border-dm-border shadow-sm overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop" alt="User" />
                   </div>
                 </div>
@@ -204,3 +204,6 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+
+

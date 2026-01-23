@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip, LineChart, Line, CartesianGrid, YAxis } from 'recharts';
 import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Loader2, CheckCircle2, AlertCircle, TrendingUp } from 'lucide-react';
 import { AppPhase } from '../types';
@@ -19,9 +19,9 @@ const STORAGE_KEY = 'generic_mind_checkins';
 // Mood options
 type MoodType = 'rough' | 'okay' | 'good';
 const moodToEmoji: Record<MoodType, string> = {
-  'rough': '😔',
-  'okay': '😐',
-  'good': '😊'
+  'rough': '˜ž',
+  'okay': '˜',
+  'good': '˜Š'
 };
 
 const moodToScore: Record<MoodType, number> = {
@@ -154,7 +154,7 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
       content: msg.text
     }));
 
-    const response = await sendChatMessage(inputValue, 'default', conversationHistory);
+    const response = await sendChatMessage(inputValue, 'primary', conversationHistory);
 
     setMessages(prev => [...prev, {
       id: Date.now() + 1,
@@ -168,7 +168,7 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Stress & Mind</h1>
+          <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Stress & Mind</h1>
           <p className="text-slate-500 mt-1">Understanding your emotional baseline.</p>
         </div>
       </div>
@@ -177,13 +177,13 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
 
         {/* Main Check-in Area */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 relative overflow-hidden">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none opacity-60"></div>
 
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
-                <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
+                <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Daily Check-In</h2>
+                <span className="text-xs font-medium text-slate-400 bg-dark-800 px-3 py-1 rounded-full">Today</span>
               </div>
 
               {/* Mood Selector */}
@@ -200,11 +200,11 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
                   >
                     <div className={`
                        w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300
-                       ${selectedMood === item.key ? `${item.color} scale-110 shadow-lg ring-4 ring-white` : 'bg-slate-50 text-slate-300 hover:bg-slate-100'}
+                       ${selectedMood === item.key ? `${item.color} scale-110 shadow-lg ring-4 ring-white` : 'bg-dark-800 text-slate-300 hover:bg-slate-100 dark:hover:bg-dm-accent'}
                      `}>
                       <item.icon size={32} />
                     </div>
-                    <span className={`text-xs font-bold ${selectedMood === item.key ? 'text-slate-900' : 'text-slate-400'}`}>
+                    <span className={`text-xs font-bold ${selectedMood === item.key ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-400'}`}>
                       {item.label}
                     </span>
                   </div>
@@ -220,8 +220,8 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
                       key={i}
                       onClick={() => toggleFactor(tag)}
                       className={`px-4 py-2 rounded-full text-sm border transition-colors ${selectedFactors.includes(tag)
-                          ? 'bg-primary-50 border-primary-200 text-primary-700 font-medium'
-                          : 'border-slate-200 text-slate-600 hover:border-primary-200'
+                        ? 'bg-primary-50 border-primary-200 text-primary-700 font-medium'
+                        : 'border-slate-200 dark:border-dm-border text-slate-600 dark:text-slate-300 hover:border-primary-200'
                         }`}
                     >
                       {tag}
@@ -235,7 +235,7 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
                 <textarea
                   value={journalText}
                   onChange={(e) => setJournalText(e.target.value)}
-                  className="w-full h-32 bg-slate-50 border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-primary-200 placeholder:text-slate-400 text-sm leading-relaxed"
+                  className="w-full h-32 bg-slate-50 dark:bg-dm-muted border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-primary-200 placeholder:text-slate-400 dark:text-slate-500 text-sm leading-relaxed"
                   placeholder="Write as much or as little as you need..."
                 ></textarea>
                 <button className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-sm text-slate-400 hover:text-primary-600">
@@ -249,11 +249,11 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
                   {isPreviewLoading ? (
                     <>
                       <Loader2 size={14} className="animate-spin text-primary-500" />
-                      <span className="text-xs text-slate-500">Analyzing sentiment...</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Analyzing sentiment...</span>
                     </>
                   ) : livePreviewSentiment && (
                     <>
-                      <span className="text-xs text-slate-500">Detected sentiment:</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Detected sentiment:</span>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${getSentimentBadge(livePreviewSentiment).className}`}>
                         {getSentimentBadge(livePreviewSentiment).icon} {getSentimentBadge(livePreviewSentiment).label}
                       </span>
@@ -285,8 +285,8 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
               {/* Success/Mismatch Alert */}
               {showSuccess && lastResult && (
                 <div className={`mt-6 p-4 rounded-xl border ${lastResult.mismatch
-                    ? 'bg-amber-50 border-amber-200'
-                    : 'bg-green-50 border-green-200'
+                  ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/30'
+                  : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900/30'
                   }`}>
                   <div className="flex items-start gap-3">
                     {lastResult.mismatch ? (
@@ -295,7 +295,7 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
                       <CheckCircle2 size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
                     )}
                     <div className="flex-1">
-                      <p className={`font-bold text-sm mb-1 ${lastResult.mismatch ? 'text-amber-900' : 'text-green-900'}`}>
+                      <p className={`font-bold text-sm mb-1 ${lastResult.mismatch ? 'text-amber-900 dark:text-amber-200' : 'text-green-900 dark:text-green-200'}`}>
                         {lastResult.mismatch ? 'We noticed something...' : 'Check-in recorded!'}
                       </p>
                       <p className={`text-xs ${lastResult.mismatch ? 'text-amber-700' : 'text-green-700'}`}>
@@ -315,13 +315,13 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
         <div className="lg:col-span-5 flex flex-col gap-6">
 
           {/* Sentiment Trends Chart */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-100 to-teal-100 flex items-center justify-center">
                   <TrendingUp size={20} className="text-primary-600" />
                 </div>
-                <h2 className="text-lg font-bold font-display text-slate-900">Sentiment Trends</h2>
+                <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">Sentiment Trends</h2>
               </div>
               <span className="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-1 rounded-md">
                 Last 7 Days
@@ -381,11 +381,11 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
             <div className="flex flex-wrap justify-center gap-4 mt-4">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-0.5 bg-primary-500"></div>
-                <span className="text-xs text-slate-600">Text Sentiment</span>
+                <span className="text-xs text-slate-600 dark:text-slate-300">Text Sentiment</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-6 h-0.5 bg-blue-500" style={{ borderStyle: 'dashed' }}></div>
-                <span className="text-xs text-slate-600">Selected Mood</span>
+                <span className="text-xs text-slate-600 dark:text-slate-300">Selected Mood</span>
               </div>
             </div>
           </div>
@@ -393,7 +393,7 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
           {/* Silent Chat AI Promo */}
           <div
             onClick={() => setIsChatOpen(true)}
-            className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all"
+            className="bg-dark-950 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full blur-[60px] opacity-20"></div>
 
@@ -417,15 +417,15 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
 
       {/* Chat Popup Modal */}
       {isChatOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-dm-background/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div
-            className="bg-white w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+            className="bg-white dark:bg-dm-card w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Chat Header */}
-            <div className="bg-slate-900 p-6 flex items-center justify-between text-white shrink-0">
+            <div className="bg-dark-950 p-6 flex items-center justify-between text-white shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
+                <div className="w-10 h-10 rounded-full bg-dark-900 flex items-center justify-center border border-slate-700">
                   <Lock size={18} className="text-primary-400" />
                 </div>
                 <div>
@@ -445,14 +445,14 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 bg-slate-50 p-6 overflow-y-auto space-y-4">
+            <div className="flex-1 bg-slate-50 dark:bg-dm-muted p-6 overflow-y-auto space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`
                      max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
                      ${msg.sender === 'user'
-                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-slate-900/10'
-                      : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none shadow-sm'}
+                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-dark-950/10'
+                      : 'bg-white text-slate-700 border border-slate-100 dark:border-dm-border rounded-tl-none shadow-sm'}
                    `}>
                     {msg.text}
                   </div>
@@ -462,7 +462,7 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 bg-white border-t border-slate-100 shrink-0">
+            <div className="p-4 bg-white dark:bg-dm-card border-t border-slate-100 dark:border-dm-border shrink-0">
               <div className="relative flex items-center gap-2">
                 <input
                   type="text"
@@ -470,13 +470,13 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Type your thoughts..."
-                  className="flex-1 bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
+                  className="flex-1 bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-400 dark:text-slate-500 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
                   autoFocus
                 />
                 <button
                   onClick={handleSend}
                   disabled={!inputValue.trim()}
-                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-50 dark:hover:bg-dm-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                 >
                   <Send size={16} />
                 </button>
@@ -492,3 +492,8 @@ export const Mind: React.FC<PageProps> = ({ phase }) => {
     </div>
   );
 };
+
+
+
+
+

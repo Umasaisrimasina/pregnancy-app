@@ -201,7 +201,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-slate-900">Nutrition Log</h1>
+          <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Nutrition Log</h1>
           <p className="text-slate-500 mt-1">
             {phase === 'pre-pregnancy' && "Fueling your body for conception."}
             {phase === 'pregnancy' && "Nourishing you and your growing baby."}
@@ -212,13 +212,13 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab('today')}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeTab === 'today' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200'}`}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeTab === 'today' ? 'bg-slate-900 text-white' : 'bg-white dark:bg-dm-card text-slate-600 dark:text-slate-400 border border-slate-100 dark:border-dm-border'}`}
           >
             Today
           </button>
           <button
             onClick={() => setActiveTab('weekly')}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeTab === 'weekly' ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 border border-slate-200'}`}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeTab === 'weekly' ? 'bg-slate-900 text-white' : 'bg-white dark:bg-dm-card text-slate-600 dark:text-slate-400 border border-slate-100 dark:border-dm-border'}`}
           >
             Weekly Insights
           </button>
@@ -258,9 +258,9 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
           {/* Search Bar */}
           <div
             onClick={openAddFoodModal}
-            className="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2 cursor-pointer hover:border-primary-300 transition-colors"
+            className="bg-white dark:bg-dm-card p-2 rounded-2xl shadow-sm border border-slate-100 dark:border-dm-border flex items-center gap-2 cursor-pointer hover:border-primary-300 transition-colors"
           >
-            <div className="p-3 text-slate-400">
+            <div className="p-3 text-slate-400 dark:text-slate-400 dark:text-slate-500">
               <Search size={20} />
             </div>
             <div className="flex-1 py-3 text-slate-400 text-base">
@@ -272,16 +272,16 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
           </div>
 
           {/* Meals List */}
-          <div className="bg-white rounded-[2rem] border border-slate-100 overflow-hidden">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] border border-slate-100 dark:border-dm-border overflow-hidden">
             {/* Breakfast */}
-            <div className="p-6 border-b border-slate-50 hover:bg-slate-50/50 transition-colors group">
+            <div className="p-6 border-b border-slate-50 hover:bg-slate-50 dark:hover:bg-dm-muted/50 transition-colors group">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
                     <Utensils size={18} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900">Breakfast</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Breakfast</h3>
                     <p className="text-xs text-slate-400 font-medium">{getLatestTimeForMeal('breakfast', '8:30 AM')}</p>
                   </div>
                 </div>
@@ -292,33 +292,33 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
               <div className="space-y-2">
                 {/* Static sample items */}
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Oatmeal with berries & walnuts</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Oatmeal with berries & walnuts</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Iron Source</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Iron Source</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Greek yogurt with honey</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Greek yogurt with honey</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-purple-600 uppercase tracking-wide">Calcium</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-purple-600 uppercase tracking-wide">Calcium</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Fresh orange juice</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Fresh orange juice</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-amber-600 uppercase tracking-wide">Vitamin C</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-amber-600 uppercase tracking-wide">Vitamin C</span>
                 </div>
                 {/* Dynamic entries */}
                 {getEntriesForMeal('breakfast').map((entry) => (
                   <div key={entry.id} className="bg-primary-50 rounded-xl p-4 flex items-center justify-between border border-primary-100">
                     <div className="flex items-center gap-3">
                       <Check size={18} className="text-primary-600" />
-                      <span className="text-sm font-medium text-slate-700">{entry.name}</span>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{entry.name}</span>
                     </div>
                     <div className="flex gap-1 flex-wrap justify-end">
                       {entry.nutrients.length > 0 ? (
@@ -326,7 +326,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                           <span key={idx} className="px-2 py-1 bg-white border border-primary-200 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">{nutrient}</span>
                         ))
                       ) : (
-                        <span className="text-xs text-slate-400">{formatTime(entry.timestamp)}</span>
+                        <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{formatTime(entry.timestamp)}</span>
                       )}
                     </div>
                   </div>
@@ -335,14 +335,14 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Lunch */}
-            <div className="p-6 border-b border-slate-50 hover:bg-slate-50/50 transition-colors group">
+            <div className="p-6 border-b border-slate-50 hover:bg-slate-50 dark:hover:bg-dm-muted/50 transition-colors group">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                     <Utensils size={18} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900">Lunch</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Lunch</h3>
                     <p className="text-xs text-slate-400 font-medium">{getLatestTimeForMeal('lunch', '12:30 PM')}</p>
                   </div>
                 </div>
@@ -352,33 +352,33 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
               </div>
 
               <div className="space-y-2">
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Grilled salmon with quinoa</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Grilled salmon with quinoa</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-sky-600 uppercase tracking-wide">Omega-3</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-secondary-500 uppercase tracking-wide">Omega-3</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Spinach & avocado salad</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Spinach & avocado salad</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-emerald-600 uppercase tracking-wide">Folate</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Folate</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Lentil soup</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Lentil soup</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Iron Source</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Iron Source</span>
                 </div>
                 {/* Dynamic entries */}
                 {getEntriesForMeal('lunch').map((entry) => (
                   <div key={entry.id} className="bg-primary-50 rounded-xl p-4 flex items-center justify-between border border-primary-100">
                     <div className="flex items-center gap-3">
                       <Check size={18} className="text-primary-600" />
-                      <span className="text-sm font-medium text-slate-700">{entry.name}</span>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{entry.name}</span>
                     </div>
                     <div className="flex gap-1 flex-wrap justify-end">
                       {entry.nutrients.length > 0 ? (
@@ -386,7 +386,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                           <span key={idx} className="px-2 py-1 bg-white border border-primary-200 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">{nutrient}</span>
                         ))
                       ) : (
-                        <span className="text-xs text-slate-400">{formatTime(entry.timestamp)}</span>
+                        <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{formatTime(entry.timestamp)}</span>
                       )}
                     </div>
                   </div>
@@ -395,14 +395,14 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Snacks */}
-            <div className="p-6 border-b border-slate-50 hover:bg-slate-50/50 transition-colors group">
+            <div className="p-6 border-b border-slate-50 hover:bg-slate-50 dark:hover:bg-dm-muted/50 transition-colors group">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center">
                     <Utensils size={18} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900">Snacks</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Snacks</h3>
                     <p className="text-xs text-slate-400 font-medium">{getLatestTimeForMeal('snacks', '3:00 PM')}</p>
                   </div>
                 </div>
@@ -412,33 +412,33 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
               </div>
 
               <div className="space-y-2">
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Mixed nuts & dried fruits</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Mixed nuts & dried fruits</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-rose-600 uppercase tracking-wide">Zinc</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-primary-500 uppercase tracking-wide">Zinc</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Apple slices with almond butter</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Apple slices with almond butter</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-amber-600 uppercase tracking-wide">Fiber</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-amber-600 uppercase tracking-wide">Fiber</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Cheese cubes with crackers</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Cheese cubes with crackers</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-purple-600 uppercase tracking-wide">Calcium</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-purple-600 uppercase tracking-wide">Calcium</span>
                 </div>
                 {/* Dynamic entries */}
                 {getEntriesForMeal('snacks').map((entry) => (
                   <div key={entry.id} className="bg-primary-50 rounded-xl p-4 flex items-center justify-between border border-primary-100">
                     <div className="flex items-center gap-3">
                       <Check size={18} className="text-primary-600" />
-                      <span className="text-sm font-medium text-slate-700">{entry.name}</span>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{entry.name}</span>
                     </div>
                     <div className="flex gap-1 flex-wrap justify-end">
                       {entry.nutrients.length > 0 ? (
@@ -446,7 +446,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                           <span key={idx} className="px-2 py-1 bg-white border border-primary-200 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">{nutrient}</span>
                         ))
                       ) : (
-                        <span className="text-xs text-slate-400">{formatTime(entry.timestamp)}</span>
+                        <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{formatTime(entry.timestamp)}</span>
                       )}
                     </div>
                   </div>
@@ -455,14 +455,14 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Dinner */}
-            <div className="p-6 hover:bg-slate-50/50 transition-colors group">
+            <div className="p-6 hover:bg-slate-50 dark:hover:bg-dm-muted/50 transition-colors group">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-secondary-50 text-secondary-600 flex items-center justify-center">
                     <Utensils size={18} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900">Dinner</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Dinner</h3>
                     <p className="text-xs text-slate-400 font-medium">{getLatestTimeForMeal('dinner', '7:30 PM')}</p>
                   </div>
                 </div>
@@ -472,33 +472,33 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
               </div>
 
               <div className="space-y-2">
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Grilled chicken breast</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Grilled chicken breast</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Protein</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Protein</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Sweet potato mash</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Sweet potato mash</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-amber-600 uppercase tracking-wide">Vitamin A</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-amber-600 uppercase tracking-wide">Vitamin A</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+                <div className="bg-slate-50 dark:bg-dm-muted rounded-xl p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Check size={18} className="text-primary-500" />
-                    <span className="text-sm font-medium text-slate-700">Steamed broccoli & asparagus</span>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Steamed broccoli & asparagus</span>
                   </div>
-                  <span className="px-2 py-1 bg-white border border-slate-100 rounded-md text-[10px] font-bold text-emerald-600 uppercase tracking-wide">Folate</span>
+                  <span className="px-2 py-1 bg-white dark:bg-dm-card border border-slate-100 dark:border-dm-border rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">Folate</span>
                 </div>
                 {/* Dynamic entries */}
                 {getEntriesForMeal('dinner').map((entry) => (
                   <div key={entry.id} className="bg-primary-50 rounded-xl p-4 flex items-center justify-between border border-primary-100">
                     <div className="flex items-center gap-3">
                       <Check size={18} className="text-primary-600" />
-                      <span className="text-sm font-medium text-slate-700">{entry.name}</span>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{entry.name}</span>
                     </div>
                     <div className="flex gap-1 flex-wrap justify-end">
                       {entry.nutrients.length > 0 ? (
@@ -506,7 +506,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                           <span key={idx} className="px-2 py-1 bg-white border border-primary-200 rounded-md text-[10px] font-bold text-primary-600 uppercase tracking-wide">{nutrient}</span>
                         ))
                       ) : (
-                        <span className="text-xs text-slate-400">{formatTime(entry.timestamp)}</span>
+                        <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{formatTime(entry.timestamp)}</span>
                       )}
                     </div>
                   </div>
@@ -516,15 +516,15 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
           </div>
 
           {/* Supplements - Moved Here */}
-          <div className="bg-white rounded-[2rem] p-6 border border-slate-100">
-            <h3 className="font-bold text-slate-900 mb-4">Daily Supplements</h3>
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border">
+            <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-4">Daily Supplements</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {['Prenatal Vitamin', 'Folic Acid', 'Vitamin D'].map((item, i) => (
-                <label key={i} className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 cursor-pointer hover:border-primary-200 transition-colors">
+                <label key={i} className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-dm-border cursor-pointer hover:border-primary-200 transition-colors">
                   <div className={`w-5 h-5 rounded border flex items-center justify-center ${i === 0 ? 'bg-primary-500 border-primary-500' : 'border-slate-300'}`}>
                     {i === 0 && <Check size={12} className="text-white" />}
                   </div>
-                  <span className={`text-sm font-medium ${i === 0 ? 'text-slate-900 line-through opacity-50' : 'text-slate-700'}`}>{item}</span>
+                  <span className={`text-sm font-medium ${i === 0 ? 'text-slate-900 dark:text-dm-foreground line-through opacity-50' : 'text-slate-700'}`}>{item}</span>
                 </label>
               ))}
             </div>
@@ -553,12 +553,12 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
           </div>
 
           {/* Fluid Hit */}
-          <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col relative overflow-hidden">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border shadow-sm flex flex-col relative overflow-hidden">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-bold text-slate-900">Fluid Hit</h3>
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Fluid Hit</h3>
               <div className="flex gap-1">
-                <div className="w-2.5 h-2.5 rounded-full bg-sky-400"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-secondary-300"></div>
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
               </div>
             </div>
@@ -577,10 +577,10 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                   </div>
 
                   {/* Bar Container */}
-                  <div className="w-full h-full bg-slate-100 rounded-full relative overflow-hidden border border-slate-200">
+                  <div className="w-full h-full bg-slate-100 dark:bg-dm-muted rounded-full relative overflow-hidden border border-slate-100 dark:border-dm-border">
                     {/* Fill */}
                     <div
-                      className="absolute bottom-0 w-full bg-sky-400 transition-all duration-500"
+                      className="absolute bottom-0 w-full bg-secondary-300 transition-all duration-500"
                       style={{ height: '45%' }}
                     ></div>
 
@@ -593,7 +593,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                   </div>
 
                   {/* Icon Circle */}
-                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-sky-500 rounded-full flex items-center justify-center shadow-lg ring-4 ring-white z-10">
+                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-secondary-400 rounded-full flex items-center justify-center shadow-lg ring-4 ring-white z-10">
                     <Droplet size={24} className="text-white" />
                   </div>
                 </div>
@@ -601,7 +601,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                 <div className="mt-10 text-center space-y-3">
                   <div>
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Water</span>
-                    <span className="text-xl font-display font-bold text-slate-900">1.8L</span>
+                    <span className="text-xl font-display font-bold text-slate-900 dark:text-dm-foreground">1.8L</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <button
@@ -610,7 +610,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                       <Minus size={14} />
                     </button>
                     <button
-                      className="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center shadow-lg shadow-sky-500/30 hover:bg-sky-600"
+                      className="w-10 h-10 rounded-full bg-secondary-400 text-white flex items-center justify-center shadow-lg shadow-secondary-400/30 hover:bg-secondary-500"
                     >
                       <Plus size={20} />
                     </button>
@@ -631,7 +631,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                   </div>
 
                   {/* Bar Container */}
-                  <div className="w-full h-full bg-slate-100 rounded-full relative overflow-hidden border border-slate-200">
+                  <div className="w-full h-full bg-slate-100 dark:bg-dm-muted rounded-full relative overflow-hidden border border-slate-100 dark:border-dm-border">
                     {/* Fill */}
                     <div
                       className="absolute bottom-0 w-full bg-amber-400 transition-all duration-500"
@@ -648,7 +648,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                 <div className="mt-10 text-center space-y-3">
                   <div>
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Hydrate+</span>
-                    <span className="text-xl font-display font-bold text-slate-900">1 Sv</span>
+                    <span className="text-xl font-display font-bold text-slate-900 dark:text-dm-foreground">1 Sv</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <button
@@ -666,15 +666,15 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
               </div>
             </div>
 
-            <div className="bg-rose-50 rounded-2xl p-4 text-xs leading-relaxed text-rose-900">
-              <span className="font-bold text-rose-600">TIP:</span> Proper electrolyte balance prevents muscle cramps and swelling in Trimester 2. Target 3.5L total fluid.
+            <div className="bg-primary-50 rounded-2xl p-4 text-xs leading-relaxed text-primary-800">
+              <span className="font-bold text-primary-500">TIP:</span> Proper electrolyte balance prevents muscle cramps and swelling in Trimester 2. Target 3.5L total fluid.
             </div>
           </div>
 
           {/* Nutrition Chat Card */}
           <div
             onClick={() => setIsChatOpen(true)}
-            className="bg-slate-900 rounded-[2rem] p-6 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all min-h-[200px] flex flex-col justify-between"
+            className="bg-dark-950 rounded-[2rem] p-6 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all min-h-[200px] flex flex-col justify-between"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full blur-[60px] opacity-20"></div>
 
@@ -698,15 +698,15 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
       {/* Chat Popup Modal */}
       {isChatOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-dm-background/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div
             className="bg-white w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Chat Header */}
-            <div className="bg-slate-900 p-6 flex items-center justify-between text-white shrink-0">
+            <div className="bg-dark-950 p-6 flex items-center justify-between text-white shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
+                <div className="w-10 h-10 rounded-full bg-dark-900 flex items-center justify-center border border-slate-700">
                   <Sparkles size={18} className="text-primary-400" />
                 </div>
                 <div>
@@ -726,14 +726,14 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 bg-slate-50 p-6 overflow-y-auto space-y-4">
+            <div className="flex-1 bg-slate-50 dark:bg-dm-muted p-6 overflow-y-auto space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`
                      max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
                      ${msg.sender === 'user'
-                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-slate-900/10'
-                      : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none shadow-sm'}
+                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-dark-950/10'
+                      : 'bg-white text-slate-700 border border-slate-100 dark:border-dm-border rounded-tl-none shadow-sm'}
                    `}>
                     {msg.text}
                   </div>
@@ -751,13 +751,13 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Ask for recipes, macros..."
-                  className="flex-1 bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
+                  className="flex-1 bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-400 dark:text-slate-500 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
                   autoFocus
                 />
                 <button
                   onClick={handleSend}
                   disabled={!inputValue.trim()}
-                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-50 dark:hover:bg-dm-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                 >
                   <Send size={16} />
                 </button>
@@ -773,7 +773,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
       {/* Add Food Popup Modal */}
       {isAddFoodOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-dm-background/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div
             className="bg-white w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
@@ -832,7 +832,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                   value={foodName}
                   onChange={(e) => setFoodName(e.target.value)}
                   placeholder="e.g., palak dal, one bowl"
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-300 transition-all"
+                  className="w-full bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-400 dark:text-slate-500 rounded-xl py-3.5 px-4 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-300 transition-all"
                   autoFocus
                 />
               </div>
@@ -854,7 +854,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                     type="datetime-local"
                     value={selectedDateTime}
                     onChange={(e) => setSelectedDateTime(e.target.value)}
-                    className="flex-1 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-300 transition-all text-sm"
+                    className="flex-1 bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-300 transition-all text-sm"
                   />
                 </div>
                 {selectedDateTime && (
@@ -880,7 +880,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
                 {/* Nutrient Input Fields */}
                 {showManualNutrients && (
-                  <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100 max-h-60 overflow-y-auto">
+                  <div className="mt-4 p-4 bg-slate-50 dark:bg-dm-muted rounded-xl border border-slate-100 dark:border-dm-border max-h-60 overflow-y-auto">
                     <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
                       Enter Nutrient Values
                     </p>
@@ -897,7 +897,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
                               value={nutrientValues[nutrient.key] || ''}
                               onChange={(e) => updateNutrientValue(nutrient.key, e.target.value)}
                               placeholder="0"
-                              className="flex-1 bg-white border border-slate-200 text-slate-900 placeholder:text-slate-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-300 transition-all"
+                              className="flex-1 bg-white border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-300 transition-all"
                             />
                             <span className="text-xs text-slate-400 w-10">{nutrient.unit}</span>
                           </div>
@@ -938,3 +938,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
     </div>
   );
 };
+
+
+
+

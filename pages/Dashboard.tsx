@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid, Dot, BarChart, Bar } from 'recharts';
 import { Activity, ArrowRight, CheckCircle2, AlertCircle, Calendar, Scale, Moon, Milk, Plus, Clock, Sparkles, Send, Heart, Shield, Lock, Stethoscope, ClipboardList, Watch, Smartphone, Cloud, Link2, MoreHorizontal, Info, Check, Wind, Brain, Volume2, Droplets, Minus, MapPin, Smile, Meh, Frown, Baby, Utensils, FlaskConical, Tv, ShieldCheck, Zap, Flame, Users, HeartHandshake, CheckSquare, ChefHat, ShoppingCart, MessageCircle, Play, Lightbulb, Camera, Mic, Gift, Search, Bell, FileText, AlertTriangle, TrendingUp, User, ChevronRight, RefreshCw, SmartphoneNfc, Loader2 } from 'lucide-react';
 import { AppPhase, UserRole } from '../types';
@@ -31,12 +31,12 @@ interface AQIState {
 }
 
 const getAQICategory = (aqi: number): { label: string; color: string; bgColor: string; textColor: string } => {
-  if (aqi <= 50) return { label: 'Good', color: 'bg-emerald-500', bgColor: 'bg-emerald-50', textColor: 'text-emerald-700' };
+  if (aqi <= 50) return { label: 'Good', color: 'bg-primary-500', bgColor: 'bg-primary-50', textColor: 'text-primary-700' };
   if (aqi <= 100) return { label: 'Moderate', color: 'bg-yellow-500', bgColor: 'bg-yellow-50', textColor: 'text-yellow-700' };
   if (aqi <= 150) return { label: 'Unhealthy for Sensitive', color: 'bg-orange-500', bgColor: 'bg-orange-50', textColor: 'text-orange-700' };
   if (aqi <= 200) return { label: 'Unhealthy', color: 'bg-red-500', bgColor: 'bg-red-50', textColor: 'text-red-700' };
   if (aqi <= 300) return { label: 'Very Unhealthy', color: 'bg-purple-500', bgColor: 'bg-purple-50', textColor: 'text-purple-700' };
-  return { label: 'Hazardous', color: 'bg-rose-600', bgColor: 'bg-rose-100', textColor: 'text-rose-800' };
+  return { label: 'Hazardous', color: 'bg-primary-500', bgColor: 'bg-primary-100', textColor: 'text-primary-700' };
 };
 
 const getBabySafetyGuidance = (aqi: number): { message: string; icon: 'safe' | 'caution' | 'warning' | 'danger' } => {
@@ -50,9 +50,9 @@ const formatPollutant = (pollutant: string): string => {
   const pollutantMap: Record<string, string> = {
     'pm25': 'PM2.5',
     'pm10': 'PM10',
-    'o3': 'Ozone (O₃)',
-    'no2': 'NO₂',
-    'so2': 'SO₂',
+    'o3': 'Ozone (O‚ƒ)',
+    'no2': 'NO‚‚',
+    'so2': 'SO‚‚',
     'co': 'CO',
   };
   return pollutantMap[pollutant?.toLowerCase()] || pollutant?.toUpperCase() || 'N/A';
@@ -412,8 +412,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="mb-2 flex items-start justify-between">
           <div>
-            <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: PARTNER PERSPECTIVE</span>
-            <h1 className="text-4xl font-display font-extrabold text-slate-900 dark:text-white mt-1">Your Pregnancy Journey</h1>
+            <span className="text-xs font-bold text-primary-400 uppercase tracking-widest">MODE: PARTNER PERSPECTIVE</span>
+            <h1 className="text-4xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mt-1">Your Pregnancy Journey</h1>
           </div>
           <SpeakButton text="Partner Perspective. Your Pregnancy Journey. Support your partner through this beautiful journey." />
         </div>
@@ -423,13 +423,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           {/* Left Column (Checklist & Goal) */}
           <div className="xl:col-span-8 space-y-6">
             {/* Checklist Card */}
-            <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700 shadow-sm">
+            <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg">
                     <CheckSquare size={24} />
                   </div>
-                  <h2 className="text-xl font-bold font-display text-slate-900 dark:text-white">Your Support Checklist</h2>
+                  <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Your Support Checklist</h2>
                 </div>
                 <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-bold">4 Tasks Pending</span>
               </div>
@@ -439,11 +439,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   { title: 'Buy iron supplements', due: 'Due: Today', done: false },
                   { title: 'Install car seat', due: 'Due: Next Week', done: false },
                 ].map((task, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-dark-700 hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors group cursor-pointer">
+                  <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-dm-border hover:bg-slate-50 dark:hover:bg-dm-muted transition-colors group cursor-pointer">
                     <div className="flex items-center gap-4">
-                      <div className="w-6 h-6 rounded border-2 border-slate-300 dark:border-dark-600 group-hover:border-blue-500 dark:group-hover:border-blue-500"></div>
+                      <div className="w-6 h-6 rounded border-2 border-slate-300 dark:border-dm-accent group-hover:border-blue-500 dark:group-hover:border-blue-500"></div>
                       <div>
-                        <h3 className="font-bold text-slate-900 dark:text-white text-base">{task.title}</h3>
+                        <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-base">{task.title}</h3>
                         <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">{task.due}</p>
                       </div>
                     </div>
@@ -483,21 +483,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
             {/* Bottom Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-6 border border-slate-100 dark:border-dark-700 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center">
+              <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
+                <div className="w-14 h-14 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-2xl flex items-center justify-center">
                   <ShoppingCart size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white">Shopping List</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Shopping List</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Dates, Spinach, Walnut, Milk</p>
                 </div>
               </div>
-              <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-6 border border-slate-100 dark:border-dark-700 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
+              <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="w-14 h-14 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center">
                   <MessageCircle size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white">Support Chat</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Support Chat</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Ask nutritionists or mentors</p>
                 </div>
               </div>
@@ -521,27 +521,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
 
             {/* Appointments */}
-            <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700 shadow-sm">
-              <h3 className="font-bold text-slate-900 dark:text-white mb-2">Maya's Appointments</h3>
+            <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-2">Maya's Appointments</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">Ensure you've blocked your calendar for these:</p>
 
-              <div className="bg-slate-50 dark:bg-dark-800 p-4 rounded-2xl border-l-4 border-blue-500">
+              <div className="bg-slate-50 dark:bg-dm-muted p-4 rounded-2xl border-l-4 border-blue-500">
                 <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide block mb-1">In 4 Days</span>
-                <h4 className="font-bold text-slate-900 dark:text-white">Anomaly Scan</h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">City Hospital • 11:30 AM</p>
+                <h4 className="font-bold text-slate-900 dark:text-dm-foreground">Anomaly Scan</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">City Hospital €¢ 11:30 AM</p>
               </div>
             </div>
 
             {/* Learning Module */}
-            <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700 shadow-sm">
-              <h3 className="font-bold text-slate-900 dark:text-white mb-2">Learning Module</h3>
+            <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-2">Learning Module</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">How to prepare for the third trimester transition.</p>
 
-              <div className="aspect-video bg-slate-100 dark:bg-dark-800 rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
-                <div className="w-12 h-12 bg-white dark:bg-dark-700 rounded-full flex items-center justify-center shadow-lg text-blue-600 dark:text-blue-400 z-10 group-hover:scale-110 transition-transform">
+              <div className="aspect-video bg-slate-100 dark:bg-slate-50 dark:bg-dm-muted rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
+                <div className="w-12 h-12 bg-white dark:bg-dm-accent rounded-full flex items-center justify-center shadow-lg text-blue-600 dark:text-blue-400 z-10 group-hover:scale-110 transition-transform">
                   <Play size={20} className="ml-1" fill="currentColor" />
                 </div>
-                <div className="absolute inset-0 bg-slate-200/50 dark:bg-dark-900/50"></div>
+                <div className="absolute inset-0 bg-slate-200/50 dark:bg-dm-card/50"></div>
               </div>
             </div>
           </div>
@@ -557,8 +557,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="mb-2 text-center">
-          <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: FAMILY PERSPECTIVE</span>
-          <h1 className="text-4xl font-display font-extrabold text-slate-900 dark:text-white mt-2">Your Pregnancy Journey</h1>
+          <span className="text-xs font-bold text-primary-400 uppercase tracking-widest">MODE: FAMILY PERSPECTIVE</span>
+          <h1 className="text-4xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mt-2">Your Pregnancy Journey</h1>
           <div className="flex items-center justify-center gap-2 mt-4">
             <h2 className="text-2xl font-display font-bold text-slate-700 dark:text-slate-200">Welcome, Family!</h2>
             <SpeakButton text="Family Perspective. Your Pregnancy Journey. Welcome, Family! Stay updated on Maya's journey and find ways to support." />
@@ -567,23 +567,23 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         </div>
 
         {/* Milestone Hero */}
-        <div className="bg-gradient-to-br from-rose-50 to-white dark:from-rose-900/20 dark:to-dark-900 rounded-[2.5rem] p-10 border border-rose-100 dark:border-rose-900/30 text-center relative overflow-hidden">
-          <Heart size={300} className="absolute -top-10 -left-10 text-rose-100 dark:text-rose-900/20 opacity-50 rotate-[-15deg]" />
-          <Heart size={200} className="absolute -bottom-10 -right-10 text-rose-100 dark:text-rose-900/20 opacity-50 rotate-[15deg]" />
+        <div className="bg-gradient-to-br from-primary-50 to-white dark:from-primary-800/20 dark:to-dark-900 rounded-[2.5rem] p-10 border border-primary-100 dark:border-primary-800/30 text-center relative overflow-hidden">
+          <Heart size={300} className="absolute -top-10 -left-10 text-primary-100 dark:text-primary-800/20 opacity-50 rotate-[-15deg]" />
+          <Heart size={200} className="absolute -bottom-10 -right-10 text-primary-100 dark:text-primary-800/20 opacity-50 rotate-[15deg]" />
 
           <div className="relative z-10 max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-2">
-              <h3 className="text-2xl font-display font-bold text-rose-800 dark:text-rose-300 mb-3">Milestone Alert: 24 Weeks!</h3>
+              <h3 className="text-2xl font-display font-bold text-primary-700 dark:text-primary-300 mb-3">Milestone Alert: 24 Weeks!</h3>
               <SpeakButton text="Milestone Alert: 24 Weeks! The baby is now about the size of an ear of corn and can hear sounds from the outside world!" />
             </div>
-            <p className="text-rose-900/70 dark:text-rose-200/70 text-base leading-relaxed mb-8">
+            <p className="text-primary-800/70 dark:text-primary-200/70 text-base leading-relaxed mb-8">
               The baby is now about the size of an ear of corn and can hear sounds from the outside world!
             </p>
             <div className="flex justify-center gap-4">
-              <button className="bg-rose-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-rose-500/20 hover:bg-rose-600 transition-colors flex items-center gap-2">
+              <button className="bg-primary-400 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary-400/20 hover:bg-primary-500 transition-colors flex items-center gap-2">
                 <Heart size={18} fill="currentColor" /> Send Love
               </button>
-              <button className="bg-white dark:bg-dark-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-dark-700 px-8 py-3 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-dark-700 transition-colors flex items-center gap-2">
+              <button className="bg-white dark:bg-dm-muted text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-dm-border px-8 py-3 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-dm-muted dark:hover:bg-slate-100 dark:hover:bg-dm-accent transition-colors flex items-center gap-2">
                 <Mic size={18} /> Record Voice Note
               </button>
             </div>
@@ -592,17 +592,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Support Suggestions */}
-          <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
             <div className="flex items-center gap-3 mb-6">
               <Info size={20} className="text-blue-500" />
-              <h3 className="font-bold text-slate-900 dark:text-white text-lg">Support Maya Today</h3>
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Support Maya Today</h3>
             </div>
             <div className="space-y-4">
-              <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-dark-800 border border-slate-100 dark:border-dark-700">
+              <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
                 <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded flex items-center justify-center font-bold text-xs shrink-0">1</div>
-                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Ask about her sleep—third trimester is starting soon.</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Ask about her sleep€”third trimester is starting soon.</p>
               </div>
-              <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-dark-800 border border-slate-100 dark:border-dark-700">
+              <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
                 <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded flex items-center justify-center font-bold text-xs shrink-0">2</div>
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Maya mentioned craving traditional homemade Makhana.</p>
               </div>
@@ -610,27 +610,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           {/* Events */}
-          <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
             <div className="flex items-center gap-3 mb-6">
-              <Calendar size={20} className="text-emerald-500" />
-              <h3 className="font-bold text-slate-900 dark:text-white text-lg">Family Events</h3>
+              <Calendar size={20} className="text-primary-500" />
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Family Events</h3>
             </div>
             <div className="space-y-3">
-              <div className="flex justify-between items-center p-4 bg-slate-50 dark:bg-dark-800 rounded-xl">
+              <div className="flex justify-between items-center p-4 bg-slate-50 dark:bg-dm-muted rounded-xl">
                 <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">Baby Shower Planning</span>
-                <span className="text-xs font-bold text-slate-400 dark:text-slate-500">Nov 12</span>
+                <span className="text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Nov 12</span>
               </div>
-              <div className="flex justify-between items-center p-4 bg-slate-50 dark:bg-dark-800 rounded-xl">
+              <div className="flex justify-between items-center p-4 bg-slate-50 dark:bg-dm-muted rounded-xl">
                 <span className="font-bold text-slate-700 dark:text-slate-300 text-sm">Hospital Visit (Maya)</span>
-                <span className="text-xs font-bold text-slate-400 dark:text-slate-500">Dec 01</span>
+                <span className="text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Dec 01</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Photos */}
-        <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700">
-          <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-6">Latest Shared Photos</h3>
+        <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
+          <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg mb-6">Latest Shared Photos</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               'https://images.unsplash.com/photo-1544126566-475a890b0e53?auto=format&fit=crop&w=400&q=80',
@@ -647,15 +647,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         </div>
 
         {/* Care Package Banner */}
-        <div className="bg-indigo-900 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-white relative overflow-hidden">
+        <div className="bg-secondary-900 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-white relative overflow-hidden">
           <div className="relative z-10 flex items-start gap-3">
             <div className="flex-1">
               <h3 className="text-xl font-bold font-display mb-2">Send a Care Package?</h3>
-              <p className="text-indigo-200 text-sm">We've curated healthy snacks & wellness kits Maya will love.</p>
+              <p className="text-secondary-200 text-sm">We've curated healthy snacks & wellness kits Maya will love.</p>
             </div>
             <SpeakButton text="Send a Care Package? We've curated healthy snacks and wellness kits Maya will love." className="text-white border-white/30 bg-white/10 hover:bg-white/20" size={14} />
           </div>
-          <Gift size={64} className="text-indigo-400 opacity-50 absolute right-8 bottom-0 md:static md:opacity-100" />
+          <Gift size={64} className="text-secondary-400 opacity-50 absolute right-8 bottom-0 md:static md:opacity-100" />
         </div>
       </div>
     );
@@ -669,8 +669,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="mb-4 flex items-start justify-between">
           <div>
-            <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">MODE: DOCTOR PERSPECTIVE</span>
-            <h1 className="text-4xl font-display font-extrabold text-slate-900 dark:text-white mt-1">Your Pregnancy Journey</h1>
+            <span className="text-xs font-bold text-primary-400 uppercase tracking-widest">MODE: DOCTOR PERSPECTIVE</span>
+            <h1 className="text-4xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mt-1">Your Pregnancy Journey</h1>
           </div>
           <SpeakButton text="Doctor Perspective. Clinical Dashboard for monitoring patient health and pregnancy progress." />
         </div>
@@ -678,13 +678,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg"><Activity size={24} /></div>
-            <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-white">Clinical Dashboard</h2>
+            <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Clinical Dashboard</h2>
           </div>
 
           <div className="flex w-full lg:w-auto gap-4">
             <div className="relative flex-1 lg:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-              <input type="text" placeholder="Search patient..." className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-600 bg-white dark:bg-dark-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:placeholder:text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400 dark:text-slate-500" size={16} />
+              <input type="text" placeholder="Search patient..." className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-100 dark:border-dm-border dark:border-dm-accent bg-white dark:bg-dm-muted text-slate-900 dark:text-dm-foreground text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:text-slate-400 dark:text-slate-500" />
             </div>
             <button className="bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-colors flex items-center gap-2">
               <Bell size={16} /> Alerts (2)
@@ -700,17 +700,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 p-3 rounded-2xl flex items-center gap-3 cursor-pointer">
               <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80" alt="Maya" className="w-10 h-10 rounded-full object-cover" />
               <div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Maya Sharma</h4>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">24 Weeks • High Risk</p>
+                <h4 className="font-bold text-slate-900 dark:text-dm-foreground text-sm">Maya Sharma</h4>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">24 Weeks €¢ High Risk</p>
               </div>
               <div className="w-1 h-8 bg-blue-500 rounded-full ml-auto"></div>
             </div>
 
             {[2, 3, 4].map(i => (
-              <div key={i} className="p-3 rounded-2xl flex items-center gap-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors opacity-60 hover:opacity-100">
-                <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-dark-700"></div>
+              <div key={i} className="p-3 rounded-2xl flex items-center gap-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-dm-muted transition-colors opacity-60 hover:opacity-100">
+                <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-dm-accent"></div>
                 <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">Patient {i}</h4>
+                  <h4 className="font-bold text-slate-900 dark:text-dm-foreground text-sm">Patient {i}</h4>
                   <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Routine Checkup</p>
                 </div>
               </div>
@@ -718,23 +718,23 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 bg-white dark:bg-dark-900 rounded-[2rem] p-8 border border-slate-100 dark:border-dark-700 shadow-sm min-h-[600px]">
+          <div className="flex-1 bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm min-h-[600px]">
             {/* Patient Header */}
             <div className="flex justify-between items-start mb-8">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-dark-800 flex items-center justify-center text-slate-400 dark:text-slate-500">
+                <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-dm-muted flex items-center justify-center text-slate-400 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">
                   <User size={32} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-white">Maya Sharma</h2>
+                  <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Maya Sharma</h2>
                   <p className="text-slate-500 dark:text-slate-400 text-sm">Age: 28 | LMP: April 12, 2024 | G1P0</p>
                 </div>
               </div>
               <div className="flex gap-2">
-                <button className="p-2.5 text-slate-400 hover:text-slate-600 dark:bg-dark-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-dark-700 rounded-xl transition-colors">
+                <button className="p-2.5 text-slate-400 hover:text-slate-600 dark:bg-dm-muted dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-dm-muted dark:hover:bg-slate-100 dark:hover:bg-dm-accent rounded-xl transition-colors">
                   <MessageCircle size={20} />
                 </button>
-                <button className="p-2.5 text-slate-400 hover:text-slate-600 dark:bg-dark-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-dark-700 rounded-xl transition-colors">
+                <button className="p-2.5 text-slate-400 hover:text-slate-600 dark:bg-dm-muted dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-dm-muted dark:hover:bg-slate-100 dark:hover:bg-dm-accent rounded-xl transition-colors">
                   <ClipboardList size={20} />
                 </button>
               </div>
@@ -742,34 +742,34 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
             {/* Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-rose-50 dark:bg-rose-900/20 rounded-2xl p-5 border border-rose-100 dark:border-rose-900/30 relative overflow-hidden">
+              <div className="bg-primary-50 dark:bg-primary-800/20 rounded-2xl p-5 border border-primary-100 dark:border-primary-800/30 relative overflow-hidden">
                 <div className="flex justify-between items-start mb-2">
-                  <AlertCircle size={20} className="text-rose-500" />
-                  <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">URGENT</span>
+                  <AlertCircle size={20} className="text-primary-400" />
+                  <span className="bg-primary-400 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">URGENT</span>
                 </div>
-                <span className="text-xs font-bold text-rose-800 dark:text-rose-300 uppercase tracking-wide">Blood Sugar</span>
-                <div className="text-3xl font-display font-bold text-slate-900 dark:text-white mt-1">125 <span className="text-sm font-medium text-rose-600 dark:text-rose-400">mg/dL</span></div>
-                <p className="text-[10px] text-rose-700 dark:text-rose-300 mt-2 font-medium">Spike detected after lunch (Today)</p>
+                <span className="text-xs font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wide">Blood Sugar</span>
+                <div className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground mt-1">125 <span className="text-sm font-medium text-primary-500 dark:text-primary-300">mg/dL</span></div>
+                <p className="text-[10px] text-primary-600 dark:text-primary-300 mt-2 font-medium">Spike detected after lunch (Today)</p>
               </div>
 
-              <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-5 border border-emerald-100 dark:border-emerald-900/30">
-                <TrendingUp size={20} className="text-emerald-500 mb-2" />
-                <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wide">Weight Gain</span>
-                <div className="text-3xl font-display font-bold text-slate-900 dark:text-white mt-1">+4.2 <span className="text-sm font-medium text-slate-500 dark:text-slate-400">kg</span></div>
-                <p className="text-[10px] text-emerald-700 dark:text-emerald-300 mt-2 font-medium">On track for trimester 2</p>
+              <div className="bg-primary-50 dark:bg-primary-900/20 rounded-2xl p-5 border border-primary-100 dark:border-primary-900/30">
+                <TrendingUp size={20} className="text-primary-500 mb-2" />
+                <span className="text-xs font-bold text-primary-800 dark:text-primary-300 uppercase tracking-wide">Weight Gain</span>
+                <div className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground mt-1">+4.2 <span className="text-sm font-medium text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">kg</span></div>
+                <p className="text-[10px] text-primary-700 dark:text-primary-300 mt-2 font-medium">On track for trimester 2</p>
               </div>
 
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-5 border border-blue-100 dark:border-blue-900/30">
                 <Activity size={20} className="text-blue-500 mb-2" />
                 <span className="text-xs font-bold text-blue-800 dark:text-blue-300 uppercase tracking-wide">Avg Sleep</span>
-                <div className="text-3xl font-display font-bold text-slate-900 dark:text-white mt-1">7.5 <span className="text-sm font-medium text-slate-500 dark:text-slate-400">hrs</span></div>
+                <div className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground mt-1">7.5 <span className="text-sm font-medium text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">hrs</span></div>
                 <p className="text-[10px] text-blue-700 dark:text-blue-300 mt-2 font-medium">Consistent for last 7 days</p>
               </div>
             </div>
 
             {/* Chart Section */}
             <div className="mb-8">
-              <h3 className="font-bold text-slate-900 dark:text-white mb-6">Long-term Trend: Blood Sugar</h3>
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-6">Long-term Trend: Blood Sugar</h3>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={bloodSugarTrend}>
@@ -798,21 +798,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 </ResponsiveContainer>
                 <div className="flex justify-center mt-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-rose-500"></div>
-                    <span className="text-xs font-bold text-rose-500 uppercase tracking-widest">Blood Sugar (mg/dL)</span>
+                    <div className="w-3 h-3 rounded-full bg-primary-400"></div>
+                    <span className="text-xs font-bold text-primary-400 uppercase tracking-widest">Blood Sugar (mg/dL)</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Files */}
-            <div className="border-t border-slate-100 dark:border-dark-700 pt-8">
-              <h3 className="font-bold text-slate-900 dark:text-white mb-4">Medical Files & Reports</h3>
-              <div className="flex items-center gap-4 p-4 border border-slate-100 dark:border-dark-700 rounded-xl hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors cursor-pointer group">
-                <div className="w-10 h-10 bg-rose-50 dark:bg-rose-900/20 text-rose-500 rounded-lg flex items-center justify-center font-bold text-xs uppercase group-hover:bg-rose-100 dark:group-hover:bg-rose-900/40 transition-colors">PDF</div>
+            <div className="border-t border-slate-100 dark:border-dm-border pt-8">
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-4">Medical Files & Reports</h3>
+              <div className="flex items-center gap-4 p-4 border border-slate-100 dark:border-dm-border rounded-xl hover:bg-slate-50 dark:hover:bg-dm-muted transition-colors cursor-pointer group">
+                <div className="w-10 h-10 bg-primary-50 dark:bg-primary-800/20 text-primary-400 rounded-lg flex items-center justify-center font-bold text-xs uppercase group-hover:bg-primary-100 dark:group-hover:bg-primary-800/40 transition-colors">PDF</div>
                 <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">Level 2 Ultrasound Scan</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Uploaded 2 days ago</p>
+                  <h4 className="font-bold text-slate-900 dark:text-dm-foreground text-sm">Level 2 Ultrasound Scan</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Uploaded 2 days ago</p>
                 </div>
               </div>
             </div>
@@ -835,11 +835,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="flex items-start gap-3">
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-xs font-bold uppercase tracking-wider mb-2">
+                <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
                 Planning Phase
               </div>
-              <h1 className="text-3xl font-display font-extrabold text-slate-900">Pre-Conception</h1>
+              <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Pre-Conception</h1>
               <p className="text-slate-500 mt-1">Optimization Phase</p>
             </div>
             <SpeakButton text="Pre-Conception Optimization Phase. Track your cycle, optimize your health, and prepare for pregnancy." />
@@ -860,12 +860,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="flex items-start gap-3">
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
-                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-primary-600 text-xs font-bold uppercase tracking-wider mb-2">
+                <span className="w-2 h-2 rounded-full bg-primary-400 animate-pulse"></span>
                 Trimester 2
               </div>
-              <h1 className="text-3xl font-display font-extrabold text-slate-900">Pregnancy</h1>
-              <p className="text-slate-500 mt-1">Week 24 • Day 3</p>
+              <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Pregnancy</h1>
+              <p className="text-slate-500 mt-1">Week 24 €¢ Day 3</p>
             </div>
             <SpeakButton text="Pregnancy Dashboard. Trimester 2, Week 24, Day 3. Track your pregnancy journey, fetal development, and health vitals." />
           </div>
@@ -876,29 +876,29 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <div className="xl:col-span-3 flex flex-col overflow-hidden">
             <div className="flex justify-between items-end mb-6">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold font-display text-slate-900">Fetal Growth Timeline</h2>
+                <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Fetal Growth Timeline</h2>
                 <SpeakButton text="Fetal Growth Timeline. Track your baby's development from Month 1 as a poppy seed through Month 9 as a watermelon. Swipe to explore each month's milestones." />
               </div>
-              <span className="text-xs font-bold text-rose-400 tracking-widest uppercase animate-pulse">Swipe to explore</span>
+              <span className="text-xs font-bold text-primary-300 tracking-widest uppercase animate-pulse">Swipe to explore</span>
             </div>
 
             <div className="flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar flex-1">
               {fetalTimeline.map((item, i) => (
-                <div key={i} className="min-w-[260px] md:min-w-[280px] bg-rose-50/40 border border-rose-100 rounded-[1.5rem] p-5 snap-center flex flex-col hover:bg-rose-50/60 transition-colors group">
+                <div key={i} className="min-w-[260px] md:min-w-[280px] bg-primary-50/40 border border-primary-100 rounded-[1.5rem] p-5 snap-center flex flex-col hover:bg-primary-50/60 transition-colors group">
                   <div className="flex justify-between items-start mb-4">
-                    <span className="bg-white text-rose-500 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                    <span className="bg-white text-primary-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
                       {item.month}
                     </span>
                   </div>
 
-                  <div className="w-32 h-32 mx-auto mb-2 rounded-full bg-white border-4 border-white shadow-lg shadow-rose-100 overflow-hidden relative group-hover:scale-105 transition-transform duration-500">
+                  <div className="w-32 h-32 mx-auto mb-2 rounded-full bg-white border-4 border-white shadow-lg shadow-primary-100 overflow-hidden relative group-hover:scale-105 transition-transform duration-500">
                     <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="text-center mb-3">
-                    <span className="inline-block bg-rose-100 text-rose-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Size: {item.size}</span>
+                    <span className="inline-block bg-primary-100 text-primary-500 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Size: {item.size}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold font-display text-slate-900 mb-1.5">{item.title}</h3>
+                  <h3 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground mb-1.5">{item.title}</h3>
                   <p className="text-xs text-slate-600 mb-4 leading-relaxed line-clamp-3">
                     {item.desc}
                   </p>
@@ -908,17 +908,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           <div className="xl:col-span-2 flex flex-col">
-            <div className="bg-slate-900 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-slate-900/10 min-h-[450px]">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+            <div className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[450px]">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-primary-400 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                    <Lock size={16} className="text-rose-400" />
+                    <Lock size={16} className="text-primary-300" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-white text-sm">Midwife AI</h3>
                     <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary-300 animate-pulse"></span>
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Private & Secure</span>
                     </div>
                   </div>
@@ -928,7 +928,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   {midwifeChatMessages.map((msg) => (
                     <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'gap-3'}`}>
                       <div className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${msg.sender === 'user'
-                        ? 'bg-rose-600 text-white rounded-tr-none'
+                        ? 'bg-primary-500 text-white rounded-tr-none'
                         : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
                         }`}>
                         {msg.text}
@@ -951,12 +951,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                     onChange={(e) => setMidwifeChatInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleMidwifeChatSend()}
                     placeholder="Message..."
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 transition-all placeholder:text-slate-500"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary-400/50 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:text-slate-400 dark:text-slate-500"
                   />
                   <button
                     onClick={handleMidwifeChatSend}
                     disabled={!midwifeChatInput.trim() || isMidwifeChatLoading}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-rose-600 text-white rounded-lg flex items-center justify-center hover:bg-rose-500 transition-colors shadow-lg shadow-rose-900/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary-500 text-white rounded-lg flex items-center justify-center hover:bg-primary-400 transition-colors shadow-lg shadow-primary-800/50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Send size={14} />
                   </button>
@@ -970,13 +970,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         <div className="bg-[#fff0f0] rounded-[2rem] p-6 lg:p-8 mb-8">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center shadow-sm">
+              <div className="w-14 h-14 rounded-full bg-primary-100 text-primary-400 flex items-center justify-center shadow-sm">
                 <Activity size={28} />
               </div>
-              <h2 className="text-4xl font-display font-bold text-slate-900">Live Vitals</h2>
+              <h2 className="text-4xl font-display font-bold text-slate-900 dark:text-dm-foreground">Live Vitals</h2>
             </div>
-            <div className={`px-4 py-2 rounded-full border flex items-center gap-2 font-bold text-[10px] tracking-wider uppercase transition-all shadow-sm ${isConnected ? 'bg-white border-emerald-200 text-emerald-700' : 'bg-white border-rose-200 text-rose-600'}`}>
-              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500' : 'bg-rose-500'}`}></div>
+            <div className={`px-4 py-2 rounded-full border flex items-center gap-2 font-bold text-[10px] tracking-wider uppercase transition-all shadow-sm ${isConnected ? 'bg-white border-primary-200 text-primary-700' : 'bg-white border-primary-200 text-primary-500'}`}>
+              <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-primary-500' : 'bg-primary-400'}`}></div>
               {isConnected ? 'Connected' : 'Not Connected'}
             </div>
           </div>
@@ -984,19 +984,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           {/* Metric Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-6">
             {[
-              { label: 'Sugar', value: metrics.bloodSugar, unit: 'mg/dL', icon: Flame, color: 'text-rose-500', bg: 'bg-rose-50' },
-              { label: 'Heart Rate', value: metrics.heartRate, unit: 'bpm', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-50' },
-              { label: 'SPO2', value: metrics.spo2, unit: '%', icon: Wind, color: 'text-emerald-500', bg: 'bg-emerald-50' },
+              { label: 'Sugar', value: metrics.bloodSugar, unit: 'mg/dL', icon: Flame, color: 'text-primary-400', bg: 'bg-primary-50' },
+              { label: 'Heart Rate', value: metrics.heartRate, unit: 'bpm', icon: Heart, color: 'text-primary-400', bg: 'bg-primary-50' },
+              { label: 'SPO2', value: metrics.spo2, unit: '%', icon: Wind, color: 'text-primary-500', bg: 'bg-primary-50' },
               { label: 'Stress', value: metrics.stressLevel, unit: '/100', icon: Brain, color: 'text-purple-500', bg: 'bg-purple-50', active: true },
-              { label: 'Sleep', value: metrics.sleepHours, unit: 'hrs', icon: Moon, color: 'text-indigo-500', bg: 'bg-indigo-50' },
+              { label: 'Sleep', value: metrics.sleepHours, unit: 'hrs', icon: Moon, color: 'text-secondary-500', bg: 'bg-secondary-50' },
               { label: 'Snoring', value: metrics.snoringMinutes, unit: 'min', icon: Volume2, color: 'text-amber-500', bg: 'bg-amber-50' },
               { label: 'Weight', value: metrics.weight, unit: 'kg', icon: Scale, color: 'text-slate-500', bg: 'bg-slate-50' },
             ].map((item, i) => (
               <div key={i} className={`
-                        relative bg-white rounded-2xl p-3 flex flex-col items-center justify-center gap-2 min-h-[120px] transition-all cursor-pointer
+                        relative bg-white dark:bg-dm-card rounded-2xl p-3 flex flex-col items-center justify-center gap-2 min-h-[120px] transition-all cursor-pointer
                         ${item.active
                   ? 'ring-2 ring-purple-400 shadow-xl shadow-purple-200 scale-105 z-10'
-                  : 'hover:scale-105 hover:shadow-lg border border-transparent hover:border-slate-100'}
+                  : 'hover:scale-105 hover:shadow-lg border border-transparent hover:border-dark-700'}
                     `}>
                 <div className={`w-9 h-9 rounded-full ${item.bg} ${item.color} flex items-center justify-center mb-0.5`}>
                   <item.icon size={18} />
@@ -1004,8 +1004,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div className="text-center">
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">{item.label}</span>
                   <div className="flex items-baseline justify-center gap-0.5">
-                    <span className="text-lg font-display font-bold text-slate-900">{item.value}</span>
-                    <span className="text-[9px] font-bold text-slate-400">{item.unit}</span>
+                    <span className="text-lg font-display font-bold text-slate-900 dark:text-dm-foreground">{item.value}</span>
+                    <span className="text-[9px] font-bold text-slate-400 dark:text-slate-400 dark:text-slate-500">{item.unit}</span>
                   </div>
                 </div>
               </div>
@@ -1061,13 +1061,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               {/* Header */}
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-slate-900/20">
+                  <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-dark-950/20">
                     <Watch size={20} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold font-display text-slate-900">My Watch</h3>
+                    <h3 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">My Watch</h3>
                     <div className="flex gap-1 items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse"></span>
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Synced</span>
                     </div>
                   </div>
@@ -1090,8 +1090,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
               {/* Pipeline Visuals */}
               <div className="flex justify-between items-center px-1 mb-4">
-                <div className="flex flex-col items-center gap-1 text-slate-400">
-                  <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-400 dark:text-slate-500">
+                  <div className="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center">
                     <Watch size={18} />
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider">Wrist</span>
@@ -1099,8 +1099,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div className="h-[2px] flex-1 bg-slate-100 mx-1 relative">
                   <ArrowRight size={10} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300" />
                 </div>
-                <div className="flex flex-col items-center gap-1 text-slate-400">
-                  <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-400 dark:text-slate-500">
+                  <div className="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center">
                     <SmartphoneNfc size={18} />
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider">Nothing X</span>
@@ -1108,8 +1108,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div className="h-[2px] flex-1 bg-slate-100 mx-1 relative">
                   <ArrowRight size={10} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300" />
                 </div>
-                <div className="flex flex-col items-center gap-1 text-slate-400">
-                  <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-400 dark:text-slate-500">
+                  <div className="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center">
                     <Cloud size={18} />
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider">Google Fit</span>
@@ -1117,8 +1117,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div className="h-[2px] flex-1 bg-slate-100 mx-1 relative">
                   <ArrowRight size={10} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300" />
                 </div>
-                <div className="flex flex-col items-center gap-1 text-slate-900">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
+                <div className="flex flex-col items-center gap-1 text-slate-900 dark:text-dm-foreground">
+                  <div className="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center border border-primary-100">
                     <Activity size={18} />
                   </div>
                   <span className="text-[9px] font-bold uppercase tracking-wider">NurtureNet</span>
@@ -1136,7 +1136,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               {/* Action Button */}
               <button
                 onClick={handleWatchAuth}
-                className="w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg shadow-dark-950/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2"
               >
                 {isAuthorizing ? (
                   <>
@@ -1144,7 +1144,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   </>
                 ) : (
                   <>
-                    <HeartHandshake size={14} className="text-emerald-400" /> Authorize Cloud Bridge
+                    <HeartHandshake size={14} className="text-primary-400" /> Authorize Cloud Bridge
                   </>
                 )}
               </button>
@@ -1162,43 +1162,43 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
         {/* Doctor & Watch Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          <div className="lg:col-span-2 bg-white dark:bg-dark-900 rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dark-700 relative overflow-hidden flex flex-col justify-between h-full">
+          <div className="lg:col-span-2 bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border relative overflow-hidden flex flex-col justify-between h-full">
             <div>
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-indigo-600 dark:bg-indigo-700 text-white flex items-center justify-center shadow-lg shadow-indigo-200 dark:shadow-none">
+                  <div className="w-14 h-14 rounded-2xl bg-secondary-600 dark:bg-secondary-700 text-white flex items-center justify-center shadow-lg shadow-secondary-200 dark:shadow-none">
                     <Stethoscope size={28} />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white">Doctor's Clinical Summary</h2>
+                    <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">Doctor's Clinical Summary</h2>
                     <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Last Update: Oct 12 by Dr. Aditi Sharma</p>
                   </div>
                   <SpeakButton text="Doctor's Clinical Summary. G1P0 gestation at 24 weeks. Overall clinical status is stable. Fetal growth matches gestational age perfectly. Prescribed instructions: Sleep strictly on the left lateral position. Schedule Glucose Challenge Test. Maintain 3.5 liters daily hydration goal." />
                 </div>
-                <div className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-indigo-100 dark:border-indigo-900/30">
-                  <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+                <div className="bg-secondary-50 dark:bg-secondary-900/20 text-secondary-700 dark:text-secondary-300 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2 border border-secondary-100 dark:border-secondary-900/30">
+                  <div className="w-2 h-2 rounded-full bg-secondary-500 animate-pulse"></div>
                   Clinical Record
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-6">
-                  <div className="bg-slate-50/50 dark:bg-dark-800 rounded-2xl p-6 border border-slate-100 dark:border-dark-700">
-                    <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-3 block">Diagnosis & Status</span>
+                  <div className="bg-slate-50/50 dark:bg-slate-50 dark:bg-dm-muted rounded-2xl p-6 border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
+                    <span className="text-xs font-bold text-secondary-500 uppercase tracking-widest mb-3 block">Diagnosis & Status</span>
                     <p className="text-slate-800 dark:text-slate-200 font-bold text-lg leading-relaxed">
-                      G1P0 gestation at 24 weeks. Overall clinical status is <span className="text-emerald-500">STABLE</span>. Fetal growth matches gestational age perfectly.
+                      G1P0 gestation at 24 weeks. Overall clinical status is <span className="text-primary-500">STABLE</span>. Fetal growth matches gestational age perfectly.
                     </p>
                   </div>
                 </div>
                 <div className="space-y-6">
                   <div>
                     <div className="flex items-center gap-2 mb-4">
-                      <ClipboardList size={18} className="text-rose-500" />
-                      <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-widest">Prescribed Instructions</span>
+                      <ClipboardList size={18} className="text-primary-400" />
+                      <span className="text-xs font-bold text-slate-900 dark:text-dm-foreground uppercase tracking-widest">Prescribed Instructions</span>
                     </div>
                     <div className="space-y-3">
                       {["Sleep strictly on the left lateral position.", "Schedule Glucose Challenge Test (GCT).", "Maintain 3.5L daily hydration goal."].map((item, i) => (
-                        <div key={i} className="flex items-start gap-4 p-3 bg-white dark:bg-dark-800 border border-slate-100 dark:border-dark-700 rounded-2xl shadow-sm hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-colors">
-                          <div className="w-5 h-5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <div key={i} className="flex items-start gap-4 p-3 bg-white dark:bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border rounded-2xl shadow-sm hover:border-secondary-100 dark:hover:border-secondary-900/50 transition-colors">
+                          <div className="w-5 h-5 rounded-full bg-secondary-50 dark:bg-secondary-900/30 text-secondary-600 dark:text-secondary-400 flex items-center justify-center shrink-0 mt-0.5">
                             <CheckCircle2 size={12} />
                           </div>
                           <span className="text-sm font-bold text-slate-700 dark:text-slate-300 leading-snug">{item}</span>
@@ -1209,9 +1209,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 </div>
               </div>
             </div>
-            <div className="mt-6 pt-6 border-t border-slate-50 dark:border-dark-700">
+            <div className="mt-6 pt-6 border-t border-slate-50 dark:border-slate-100 dark:border-dm-border">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest">Clinical Observations</span>
+                <span className="text-xs font-bold text-secondary-500 uppercase tracking-widest">Clinical Observations</span>
                 <SpeakButton text="Clinical Observations. Fetal Heart Rate baseline at 145 beats per minute with moderate variability. Patient reports mild lumbar strain. Blood pressure is within normal ranges at 110 over 70 millimeters of mercury." size={12} />
               </div>
               <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
@@ -1222,40 +1222,40 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
           <div className="lg:col-span-1 flex flex-col gap-6">
             {/* How are you feeling? Card */}
-            <div className="bg-rose-900 dark:bg-rose-950 rounded-[2rem] p-10 h-full flex flex-col">
+            <div className="bg-primary-800 dark:bg-primary-950 rounded-[2rem] p-10 h-full flex flex-col">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="text-white text-3xl font-bold mb-3">How are you feeling?</h3>
                 <SpeakButton text="How are you feeling? It's normal to feel a mix of emotions right now. Tracking helps. You can select Sad, Neutral, Good, or Great, and describe what's on your mind." className="text-white border-white/30 bg-white/10 hover:bg-white/20" />
               </div>
-              <p className="text-rose-200 text-base mb-8">It's normal to feel a mix of emotions right now. Tracking helps.</p>
+              <p className="text-primary-200 text-base mb-8">It's normal to feel a mix of emotions right now. Tracking helps.</p>
 
               <div className="flex flex-col gap-3 mb-8">
                 <div className="flex gap-4">
-                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
-                    <span className="text-4xl">😔</span>
-                    <span className="text-rose-200 text-sm font-medium">Sad</span>
+                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-primary-700/50 hover:bg-primary-600 transition-colors">
+                    <span className="text-4xl">˜¢</span>
+                    <span className="text-primary-200 text-sm font-medium">Sad</span>
                   </button>
-                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
-                    <span className="text-4xl">🙄</span>
-                    <span className="text-rose-200 text-sm font-medium">Neutral</span>
+                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-primary-700/50 hover:bg-primary-600 transition-colors">
+                    <span className="text-4xl">˜</span>
+                    <span className="text-primary-200 text-sm font-medium">Neutral</span>
                   </button>
-                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
-                    <span className="text-4xl">🙂</span>
-                    <span className="text-rose-200 text-sm font-medium">Good</span>
+                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-primary-700/50 hover:bg-primary-600 transition-colors">
+                    <span className="text-4xl">™‚</span>
+                    <span className="text-primary-200 text-sm font-medium">Good</span>
                   </button>
-                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-rose-800/50 hover:bg-rose-700 transition-colors">
-                    <span className="text-4xl">🤩</span>
-                    <span className="text-rose-200 text-sm font-medium">Great</span>
+                  <button className="flex-1 flex flex-col items-center gap-3 p-5 rounded-xl bg-primary-700/50 hover:bg-primary-600 transition-colors">
+                    <span className="text-4xl">¤©</span>
+                    <span className="text-primary-200 text-sm font-medium">Great</span>
                   </button>
                 </div>
               </div>
 
               <div className="mt-auto">
-                <label className="text-rose-200 text-base font-medium mb-3 block">What's on your mind?</label>
+                <label className="text-primary-200 text-base font-medium mb-3 block">What's on your mind?</label>
                 <textarea
                   placeholder="Describe how you're feeling..."
                   rows={4}
-                  className="w-full px-5 py-4 rounded-xl bg-rose-800/50 border border-rose-700/50 text-white placeholder-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all resize-none"
+                  className="w-full px-5 py-4 rounded-xl bg-primary-700/50 border border-primary-600/50 text-white placeholder-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all resize-none"
                 />
               </div>
             </div>
@@ -1270,8 +1270,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <Utensils size={28} />
               </div>
               <div>
-                <h2 className="text-2xl font-display font-bold text-slate-900">Cravings Tracker</h2>
-                <p className="text-sm text-slate-500">Track your pregnancy cravings and patterns</p>
+                <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">Cravings Tracker</h2>
+                <p className="text-sm text-slate-400 dark:text-slate-400 dark:text-slate-500">Track your pregnancy cravings and patterns</p>
               </div>
             </div>
             <button
@@ -1284,7 +1284,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
           {/* Add New Craving Input */}
           {showCravingInput && (
-            <div className="bg-white rounded-2xl p-5 mb-6 border border-amber-100 animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="bg-white dark:bg-dm-card rounded-2xl p-5 mb-6 border border-amber-100 animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">What are you craving?</label>
@@ -1294,7 +1294,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                     onChange={(e) => setNewCraving(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && addCraving()}
                     placeholder="e.g., Pickles, Ice cream, Spicy food..."
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div className="md:w-48">
@@ -1334,28 +1334,28 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             {cravings.map((craving) => (
               <div
                 key={craving.id}
-                className={`bg-white rounded-2xl p-4 border transition-all hover:shadow-md ${craving.satisfied ? 'border-green-200 bg-green-50/50' : 'border-amber-100'
+                className={`bg-white dark:bg-dm-card rounded-2xl p-4 border transition-all hover:shadow-md ${craving.satisfied ? 'border-green-200 bg-green-50/50' : 'border-amber-100'
                   }`}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">
-                      {craving.food.toLowerCase().includes('pickle') ? '🥒' :
-                        craving.food.toLowerCase().includes('ice') ? '🍦' :
-                          craving.food.toLowerCase().includes('spicy') ? '🌶️' :
-                            craving.food.toLowerCase().includes('chocolate') ? '🍫' :
-                              craving.food.toLowerCase().includes('fruit') ? '🍎' :
-                                craving.food.toLowerCase().includes('sweet') ? '🍬' :
-                                  craving.food.toLowerCase().includes('sour') ? '🍋' :
-                                    craving.food.toLowerCase().includes('pizza') ? '🍕' :
-                                      craving.food.toLowerCase().includes('burger') ? '🍔' :
-                                        craving.food.toLowerCase().includes('fries') ? '🍟' :
-                                          craving.food.toLowerCase().includes('cake') ? '🍰' :
-                                            craving.food.toLowerCase().includes('coffee') ? '☕' : '🍽️'}
+                      {craving.food.toLowerCase().includes('pickle') ? '¥’' :
+                        craving.food.toLowerCase().includes('ice') ? '¦' :
+                          craving.food.toLowerCase().includes('spicy') ? 'Œ¶ï¸' :
+                            craving.food.toLowerCase().includes('chocolate') ? '«' :
+                              craving.food.toLowerCase().includes('fruit') ? 'Ž' :
+                                craving.food.toLowerCase().includes('sweet') ? '¬' :
+                                  craving.food.toLowerCase().includes('sour') ? '‹' :
+                                    craving.food.toLowerCase().includes('pizza') ? '•' :
+                                      craving.food.toLowerCase().includes('burger') ? '”' :
+                                        craving.food.toLowerCase().includes('fries') ? 'Ÿ' :
+                                          craving.food.toLowerCase().includes('cake') ? '°' :
+                                            craving.food.toLowerCase().includes('coffee') ? '˜•' : '½ï¸'}
                     </span>
                     <div>
-                      <h4 className="font-bold text-slate-900">{craving.food}</h4>
-                      <p className="text-xs text-slate-400">
+                      <h4 className="font-bold text-slate-900 dark:text-dm-foreground">{craving.food}</h4>
+                      <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">
                         {new Date(craving.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </p>
                     </div>
@@ -1394,7 +1394,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             <div className="mt-6 pt-6 border-t border-amber-200">
               <div className="flex flex-wrap gap-6 text-center">
                 <div className="flex-1 min-w-[120px]">
-                  <span className="text-3xl font-display font-bold text-slate-900">{cravings.length}</span>
+                  <span className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground">{cravings.length}</span>
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1">Total Cravings</p>
                 </div>
                 <div className="flex-1 min-w-[120px]">
@@ -1417,15 +1417,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           <div className="xl:col-span-1 space-y-6">
-            <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm">
+            <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-blue-50 text-blue-500 rounded-lg">
                   <Droplets size={20} />
                 </div>
-                <h3 className="text-xl font-display font-bold text-slate-900">Hydration</h3>
+                <h3 className="text-xl font-display font-bold text-slate-900 dark:text-dm-foreground">Hydration</h3>
               </div>
               <div className="flex justify-between items-end mb-2">
-                <span className="text-3xl font-display font-bold text-slate-900">4<span className="text-lg text-slate-400 font-normal">/8</span></span>
+                <span className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground">4<span className="text-lg text-slate-400 font-normal">/8</span></span>
                 <span className="text-xs font-bold text-blue-500">Glasses</span>
               </div>
               <div className="flex gap-1 h-12">
@@ -1433,22 +1433,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   <div key={i} className={`flex-1 rounded-full ${i <= 4 ? 'bg-blue-400' : 'bg-slate-100'}`}></div>
                 ))}
               </div>
-              <button className="w-full mt-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
+              <button className="w-full mt-4 py-2 rounded-xl border border-slate-100 dark:border-dm-border text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:hover:bg-dm-muted transition-colors">
                 + Add Water
               </button>
             </div>
 
-            <div className="bg-[#fff1f2] rounded-[2rem] p-6 shadow-sm border border-rose-100">
-              <h3 className="text-xl font-bold font-display text-slate-900 mb-6">Appointments</h3>
+            <div className="bg-[#fff1f2] rounded-[2rem] p-6 shadow-sm border border-primary-100">
+              <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground mb-6">Appointments</h3>
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded-2xl flex items-center gap-4 shadow-sm">
-                  <div className="w-14 h-14 bg-[#f43f5e] rounded-xl flex flex-col items-center justify-center text-white shrink-0 leading-none shadow-md shadow-rose-200">
+                  <div className="w-14 h-14 bg-[#f43f5e] rounded-xl flex flex-col items-center justify-center text-white shrink-0 leading-none shadow-md shadow-primary-200">
                     <span className="text-[10px] font-bold uppercase opacity-80 mb-0.5">OCT</span>
                     <span className="text-xl font-bold font-display">14</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-base">Obstetrician</h4>
-                    <p className="text-xs text-slate-500 font-medium mt-0.5">10:00 AM • Routine</p>
+                    <h4 className="font-bold text-slate-900 dark:text-dm-foreground text-base">Obstetrician</h4>
+                    <p className="text-xs text-slate-500 font-medium mt-0.5">10:00 AM €¢ Routine</p>
                   </div>
                 </div>
                 <div className="bg-white p-4 rounded-2xl flex items-center gap-4 shadow-sm">
@@ -1457,8 +1457,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                     <span className="text-xl font-bold font-display">17</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-base">Dietitian</h4>
-                    <p className="text-xs text-slate-500 font-medium mt-0.5">03:30 PM • Macros</p>
+                    <h4 className="font-bold text-slate-900 dark:text-dm-foreground text-base">Dietitian</h4>
+                    <p className="text-xs text-slate-500 font-medium mt-0.5">03:30 PM €¢ Macros</p>
                   </div>
                 </div>
               </div>
@@ -1521,7 +1521,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
                 Recovery
               </div>
-              <h1 className="text-3xl font-display font-extrabold text-slate-900">Post-Partum</h1>
+              <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Post-Partum</h1>
               <p className="text-slate-500 mt-1">Focusing on healing and bonding.</p>
             </div>
             <SpeakButton text="Post-Partum Dashboard. Recovery phase. Focusing on healing and bonding with your baby." />
@@ -1530,7 +1530,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
         {/* Motivational Quote - Centered */}
         <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
-          <Heart size={40} className="text-indigo-400 mb-6" />
+          <Heart size={40} className="text-secondary-400 mb-6" />
           <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
             You are doing amazing, mama. Every small step forward is a victory.
           </p>
@@ -1541,7 +1541,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
         {/* Safety Alert Banner - Consecutive Negative Check-ins */}
         {safetyAlert.hasAlert && (
-          <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-[2rem] p-8 border-2 border-red-200 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="bg-gradient-to-br from-red-50 to-primary-50 rounded-[2rem] p-8 border-2 border-red-200 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="flex items-start gap-4 mb-4">
               <div className="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
                 <AlertTriangle size={28} className="text-white" />
@@ -1553,7 +1553,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   Your emotional wellbeing matters, and support is available.
                 </p>
 
-                <div className="bg-white rounded-xl p-5 mb-4">
+                <div className="bg-white dark:bg-dm-card rounded-xl p-5 mb-4">
                   <p className="text-xs font-medium text-slate-600 mb-4">
                     <strong className="text-red-900">Important:</strong> This is not a medical diagnosis.
                     If you're experiencing persistent feelings of sadness, anxiety, or thoughts of self-harm,
@@ -1569,15 +1569,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                           <p className="text-xs text-red-600 mb-1">{resource.description}</p>
                           {resource.phone && (
                             <a href={`tel:${resource.phone}`} className="text-xs font-medium text-red-700 hover:text-red-900 underline block">
-                              📞 {resource.phone}
+                              “ž {resource.phone}
                             </a>
                           )}
                           {resource.website && (
                             <a href={`https://${resource.website}`} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-red-700 hover:text-red-900 underline block">
-                              🌐 {resource.website}
+                              Œ {resource.website}
                             </a>
                           )}
-                          <p className="text-xs text-red-500 mt-1">✓ {resource.available}</p>
+                          <p className="text-xs text-red-500 mt-1">œ” {resource.available}</p>
                         </div>
                       </div>
                     ))}
@@ -1604,54 +1604,54 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <div className="space-y-6">
 
             {/* How are you feeling? Card */}
-            <div className="bg-indigo-900 rounded-[2rem] p-8">
+            <div className="bg-secondary-900 rounded-[2rem] p-8">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="text-white text-2xl font-bold mb-2">How are you feeling?</h3>
                 <SpeakButton text="How are you feeling? It's normal to feel a mix of emotions right now. Tracking helps. You can select Sad, Neutral, Good, or Great, and describe what's on your mind." className="text-white border-white/30 bg-white/10 hover:bg-white/20" />
               </div>
-              <p className="text-indigo-200 text-sm mb-6">It's normal to feel a mix of emotions right now. Tracking helps.</p>
+              <p className="text-secondary-200 text-sm mb-6">It's normal to feel a mix of emotions right now. Tracking helps.</p>
 
               <div className="flex flex-col gap-2 mb-6">
                 <div className="flex gap-4">
-                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
-                    <span className="text-3xl">😔</span>
-                    <span className="text-indigo-200 text-xs font-medium">Sad</span>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary-800/50 hover:bg-secondary-700 transition-colors">
+                    <span className="text-3xl">˜¢</span>
+                    <span className="text-secondary-200 text-xs font-medium">Sad</span>
                   </button>
-                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
-                    <span className="text-3xl">🙄</span>
-                    <span className="text-indigo-200 text-xs font-medium">Neutral</span>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary-800/50 hover:bg-secondary-700 transition-colors">
+                    <span className="text-3xl">˜</span>
+                    <span className="text-secondary-200 text-xs font-medium">Neutral</span>
                   </button>
-                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
-                    <span className="text-3xl">🙂</span>
-                    <span className="text-indigo-200 text-xs font-medium">Good</span>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary-800/50 hover:bg-secondary-700 transition-colors">
+                    <span className="text-3xl">™‚</span>
+                    <span className="text-secondary-200 text-xs font-medium">Good</span>
                   </button>
-                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-800/50 hover:bg-indigo-700 transition-colors">
-                    <span className="text-3xl">🤩</span>
-                    <span className="text-indigo-200 text-xs font-medium">Great</span>
+                  <button className="flex-1 flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary-800/50 hover:bg-secondary-700 transition-colors">
+                    <span className="text-3xl">¤©</span>
+                    <span className="text-secondary-200 text-xs font-medium">Great</span>
                   </button>
                 </div>
               </div>
 
               <div className="mt-4">
-                <label className="text-indigo-200 text-sm font-medium mb-2 block">What's on your mind?</label>
+                <label className="text-secondary-200 text-sm font-medium mb-2 block">What's on your mind?</label>
                 <input
                   type="text"
                   placeholder="Describe how you're feeling..."
-                  className="w-full px-4 py-3 rounded-xl bg-indigo-800/50 border border-indigo-700/50 text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-secondary-800/50 border border-secondary-700/50 text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
 
             {/* Mood Snapshot Card */}
-            <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+            <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
                     <Activity size={20} className="text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 text-lg">Mood Snapshot</h3>
-                    <p className="text-xs text-slate-400">Last 7 days</p>
+                    <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Mood Snapshot</h3>
+                    <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Last 7 days</p>
                   </div>
                 </div>
                 <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">
@@ -1697,7 +1697,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <div className="space-y-6">
 
             {/* Wellness Screening Card */}
-            <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[2rem] p-8 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-purple-500 to-secondary-600 rounded-[2rem] p-8 relative overflow-hidden">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
                   <Sparkles size={28} className="text-white" />
@@ -1735,15 +1735,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Sleep Pattern Card */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center">
                   <Moon size={20} className="text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-lg">Sleep Pattern</h3>
-                  <p className="text-xs text-slate-400">This week</p>
+                  <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Sleep Pattern</h3>
+                  <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">This week</p>
                 </div>
               </div>
               <span className="text-purple-600 font-bold text-sm">
@@ -1783,9 +1783,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           {/* Recovery Checklist */}
-          <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-bold text-slate-900 text-xl">Recovery Checklist</h3>
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-xl">Recovery Checklist</h3>
               <span className="text-purple-600 font-bold text-sm">
                 {recoveryChecklist.filter(item => item.done).length}/{recoveryChecklist.length} done
               </span>
@@ -1798,7 +1798,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   onClick={() => toggleChecklistItem(i)}
                   className={`flex items-center gap-4 p-4 rounded-xl transition-all cursor-pointer ${item.done
                     ? 'bg-purple-50'
-                    : 'hover:bg-slate-50'
+                    : 'hover:bg-slate-50 dark:hover:bg-dm-muted'
                     }`}
                 >
                   <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${item.done
@@ -1808,7 +1808,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                     {item.done && <Check size={16} className="text-white" />}
                   </div>
                   <span className={`font-medium text-base ${item.done
-                    ? 'text-slate-900'
+                    ? 'text-slate-900 dark:text-dm-foreground'
                     : 'text-slate-600'
                     }`}>
                     {item.label}
@@ -1831,56 +1831,56 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex items-start gap-3">
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-sky-700 text-xs font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-50 border border-secondary-100 text-secondary-600 text-xs font-bold uppercase tracking-wider mb-2">
+              <span className="w-2 h-2 rounded-full bg-secondary-400 animate-pulse"></span>
               Month 2
             </div>
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Baby Care</h1>
+            <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Baby Care</h1>
             <p className="text-slate-500 mt-1">Leo is 8 weeks old today!</p>
           </div>
           <SpeakButton text="Baby Care Dashboard. Month 2. Leo is 8 weeks old today! Track feeding, sleep, weight, and upcoming milestones." />
         </div>
-        <button className="bg-sky-500 hover:bg-sky-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-sky-500/20 transition-all flex items-center gap-2">
+        <button className="bg-secondary-400 hover:bg-secondary-500 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-secondary-400/20 transition-all flex items-center gap-2">
           <Calendar size={18} />
           Log Appointment
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center gap-2">
+        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 dark:border-dm-border shadow-sm flex flex-col items-center justify-center text-center gap-2">
           <div className="p-3 bg-orange-50 text-orange-500 rounded-full mb-1">
             <Milk size={24} />
           </div>
           <span className="text-slate-400 text-xs font-bold uppercase">Last Feed</span>
-          <span className="text-2xl font-display font-bold text-slate-900">2h 15m</span>
-          <span className="text-xs text-slate-400">ago</span>
+          <span className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">2h 15m</span>
+          <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">ago</span>
         </div>
 
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center gap-2">
+        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 dark:border-dm-border shadow-sm flex flex-col items-center justify-center text-center gap-2">
           <div className="p-3 bg-blue-50 text-blue-500 rounded-full mb-1">
             <Moon size={24} />
           </div>
           <span className="text-slate-400 text-xs font-bold uppercase">Last Sleep</span>
-          <span className="text-2xl font-display font-bold text-slate-900">45m</span>
-          <span className="text-xs text-slate-400">duration</span>
+          <span className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">45m</span>
+          <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">duration</span>
         </div>
 
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center gap-2">
+        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 dark:border-dm-border shadow-sm flex flex-col items-center justify-center text-center gap-2">
           <div className="p-3 bg-green-50 text-green-500 rounded-full mb-1">
             <Scale size={24} />
           </div>
           <span className="text-slate-400 text-xs font-bold uppercase">Weight</span>
-          <span className="text-2xl font-display font-bold text-slate-900">11.2 lbs</span>
+          <span className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">11.2 lbs</span>
           <span className="text-xs text-green-600 font-bold">+5%</span>
         </div>
 
-        <div className="bg-sky-500 p-6 rounded-[2rem] shadow-lg shadow-sky-500/20 flex flex-col items-center justify-center text-center gap-2 text-white">
+        <div className="bg-secondary-400 p-6 rounded-[2rem] shadow-lg shadow-secondary-400/20 flex flex-col items-center justify-center text-center gap-2 text-white">
           <div className="p-3 bg-white/20 rounded-full mb-1">
             <Clock size={24} />
           </div>
-          <span className="text-sky-100 text-xs font-bold uppercase">Next Feed</span>
+          <span className="text-secondary-100 text-xs font-bold uppercase">Next Feed</span>
           <span className="text-2xl font-display font-bold">1:30 PM</span>
-          <span className="text-xs text-sky-100">in 45 mins</span>
+          <span className="text-xs text-secondary-100">in 45 mins</span>
         </div>
       </div>
 
@@ -1888,10 +1888,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       <div className="bg-[#fffbeb] rounded-[2rem] p-8 border border-amber-50">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-emerald-100 text-emerald-600 rounded-full">
+            <div className="p-3 bg-primary-100 text-primary-600 rounded-full">
               <Wind size={24} />
             </div>
-            <h2 className="text-2xl font-bold font-display text-slate-900">Environmental Safety</h2>
+            <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Environmental Safety</h2>
             <SpeakButton text={aqiState.data
               ? `Environmental Safety. Current Air Quality Index is ${aqiState.data.aqi}, which is ${getAQICategory(aqiState.data.aqi).label}. ${getBabySafetyGuidance(aqiState.data.aqi).message}. Location: ${aqiState.data.station}. Dominant pollutant: ${formatPollutant(aqiState.data.dominantPollutant)}.`
               : "Environmental Safety. Air quality awareness for infants: In many Indian cities, carrying infants in high AQI without coverups is dangerously normalized. Babies breathe 3 times faster than adults."
@@ -1900,7 +1900,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <button
             onClick={fetchAQI}
             disabled={aqiState.loading}
-            className="p-2 rounded-xl bg-white border border-amber-200 text-emerald-600 hover:bg-emerald-50 transition-colors disabled:opacity-50"
+            className="p-2 rounded-xl bg-white border border-amber-200 text-primary-600 hover:bg-primary-50 transition-colors disabled:opacity-50"
             title="Refresh AQI"
           >
             <RefreshCw size={18} className={aqiState.loading ? 'animate-spin' : ''} />
@@ -1916,22 +1916,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             {/* Loading State */}
             {aqiState.loading && !aqiState.data ? (
               <div className="flex items-center justify-center gap-3 py-4">
-                <Loader2 size={24} className="animate-spin text-emerald-300" />
-                <span className="text-emerald-200 text-sm">Fetching live air quality...</span>
+                <Loader2 size={24} className="animate-spin text-primary-300" />
+                <span className="text-primary-200 text-sm">Fetching live air quality...</span>
               </div>
             ) : aqiState.error ? (
               <div className="flex items-center justify-center gap-3 py-4">
                 <AlertTriangle size={20} className="text-red-300" />
                 <span className="text-red-300 text-sm">Unable to load AQI</span>
-                <button onClick={fetchAQI} className="text-xs text-emerald-200 underline hover:text-white">Retry</button>
+                <button onClick={fetchAQI} className="text-xs text-primary-200 underline hover:text-white">Retry</button>
               </div>
             ) : aqiState.data ? (
               <div className="flex flex-col lg:flex-row lg:items-center gap-6">
                 {/* Left: Large AQI Number - Main Attraction */}
                 <div className="flex items-center gap-6">
                   <div className="text-center">
-                    <div className="text-[10px] text-emerald-300 uppercase tracking-widest font-bold mb-1">Live AQI</div>
-                    <div className={`text-6xl font-bold font-display leading-none ${aqiState.data.aqi <= 50 ? 'text-emerald-400' :
+                    <div className="text-[10px] text-primary-300 uppercase tracking-widest font-bold mb-1">Live AQI</div>
+                    <div className={`text-6xl font-bold font-display leading-none ${aqiState.data.aqi <= 50 ? 'text-primary-400' :
                       aqiState.data.aqi <= 100 ? 'text-yellow-400' :
                         aqiState.data.aqi <= 150 ? 'text-orange-400' :
                           aqiState.data.aqi <= 200 ? 'text-red-400' :
@@ -1952,7 +1952,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div className="flex-1">
                   {/* Safety Guidance */}
                   <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl mb-4 ${getBabySafetyGuidance(aqiState.data.aqi).icon === 'safe'
-                    ? 'bg-emerald-500/20 border border-emerald-400/30'
+                    ? 'bg-primary-500/20 border border-primary-400/30'
                     : getBabySafetyGuidance(aqiState.data.aqi).icon === 'caution'
                       ? 'bg-yellow-500/20 border border-yellow-400/30'
                       : getBabySafetyGuidance(aqiState.data.aqi).icon === 'warning'
@@ -1966,12 +1966,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                     <span className="text-sm font-medium">{getBabySafetyGuidance(aqiState.data.aqi).message}</span>
                   </div>
 
-                  <p className="text-emerald-100/80 text-sm mb-4">
+                  <p className="text-primary-100/80 text-sm mb-4">
                     Babies breathe 3x faster than adults. In high AQI (&gt;150), use baby coverups outdoors.
                   </p>
 
                   {/* Details Row */}
-                  <div className="flex flex-wrap items-center gap-4 text-emerald-200 text-xs">
+                  <div className="flex flex-wrap items-center gap-4 text-primary-200 text-xs">
                     <div className="flex items-center gap-1.5">
                       <MapPin size={12} className="shrink-0" />
                       <span>{aqiState.data.station}</span>
@@ -1980,7 +1980,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                       <Wind size={12} />
                       <span>{formatPollutant(aqiState.data.dominantPollutant)}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-emerald-300/60">
+                    <div className="flex items-center gap-1.5 text-primary-300/60">
                       <Clock size={12} />
                       <span>{new Date(aqiState.data.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
@@ -1994,12 +1994,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         {/* Bottom Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Media Consumption */}
-          <div className="bg-white rounded-[2rem] p-6 border border-amber-100 flex gap-4 shadow-sm">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-amber-100 flex gap-4 shadow-sm">
             <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center shrink-0">
               <Tv size={24} />
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 mb-2">Media Consumption</h4>
+              <h4 className="font-bold text-slate-900 dark:text-dm-foreground mb-2">Media Consumption</h4>
               <p className="text-xs text-slate-500 leading-relaxed">
                 Watching TV too much is normalized but stunts early neural speech pathways. Focus on tactile play.
               </p>
@@ -2007,12 +2007,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           {/* Full House Hygiene */}
-          <div className="bg-white rounded-[2rem] p-6 border border-amber-100 flex gap-4 shadow-sm">
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-amber-100 flex gap-4 shadow-sm">
+            <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0">
               <ShieldCheck size={24} />
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 mb-2">Full House Hygiene</h4>
+              <h4 className="font-bold text-slate-900 dark:text-dm-foreground mb-2">Full House Hygiene</h4>
               <p className="text-xs text-slate-500 leading-relaxed">
                 Baby-safe furniture with rounded edges and non-toxic paint is essential for the first 5 years.
               </p>
@@ -2024,15 +2024,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       {/* Baby Care Essentials & Medical Roadmap */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Left Column: Baby Care Essentials (2/3 width) */}
-        <div className="xl:col-span-2 bg-white rounded-[2rem] p-8 border border-slate-100">
+        <div className="xl:col-span-2 bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-secondary-100 text-secondary-600 flex items-center justify-center">
               <Baby size={24} />
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold font-display text-slate-900">Baby Care Essentials</h2>
-              <p className="text-slate-500">Science-backed postnatal guidance</p>
+              <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Baby Care Essentials</h2>
+              <p className="text-slate-400 dark:text-slate-400 dark:text-slate-500">Science-backed postnatal guidance</p>
             </div>
             <SpeakButton text="Baby Care Essentials. Science-backed postnatal guidance including nutrition, hygiene, breastfeeding tips, formula safety, and product comparisons for diapers and skincare." />
           </div>
@@ -2040,16 +2040,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Nutrition & Hygiene */}
             <div>
-              <div className="flex items-center gap-2 mb-4 text-rose-500">
+              <div className="flex items-center gap-2 mb-4 text-primary-400">
                 <Utensils size={20} />
-                <h3 className="font-bold text-slate-900">Nutrition & Hygiene</h3>
+                <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Nutrition & Hygiene</h3>
               </div>
               <ul className="space-y-4">
                 <li className="text-sm text-slate-600 leading-relaxed">
-                  <span className="font-bold text-slate-900">Breastfeeding Hygiene:</span> Cleanliness of latch and pump parts is critical. Indian milk reports suggest checking local sources for contaminants.
+                  <span className="font-bold text-slate-900 dark:text-dm-foreground">Breastfeeding Hygiene:</span> Cleanliness of latch and pump parts is critical. Indian milk reports suggest checking local sources for contaminants.
                 </li>
                 <li className="text-sm text-slate-600 leading-relaxed">
-                  <span className="font-bold text-slate-900">Formula Safety:</span> USA/EU standards (FDA/EFSA) are currently stricter than FSSAI. Choose certified organic imports if local purity is in doubt.
+                  <span className="font-bold text-slate-900 dark:text-dm-foreground">Formula Safety:</span> USA/EU standards (FDA/EFSA) are currently stricter than FSSAI. Choose certified organic imports if local purity is in doubt.
                 </li>
               </ul>
             </div>
@@ -2058,7 +2058,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             <div>
               <div className="flex items-center gap-2 mb-4 text-blue-600">
                 <FlaskConical size={20} />
-                <h3 className="font-bold text-slate-900">Product Comparisons</h3>
+                <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Product Comparisons</h3>
               </div>
               <div className="space-y-3">
                 <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-3">
@@ -2079,26 +2079,26 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         </div>
 
         {/* Right Column: Medical Roadmap (1/3 width) */}
-        <div className="xl:col-span-1 bg-white rounded-[2rem] p-8 border border-slate-100 h-full flex flex-col">
+        <div className="xl:col-span-1 bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border h-full flex flex-col">
           <div className="flex items-center gap-3 mb-6">
-            <div className="text-rose-500">
+            <div className="text-primary-400">
               <ClipboardList size={20} />
             </div>
-            <h3 className="text-xl font-bold font-display text-slate-900">Medical Roadmap</h3>
+            <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Medical Roadmap</h3>
             <SpeakButton text="Medical Roadmap. Vaccination tracker: BCG and Hepatitis B done. OPV 1 and DTP 1 due next week. Genetic monitoring: Birth data is analyzed for genetic markers. Follow up on infant metabolic screening results." size={12} />
           </div>
 
           {/* Vaccination Tracker */}
-          <div className="bg-rose-50 rounded-2xl p-4 mb-4">
-            <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider mb-3 block">Vaccination Tracker</span>
+          <div className="bg-primary-50 rounded-2xl p-4 mb-4">
+            <span className="text-[10px] font-bold text-primary-500 uppercase tracking-wider mb-3 block">Vaccination Tracker</span>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-slate-700">BCG / Hepatitis B</span>
-                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded">DONE</span>
+                <span className="text-sm font-medium text-slate-600 dark:text-slate-300">BCG / Hepatitis B</span>
+                <span className="px-2 py-0.5 bg-primary-100 text-primary-700 text-[10px] font-bold rounded">DONE</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-slate-700">OPV 1 / DTP 1</span>
-                <span className="px-2 py-0.5 bg-rose-200 text-rose-800 text-[10px] font-bold rounded">NEXT WEEK</span>
+                <span className="text-sm font-medium text-slate-600 dark:text-slate-300">OPV 1 / DTP 1</span>
+                <span className="px-2 py-0.5 bg-primary-200 text-primary-700 text-[10px] font-bold rounded">NEXT WEEK</span>
               </div>
             </div>
           </div>
@@ -2114,10 +2114,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
       </div>
 
       {/* Milestone Tracker */}
-      <div className="bg-white rounded-[2rem] p-8 border border-slate-100">
+      <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold font-display text-slate-900">Upcoming Milestones</h3>
-          <button className="text-sky-600 text-sm font-bold hover:underline">View All</button>
+          <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Upcoming Milestones</h3>
+          <button className="text-secondary-500 text-sm font-bold hover:underline">View All</button>
         </div>
         <div className="space-y-4">
           {[
@@ -2125,17 +2125,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             { title: 'Lifting Head', date: 'Expected: Month 3', achieved: false },
             { title: 'Tracking Objects', date: 'Expected: Month 3', achieved: false },
           ].map((m, i) => (
-            <div key={i} className={`flex items-center justify-between p-5 rounded-2xl border ${m.achieved ? 'bg-sky-50 border-sky-100' : 'bg-white border-slate-100'}`}>
+            <div key={i} className={`flex items-center justify-between p-5 rounded-2xl border ${m.achieved ? 'bg-secondary-50 border-secondary-100' : 'bg-white border-dark-700'}`}>
               <div className="flex items-center gap-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${m.achieved ? 'bg-sky-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${m.achieved ? 'bg-secondary-400 text-white' : 'bg-slate-100 text-slate-400'}`}>
                   {m.achieved ? <CheckCircle2 size={16} /> : <div className="w-2 h-2 rounded-full bg-slate-300"></div>}
                 </div>
                 <div>
-                  <h4 className={`font-bold ${m.achieved ? 'text-slate-900' : 'text-slate-600'}`}>{m.title}</h4>
-                  <p className="text-xs text-slate-400">{m.date}</p>
+                  <h4 className={`font-bold ${m.achieved ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-600'}`}>{m.title}</h4>
+                  <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{m.date}</p>
                 </div>
               </div>
-              {m.achieved && <span className="text-xs font-bold text-sky-600 bg-white px-3 py-1 rounded-full shadow-sm">Achieved!</span>}
+              {m.achieved && <span className="text-xs font-bold text-secondary-500 bg-white px-3 py-1 rounded-full shadow-sm">Achieved!</span>}
             </div>
           ))}
         </div>
@@ -2143,3 +2143,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
     </div>
   );
 };
+
+
+
+
+
+

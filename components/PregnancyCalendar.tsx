@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Bell, Shield, Trash2, EyeOff, Plus, AlertCircle } from 'lucide-react';
 import { SpeakButton } from './SpeakButton';
 
@@ -17,7 +17,7 @@ export const PregnancyCalendar: React.FC = () => {
   const milestones = [
     {
       title: "Obstetrician Checkup",
-      date: "January 14 • 10:00 AM",
+      date: "January 14 Ãƒ¢Ã¢€š¬Ã‚¢ 10:00 AM",
       type: "checkup",
       icon: Bell,
       color: "text-blue-600 dark:text-blue-400",
@@ -25,7 +25,7 @@ export const PregnancyCalendar: React.FC = () => {
     },
     {
       title: "TT-1 (Tetanus Shot)",
-      date: "January 18 • 11:30 AM",
+      date: "January 18 Ãƒ¢Ã¢€š¬Ã‚¢ 11:30 AM",
       type: "vaccine",
       icon: Shield,
       color: "text-amber-600 dark:text-amber-400",
@@ -33,7 +33,7 @@ export const PregnancyCalendar: React.FC = () => {
     },
     {
       title: "Glucose Challenge Test",
-      date: "January 22 • 09:00 AM",
+      date: "January 22 Ãƒ¢Ã¢€š¬Ã‚¢ 09:00 AM",
       type: "checkup",
       icon: Bell,
       color: "text-blue-600 dark:text-blue-400",
@@ -41,7 +41,7 @@ export const PregnancyCalendar: React.FC = () => {
     },
     {
       title: "Flu Vaccination",
-      date: "January 28 • 04:00 PM",
+      date: "January 28 Ãƒ¢Ã¢€š¬Ã‚¢ 04:00 PM",
       type: "vaccine",
       icon: Shield,
       color: "text-amber-600 dark:text-amber-400",
@@ -59,8 +59,8 @@ export const PregnancyCalendar: React.FC = () => {
         className={`
           aspect-square rounded-xl flex flex-col items-center justify-center relative font-medium text-sm transition-all
           ${isToday
-            ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900 shadow-sm ring-4 ring-rose-50 dark:ring-rose-900/10'
-            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-dark-800'
+            ? 'bg-primary-50 dark:bg-primary-800/20 text-primary-500 dark:text-primary-300 border border-primary-200 dark:border-primary-800 shadow-sm ring-4 ring-primary-50 dark:ring-primary-800/10'
+            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:bg-dm-muted dark:hover:bg-dm-muted'
           }
         `}
       >
@@ -75,27 +75,27 @@ export const PregnancyCalendar: React.FC = () => {
 
         {/* Today Indicator Circle if needed, styled via container above */}
         {isToday && (
-          <div className="absolute inset-0 border-2 border-rose-500 rounded-xl opacity-20 pointer-events-none"></div>
+          <div className="absolute inset-0 border-2 border-primary-400 rounded-xl opacity-20 pointer-events-none"></div>
         )}
       </div>
     );
   };
 
   return (
-    <div className="bg-white dark:bg-dark-900 rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dark-700 h-full transition-colors duration-300">
+    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-dark-700 dark:border-dm-border h-full transition-colors duration-300">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-rose-50 dark:bg-rose-900/20 text-rose-500 dark:text-rose-400 rounded-xl">
+            <div className="p-3 bg-primary-50 dark:bg-primary-800/20 text-primary-400 dark:text-primary-300 rounded-xl">
               <CalendarIcon size={24} />
             </div>
-            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white">Pregnancy Calendar</h2>
+            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-dm-foreground">Pregnancy Calendar</h2>
             <SpeakButton text="Pregnancy Calendar. Week 24, Trimester 2 Milestones. Track your checkups, vaccinations, and important appointments." size={14} />
           </div>
-          <p className="text-xs font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest ml-14">Week 24 • Trimester 2 Milestones</p>
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-14">Week 24 Ãƒ¢Ã¢€š¬Ã‚¢ Trimester 2 Milestones</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-dark-800 border border-slate-200 dark:border-dark-700 rounded-xl text-xs font-bold text-slate-600 dark:text-white hover:bg-slate-50 dark:hover:bg-dark-700 transition-colors shadow-sm whitespace-nowrap">
+        <button className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-50 dark:bg-dm-muted border border-dark-700 dark:border-dm-border rounded-xl text-xs font-bold text-slate-600 dark:text-dm-foreground hover:bg-slate-50 dark:bg-dm-muted dark:hover:bg-dm-accent transition-colors shadow-sm whitespace-nowrap">
           <img src="https://www.gstatic.com/images/branding/product/1x/calendar_2020q4_48dp.png" alt="Google Calendar" className="w-4 h-4" />
           LINK GOOGLE CALENDAR
         </button>
@@ -105,12 +105,12 @@ export const PregnancyCalendar: React.FC = () => {
         {/* Left: Calendar View */}
         <div className="flex-1 min-w-[300px]">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{month}</h3>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground">{month}</h3>
             <div className="flex gap-2">
-              <button className="w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-dark-800 rounded-full transition-colors">
+              <button className="w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-50 dark:bg-dm-muted rounded-full transition-colors">
                 <ChevronLeft size={18} />
               </button>
-              <button className="w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-dark-800 rounded-full transition-colors">
+              <button className="w-8 h-8 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-50 dark:bg-dm-muted rounded-full transition-colors">
                 <ChevronRight size={18} />
               </button>
             </div>
@@ -136,7 +136,7 @@ export const PregnancyCalendar: React.FC = () => {
               <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Vaccine</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-primary-300"></div>
               <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Personal</span>
             </div>
           </div>
@@ -145,36 +145,36 @@ export const PregnancyCalendar: React.FC = () => {
         {/* Right: Milestones */}
         <div className="flex-1 flex flex-col">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xs font-bold text-slate-400 dark:text-dark-text-muted uppercase tracking-widest">Medical Milestones</h3>
-            <button className="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors">
+            <h3 className="text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-500 uppercase tracking-widest">Medical Milestones</h3>
+            <button className="text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-800/20 p-1.5 rounded-lg transition-colors">
               <Plus size={16} />
             </button>
           </div>
 
           <div className="space-y-4 mb-6">
             {milestones.map((m, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-dark-800 border border-slate-100 dark:border-dark-700 group hover:border-slate-200 dark:hover:border-dark-600 transition-colors">
+              <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-50 dark:bg-dm-muted border border-dark-700 dark:border-dm-border group hover:border-dark-700 dark:hover:border-dark-600 transition-colors">
                 <div className={`w-10 h-10 rounded-xl ${m.bg} ${m.color} flex items-center justify-center shrink-0`}>
                   <m.icon size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm truncate">{m.title}</h4>
-                  <p className="text-xs text-slate-500 dark:text-dark-text-secondary font-medium">{m.date}</p>
+                  <h4 className="font-bold text-slate-900 dark:text-dm-foreground text-sm truncate">{m.title}</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-600 dark:text-slate-300 font-medium">{m.date}</p>
                 </div>
                 <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"><EyeOff size={16} /></button>
-                  {m.type === 'checkup' && <button className="text-slate-400 dark:text-slate-500 hover:text-rose-500"><Trash2 size={16} /></button>}
+                  {m.type === 'checkup' && <button className="text-slate-400 dark:text-slate-500 hover:text-primary-400"><Trash2 size={16} /></button>}
                 </div>
               </div>
             ))}
           </div>
 
           {/* Alert Box */}
-          <div className="mt-auto bg-rose-50 dark:bg-rose-900/10 rounded-xl p-4 border border-rose-100 dark:border-rose-900/30">
+          <div className="mt-auto bg-primary-50 dark:bg-primary-800/10 rounded-xl p-4 border border-primary-100 dark:border-primary-800/30">
             <div className="flex gap-3">
-              <AlertCircle size={16} className="text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
-              <p className="text-[11px] leading-relaxed text-rose-900 dark:text-rose-200">
-                <span className="font-bold text-rose-700 dark:text-rose-300">IMPORTANT:</span> Tetanus toxoid (TT-1) is crucial between 16-24 weeks. Flu shots can be taken anytime to protect your baby's early immunity.
+              <AlertCircle size={16} className="text-primary-500 dark:text-primary-300 shrink-0 mt-0.5" />
+              <p className="text-[11px] leading-relaxed text-primary-800 dark:text-primary-200">
+                <span className="font-bold text-primary-600 dark:text-primary-300">IMPORTANT:</span> Tetanus toxoid (TT-1) is crucial between 16-24 weeks. Flu shots can be taken anytime to protect your baby's early immunity.
               </p>
             </div>
           </div>
@@ -183,3 +183,9 @@ export const PregnancyCalendar: React.FC = () => {
     </div>
   );
 };
+
+
+
+
+
+

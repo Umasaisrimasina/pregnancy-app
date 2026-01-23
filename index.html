@@ -1,74 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤰</text></svg>" />
-    <title>PreConceive</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Plus Jakarta Sans', 'sans-serif'],
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤰</text></svg>" />
+  <title>PreConceive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Dark Matter Fonts: Geist Mono + JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=geist-mono@400,500,600,700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist Mono', 'ui-monospace', 'monospace'],
+            display: ['Geist Mono', 'ui-monospace', 'monospace'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            // Dark Matter Primary Palette
+            primary: {
+              50: '#fef7f4',
+              100: '#fdeee8',
+              200: '#fbd5c5',
+              300: '#f7b597',
+              400: '#e89468',
+              500: '#d97b4a', // Dark Matter primary
+              600: '#c2633a',
+              700: '#a14d2d',
+              800: '#833f26',
+              900: '#6b3521',
             },
-            colors: {
-              primary: {
-                50: '#ecfdf5',
-                100: '#d1fae5',
-                200: '#a7f3d0',
-                300: '#6ee7b7',
-                400: '#34d399',
-                500: '#10b981',
-                600: '#059669',
-                700: '#047857',
-                800: '#065f46',
-                900: '#064e3b',
-              },
-              mint: {
-                50: '#f0fdfa',
-                100: '#ccfbf1',
-                500: '#14b8a6',
-              },
-              dark: {
-                950: '#020617', // Very dark blue/slate for main background
-                900: '#0f172a', // Sidebar / Cards
-                800: '#1e293b', // Hover states / Lighter cards
-                700: '#334155', // Borders
-                text: {
-                   primary: '#f8fafc', // Slate 50
-                   secondary: '#cbd5e1', // Slate 300
-                   muted: '#94a3b8', // Slate 400
-                }
-              }
+            // Dark Matter Secondary (Teal)
+            secondary: {
+              50: '#f0f9f9',
+              100: '#d9eeee',
+              200: '#b3dddd',
+              300: '#80c5c5',
+              400: '#5aa0a0',
+              500: '#4a8585', // Dark Matter secondary
+              600: '#3d7a7a',
+              700: '#336666',
+              800: '#2b5454',
+              900: '#244545',
+            },
+            // Dark Matter Dark Theme Colors
+            dm: {
+              background: '#121214',  // Near-black with purple tint
+              foreground: '#c9c9c9',  // Light gray text
+              card: '#141414',        // Slightly elevated surface
+              muted: '#2a2a2a',       // Dark muted surface
+              'muted-fg': '#8c8c8c', // Muted text
+              accent: '#3d3d3d',      // Elevated accent surface
+              border: '#2a2a2a',      // Subtle border
+              ring: '#d97b4a',        // Focus ring (primary)
+              sidebar: '#141414',     // Sidebar background
+            },
+            // Chart Colors
+            chart: {
+              1: '#4a8585', // Teal
+              2: '#d97b4a', // Orange
+              3: '#e8c07a', // Gold
+              4: '#8c8c8c', // Gray
+              5: '#a3a3a3', // Light gray
+            },
+            // Warm Phase Colors (shifted toward Dark Matter palette)
+            phase: {
+              prepreg: '#d97b4a',   // Warm orange (was emerald)
+              pregnancy: '#e89468', // Light orange (was rose)
+              postpartum: '#4a8585', // Teal (was indigo)
+              babycare: '#5aa0a0',  // Light teal (was sky)
             }
+          },
+          borderRadius: {
+            'sm': '0.5rem',   // 8px
+            'md': '0.625rem', // 10px
+            'lg': '0.75rem',  // 12px
+            'xl': '1rem',     // 16px
+          },
+          boxShadow: {
+            'dm-sm': '0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 1px 2px -1px hsl(0 0% 0% / 0.05)',
+            'dm-md': '0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 2px 4px -1px hsl(0 0% 0% / 0.05)',
+            'dm-lg': '0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 4px 6px -1px hsl(0 0% 0% / 0.05)',
+            'dm-xl': '0px 1px 4px 0px hsl(0 0% 0% / 0.05), 0px 8px 10px -1px hsl(0 0% 0% / 0.05)',
           }
         }
       }
-    </script>
-    <style>
-      /* Custom Scrollbar for a cleaner UI */
-      ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-      }
-    </style>
+    }
+  </script>
+  <style>
+    /* Dark Matter Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #3d3d3d;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d97b4a;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -80,10 +126,13 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-gray-50 text-slate-900 antialiased selection:bg-primary-100 selection:text-primary-900">
-    <div id="root"></div>
+
+<body
+  class="bg-gray-50 dark:bg-dm-background text-slate-900 dark:text-dm-foreground antialiased selection:bg-primary-100 selection:text-primary-900 dark:selection:bg-primary-900/30 dark:selection:text-primary-300">
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

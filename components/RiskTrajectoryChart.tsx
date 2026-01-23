@@ -1,4 +1,4 @@
-/**
+﻿/**
  * RiskTrajectoryChart.tsx
  * 
  * Line chart showing risk trends over pregnancy weeks.
@@ -51,7 +51,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-lg p-3 border border-slate-100">
+        <div className="bg-white dark:bg-dm-card rounded-xl shadow-lg p-3 border border-slate-100 dark:border-dm-border">
             <p className="font-bold text-slate-700 text-sm mb-1">Week {label}</p>
             <span className={`text-xs font-bold px-2 py-1 rounded-full ${bgColors[data.overall]} text-slate-700`}>
                 {levelLabels[data.overall]}
@@ -75,7 +75,7 @@ export const RiskTrajectoryChart: React.FC<RiskTrajectoryChartProps> = ({
 
     if (chartData.length === 0) {
         return (
-            <div className="bg-white rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-slate-100" style={{ height }}>
+            <div className="bg-white dark:bg-dm-card rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-slate-100 dark:border-dm-border" style={{ height }}>
                 <TrendingUp size={32} className="text-slate-200 mb-2" />
                 <p className="text-slate-400 text-sm font-medium">Complete your first check-in to see trends</p>
             </div>
@@ -83,14 +83,14 @@ export const RiskTrajectoryChart: React.FC<RiskTrajectoryChartProps> = ({
     }
 
     return (
-        <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+        <div className="bg-white dark:bg-dm-card rounded-2xl p-5 border border-dark-700 shadow-sm">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                    <TrendingUp size={16} className="text-rose-400" />
+                    <TrendingUp size={16} className="text-primary-300" />
                     <span className="font-bold text-slate-700 text-sm">Trend Detection Over Time</span>
                 </div>
-                <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-400 dark:text-slate-500">
                     <span className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.mint }}></span>
                         Stable
@@ -129,9 +129,9 @@ export const RiskTrajectoryChart: React.FC<RiskTrajectoryChartProps> = ({
                         tickLine={false}
                         tick={{ fontSize: 10, fill: '#cbd5e1', fontWeight: 600 }}
                         tickFormatter={(val) => {
-                            if (val === 1) return '●';
-                            if (val === 2) return '●';
-                            if (val === 3) return '●';
+                            if (val === 1) return 'Ã¢€”';
+                            if (val === 2) return 'Ã¢€”';
+                            if (val === 3) return 'Ã¢€”';
                             return '';
                         }}
                     />
@@ -169,3 +169,8 @@ export const RiskTrajectoryChart: React.FC<RiskTrajectoryChartProps> = ({
 };
 
 export default RiskTrajectoryChart;
+
+
+
+
+

@@ -24,7 +24,7 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
       
       <div className="text-center mb-10">
         <div className="flex items-center justify-center gap-3">
-          <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-4">
+          <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mb-4">
             Phase Transition
           </h1>
           <SpeakButton text="Phase Transition. Congratulations on reaching this milestone. Let's review your progress before unlocking the next chapter." />
@@ -35,12 +35,12 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
       </div>
 
       {/* Readiness Status */}
-      <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
            <div className="flex items-center gap-2">
              <div>
-               <h2 className="text-xl font-bold text-slate-900">Readiness Status</h2>
-               <p className="text-sm text-slate-500">Based on recent data</p>
+               <h2 className="text-xl font-bold text-slate-900 dark:text-dm-foreground">Readiness Status</h2>
+               <p className="text-sm text-slate-400 dark:text-slate-400 dark:text-slate-500">Based on recent data</p>
              </div>
              <SpeakButton text="Readiness Status based on recent data: Overall 92%, Health Excellent, Stress Low. Ready for Next Phase." size="sm" />
            </div>
@@ -51,15 +51,15 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-           <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+           <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 border border-slate-100 dark:border-dm-border">
              <span className="text-xs font-bold text-slate-400 uppercase">Overall</span>
-             <div className="text-3xl font-display font-bold text-slate-900 mt-1">92%</div>
+             <div className="text-3xl font-display font-bold text-slate-900 dark:text-dm-foreground mt-1">92%</div>
            </div>
-           <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+           <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 border border-slate-100 dark:border-dm-border">
              <span className="text-xs font-bold text-slate-400 uppercase">Health</span>
              <div className="text-3xl font-display font-bold text-primary-600 mt-1">Excellent</div>
            </div>
-           <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+           <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 border border-slate-100 dark:border-dm-border">
              <span className="text-xs font-bold text-slate-400 uppercase">Stress</span>
              <div className="text-3xl font-display font-bold text-yellow-600 mt-1">Low</div>
            </div>
@@ -82,7 +82,7 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
       </div>
 
       {/* Confirmation */}
-      <div className="bg-white rounded-[2rem] p-8 shadow-lg border border-slate-100 relative overflow-hidden">
+      <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-lg border border-slate-100 dark:border-dm-border relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full blur-3xl -mr-10 -mt-10"></div>
         
         <div className="relative z-10 flex flex-col items-center text-center">
@@ -90,7 +90,7 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
              <Shield size={32} />
            </div>
            <div className="flex items-center gap-2 mb-2">
-             <h3 className="text-xl font-bold text-slate-900">Confirm Transition</h3>
+             <h3 className="text-xl font-bold text-slate-900 dark:text-dm-foreground">Confirm Transition</h3>
              <SpeakButton text={`Confirm Transition: You are about to enter the ${nextPhase.replace('-', ' ')} mode. This will update your dashboard and available tools.`} size="sm" />
            </div>
            <p className="text-sm text-slate-500 max-w-md mb-8">
@@ -100,12 +100,12 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
            <div className="w-full max-w-md space-y-3">
              <button 
                onClick={() => setPhase(nextPhase)}
-               className="w-full py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-lg shadow-slate-900/20 transition-all flex items-center justify-center gap-2 group"
+               className="w-full py-4 rounded-xl bg-slate-900 hover:bg-slate-50 dark:hover:bg-dm-muted text-white font-bold shadow-lg shadow-dark-950/20 transition-all flex items-center justify-center gap-2 group"
              >
                Enter {nextPhase.charAt(0).toUpperCase() + nextPhase.slice(1).replace('-', ' ')} Phase
                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
              </button>
-             <button className="w-full py-4 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-colors">
+             <button className="w-full py-4 rounded-xl bg-white border border-slate-100 dark:border-dm-border text-slate-600 font-bold hover:bg-slate-50 dark:hover:bg-dm-muted transition-colors">
                Cancel
              </button>
            </div>
@@ -115,3 +115,7 @@ export const Transition: React.FC<PageProps> = ({ phase, setPhase }) => {
     </div>
   );
 };
+
+
+
+

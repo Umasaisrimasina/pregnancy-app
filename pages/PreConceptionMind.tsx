@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip, LineChart, Line, CartesianGrid, YAxis } from 'recharts';
 import { Smile, Frown, Meh, Lock, Mic, ArrowRight, X, Send, Shield, Heart, Loader2, CheckCircle2, AlertCircle, TrendingUp } from 'lucide-react';
 import { SpeakButton } from '../components/SpeakButton';
@@ -18,9 +18,9 @@ const STORAGE_KEY = 'preconception_mind_checkins';
 // Mood options
 type MoodType = 'rough' | 'okay' | 'good';
 const moodToEmoji: Record<MoodType, string> = {
-  'rough': '😔',
-  'okay': '😐',
-  'good': '😊'
+  'rough': '˜ž',
+  'okay': '˜',
+  'good': '˜Š'
 };
 
 const moodToScore: Record<MoodType, number> = {
@@ -59,7 +59,7 @@ export const PreConceptionMind: React.FC = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [lastResult, setLastResult] = useState<{ sentiment: SentimentLabel; mismatch: boolean } | null>(null);
   const [checkIns, setCheckIns] = useState<DailyCheckIn[]>(getCheckIns());
-  
+
   // Live sentiment preview
   const [livePreviewSentiment, setLivePreviewSentiment] = useState<SentimentLabel | null>(null);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
@@ -90,12 +90,12 @@ export const PreConceptionMind: React.FC = () => {
   // Handle check-in submit
   const handleCheckInSubmit = async () => {
     if (!journalText.trim()) return;
-    
+
     setIsAnalyzing(true);
     const result = await analyzeSentiment(journalText);
     const emoji = moodToEmoji[selectedMood];
     const mismatch = checkEmojiMismatch(emoji, result.sentiment);
-    
+
     const newCheckIn: DailyCheckIn = {
       date: new Date().toISOString(),
       emoji,
@@ -104,7 +104,7 @@ export const PreConceptionMind: React.FC = () => {
       sentimentScore: sentimentToScore(result.sentiment),
       factors: selectedFactors
     };
-    
+
     saveCheckIn(newCheckIn);
     setCheckIns(getCheckIns());
     setLastResult({ sentiment: result.sentiment, mismatch });
@@ -112,14 +112,14 @@ export const PreConceptionMind: React.FC = () => {
     setIsAnalyzing(false);
     setJournalText('');
     setLivePreviewSentiment(null);
-    
+
     setTimeout(() => setShowSuccess(false), 5000);
   };
 
   // Toggle factor selection
   const toggleFactor = (factor: string) => {
-    setSelectedFactors(prev => 
-      prev.includes(factor) 
+    setSelectedFactors(prev =>
+      prev.includes(factor)
         ? prev.filter(f => f !== factor)
         : [...prev, factor]
     );
@@ -150,7 +150,7 @@ export const PreConceptionMind: React.FC = () => {
     }));
 
     const response = await sendChatMessage(inputValue, 'preconception', conversationHistory);
-    
+
     setMessages(prev => [...prev, {
       id: Date.now() + 1,
       sender: 'ai',
@@ -164,7 +164,7 @@ export const PreConceptionMind: React.FC = () => {
 
       {/* Motivational Quote - Centered */}
       <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
-        <Heart size={40} className="text-emerald-400 mb-6" />
+        <Heart size={40} className="text-primary-400 mb-6" />
         <p className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-slate-800 leading-relaxed max-w-4xl px-8" style={{ fontFamily: "'DM Serif Display', serif" }}>
           Your mental wellness today shapes the foundation for tomorrow. Be gentle with yourself.
         </p>
@@ -176,7 +176,7 @@ export const PreConceptionMind: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="flex items-start gap-3">
           <div className="flex-1">
-            <h1 className="text-3xl font-display font-extrabold text-slate-900">Fertility & Wellness</h1>
+            <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Fertility & Wellness</h1>
             <p className="text-slate-500 mt-1">Preparing your mind and body for conception.</p>
           </div>
           <SpeakButton text="Fertility and Wellness. Preparing your mind and body for conception." size={20} />
@@ -187,16 +187,16 @@ export const PreConceptionMind: React.FC = () => {
 
         {/* Main Check-in Area */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none opacity-60"></div>
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none opacity-60"></div>
 
             <div className="relative z-10">
               <div className="flex justify-between items-center mb-8">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-bold font-display text-slate-900">Daily Check-In</h2>
+                  <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Daily Check-In</h2>
                   <SpeakButton text="Daily Check-In: How are you feeling today?" size="sm" />
                 </div>
-                <span className="text-xs font-medium text-slate-400 bg-slate-50 px-3 py-1 rounded-full">Today</span>
+                <span className="text-xs font-medium text-slate-400 bg-dark-800 px-3 py-1 rounded-full">Today</span>
               </div>
 
               {/* Mood Selector */}
@@ -204,20 +204,20 @@ export const PreConceptionMind: React.FC = () => {
                 {[
                   { key: 'rough' as MoodType, icon: Frown, label: 'Rough', color: 'bg-red-100 text-red-500' },
                   { key: 'okay' as MoodType, icon: Meh, label: 'Okay', color: 'bg-slate-100 text-slate-500' },
-                  { key: 'good' as MoodType, icon: Smile, label: 'Good', color: 'bg-emerald-100 text-emerald-600' },
+                  { key: 'good' as MoodType, icon: Smile, label: 'Good', color: 'bg-primary-100 text-primary-600' },
                 ].map((item) => (
-                  <div 
+                  <div
                     key={item.key}
                     onClick={() => setSelectedMood(item.key)}
                     className="flex flex-col items-center gap-2 cursor-pointer group"
                   >
                     <div className={`
                        w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300
-                       ${selectedMood === item.key ? `${item.color} scale-110 shadow-lg ring-4 ring-white` : 'bg-slate-50 text-slate-300 hover:bg-slate-100'}
+                       ${selectedMood === item.key ? `${item.color} scale-110 shadow-lg ring-4 ring-white` : 'bg-dark-800 text-slate-300 hover:bg-slate-100 dark:hover:bg-dm-accent'}
                      `}>
                       <item.icon size={32} />
                     </div>
-                    <span className={`text-xs font-bold ${selectedMood === item.key ? 'text-slate-900' : 'text-slate-400'}`}>
+                    <span className={`text-xs font-bold ${selectedMood === item.key ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-400'}`}>
                       {item.label}
                     </span>
                   </div>
@@ -229,14 +229,13 @@ export const PreConceptionMind: React.FC = () => {
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">What's affecting you?</label>
                 <div className="flex flex-wrap gap-2">
                   {['Sleep', 'Work', 'Family', 'My Body', 'Diet'].map((tag, i) => (
-                    <button 
-                      key={i} 
+                    <button
+                      key={i}
                       onClick={() => toggleFactor(tag)}
-                      className={`px-4 py-2 rounded-full text-sm border transition-colors ${
-                        selectedFactors.includes(tag) 
-                          ? 'bg-emerald-50 border-emerald-200 text-emerald-700 font-medium' 
-                          : 'border-slate-200 text-slate-600 hover:border-emerald-200'
-                      }`}
+                      className={`px-4 py-2 rounded-full text-sm border transition-colors ${selectedFactors.includes(tag)
+                          ? 'bg-primary-50 border-primary-200 text-primary-700 font-medium'
+                          : 'border-dark-700 text-slate-600 hover:border-primary-200'
+                        }`}
                     >
                       {tag}
                     </button>
@@ -249,10 +248,10 @@ export const PreConceptionMind: React.FC = () => {
                 <textarea
                   value={journalText}
                   onChange={(e) => setJournalText(e.target.value)}
-                  className="w-full h-32 bg-slate-50 border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-emerald-200 placeholder:text-slate-400 text-sm leading-relaxed"
+                  className="w-full h-32 bg-slate-50 dark:bg-dm-muted border-0 rounded-2xl p-5 text-slate-700 resize-none focus:ring-2 focus:ring-primary-200 placeholder:text-slate-400 dark:text-slate-500 text-sm leading-relaxed"
                   placeholder="Write as much or as little as you need..."
                 ></textarea>
-                <button className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-sm text-slate-400 hover:text-emerald-600">
+                <button className="absolute bottom-4 right-4 p-2 bg-white rounded-full shadow-sm text-slate-400 hover:text-primary-600">
                   <Mic size={20} />
                 </button>
               </div>
@@ -262,12 +261,12 @@ export const PreConceptionMind: React.FC = () => {
                 <div className="mb-4 flex items-center gap-2">
                   {isPreviewLoading ? (
                     <>
-                      <Loader2 size={14} className="animate-spin text-emerald-500" />
-                      <span className="text-xs text-slate-500">Analyzing sentiment...</span>
+                      <Loader2 size={14} className="animate-spin text-primary-500" />
+                      <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Analyzing sentiment...</span>
                     </>
                   ) : livePreviewSentiment && (
                     <>
-                      <span className="text-xs text-slate-500">Detected sentiment:</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Detected sentiment:</span>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${getSentimentBadge(livePreviewSentiment).className}`}>
                         {getSentimentBadge(livePreviewSentiment).icon} {getSentimentBadge(livePreviewSentiment).label}
                       </span>
@@ -277,10 +276,10 @@ export const PreConceptionMind: React.FC = () => {
               )}
 
               <div className="flex justify-end">
-                <button 
+                <button
                   onClick={handleCheckInSubmit}
                   disabled={isAnalyzing || !journalText.trim()}
-                  className="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="bg-primary-600 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-600/20 hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isAnalyzing ? (
                     <>
@@ -298,11 +297,10 @@ export const PreConceptionMind: React.FC = () => {
 
               {/* Success/Mismatch Alert */}
               {showSuccess && lastResult && (
-                <div className={`mt-6 p-4 rounded-xl border ${
-                  lastResult.mismatch 
-                    ? 'bg-amber-50 border-amber-200' 
+                <div className={`mt-6 p-4 rounded-xl border ${lastResult.mismatch
+                    ? 'bg-amber-50 border-amber-200'
                     : 'bg-green-50 border-green-200'
-                }`}>
+                  }`}>
                   <div className="flex items-start gap-3">
                     {lastResult.mismatch ? (
                       <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
@@ -330,16 +328,16 @@ export const PreConceptionMind: React.FC = () => {
         <div className="lg:col-span-5 flex flex-col gap-6">
 
           {/* Sentiment Trends Chart */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
-                  <TrendingUp size={20} className="text-emerald-600" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-100 to-teal-100 flex items-center justify-center">
+                  <TrendingUp size={20} className="text-primary-600" />
                 </div>
-                <h2 className="text-lg font-bold font-display text-slate-900">Sentiment Trends</h2>
+                <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">Sentiment Trends</h2>
                 <SpeakButton text="Sentiment Trends: Your weekly sentiment and mood chart." size="sm" />
               </div>
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
+              <span className="text-xs font-bold text-primary-600 bg-primary-50 px-2 py-1 rounded-md">
                 Last 7 Days
               </span>
             </div>
@@ -355,7 +353,7 @@ export const PreConceptionMind: React.FC = () => {
                       tickLine={false}
                       tick={{ fill: '#94a3b8', fontSize: 12 }}
                     />
-                    <YAxis 
+                    <YAxis
                       domain={[0, 100]}
                       axisLine={false}
                       tickLine={false}
@@ -364,22 +362,22 @@ export const PreConceptionMind: React.FC = () => {
                     <Tooltip
                       contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
                       formatter={(value: number, name: string) => [
-                        `${value.toFixed(0)}%`, 
+                        `${value.toFixed(0)}%`,
                         name === 'score' ? 'Text Sentiment' : 'Selected Mood'
                       ]}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="score" 
-                      stroke="#10b981" 
+                    <Line
+                      type="monotone"
+                      dataKey="score"
+                      stroke="#10b981"
                       strokeWidth={3}
                       name="score"
                       dot={{ r: 5, fill: "#10b981", stroke: "#ffffff", strokeWidth: 2 }}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="moodScore" 
-                      stroke="#3b82f6" 
+                    <Line
+                      type="monotone"
+                      dataKey="moodScore"
+                      stroke="#3b82f6"
                       strokeWidth={2}
                       strokeDasharray="5 5"
                       name="moodScore"
@@ -393,15 +391,15 @@ export const PreConceptionMind: React.FC = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-4 mt-4">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-0.5 bg-emerald-500"></div>
-                <span className="text-xs text-slate-600">Text Sentiment</span>
+                <div className="w-6 h-0.5 bg-primary-500"></div>
+                <span className="text-xs text-slate-600 dark:text-slate-300">Text Sentiment</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-0.5 bg-blue-500" style={{borderStyle: 'dashed'}}></div>
-                <span className="text-xs text-slate-600">Selected Mood</span>
+                <div className="w-6 h-0.5 bg-blue-500" style={{ borderStyle: 'dashed' }}></div>
+                <span className="text-xs text-slate-600 dark:text-slate-300">Selected Mood</span>
               </div>
             </div>
           </div>
@@ -409,13 +407,13 @@ export const PreConceptionMind: React.FC = () => {
           {/* Silent Chat AI Promo */}
           <div
             onClick={() => setIsChatOpen(true)}
-            className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all"
+            className="bg-dark-950 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500 rounded-full blur-[60px] opacity-20"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full blur-[60px] opacity-20"></div>
 
             <div className="relative z-10">
               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
-                <Lock size={20} className="text-emerald-300" />
+                <Lock size={20} className="text-primary-300" />
               </div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-bold font-display mb-2">Silent Chat</h3>
@@ -425,7 +423,7 @@ export const PreConceptionMind: React.FC = () => {
                 Feeling overwhelmed? Vent anonymously to our AI companion. No judgement, just a safe space.
               </p>
 
-              <div className="flex items-center gap-2 text-sm font-bold text-emerald-300 group-hover:text-emerald-200 transition-colors">
+              <div className="flex items-center gap-2 text-sm font-bold text-primary-300 group-hover:text-primary-200 transition-colors">
                 Start Secure Session <ArrowRight size={16} />
               </div>
             </div>
@@ -436,21 +434,21 @@ export const PreConceptionMind: React.FC = () => {
 
       {/* Chat Popup Modal */}
       {isChatOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-dm-background/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div
             className="bg-white w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Chat Header */}
-            <div className="bg-slate-900 p-6 flex items-center justify-between text-white shrink-0">
+            <div className="bg-dark-950 p-6 flex items-center justify-between text-white shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
-                  <Lock size={18} className="text-emerald-400" />
+                <div className="w-10 h-10 rounded-full bg-dark-900 flex items-center justify-center border border-slate-700">
+                  <Lock size={18} className="text-primary-400" />
                 </div>
                 <div>
                   <h3 className="font-bold font-display">Silent Chat</h3>
                   <div className="flex items-center gap-1.5 opacity-80">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-pulse"></span>
                     <span className="text-[10px] font-bold uppercase tracking-wider">Secure & Encrypted</span>
                   </div>
                 </div>
@@ -464,14 +462,14 @@ export const PreConceptionMind: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 bg-slate-50 p-6 overflow-y-auto space-y-4">
+            <div className="flex-1 bg-slate-50 dark:bg-dm-muted p-6 overflow-y-auto space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`
                      max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
                      ${msg.sender === 'user'
-                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-slate-900/10'
-                      : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none shadow-sm'}
+                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-dark-950/10'
+                      : 'bg-white text-slate-700 border border-slate-100 dark:border-dm-border rounded-tl-none shadow-sm'}
                    `}>
                     {msg.text}
                   </div>
@@ -489,13 +487,13 @@ export const PreConceptionMind: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Type your thoughts..."
-                  className="flex-1 bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
+                  className="flex-1 bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-400 dark:text-slate-500 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
                   autoFocus
                 />
                 <button
                   onClick={handleSend}
                   disabled={!inputValue.trim()}
-                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-50 dark:hover:bg-dm-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                 >
                   <Send size={16} />
                 </button>
@@ -511,3 +509,9 @@ export const PreConceptionMind: React.FC = () => {
     </div>
   );
 };
+
+
+
+
+
+

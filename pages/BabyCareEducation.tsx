@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ShieldCheck, Heart, Brain, Baby, Shield, Sparkles, BookOpen, Calendar, Syringe, Scale, Users, CheckCircle2, X, ArrowRight, Clock, MapPin, FileText, Lightbulb, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
 import { SpeakButton } from '../components/SpeakButton';
 
@@ -66,16 +66,16 @@ export const BabyCareEducation: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       
       {/* Hero */}
-      <div className="bg-white rounded-[2rem] p-8 lg:p-12 shadow-sm border border-slate-100 overflow-hidden relative">
-         <div className="absolute top-0 right-0 w-96 h-96 bg-sky-50 rounded-full blur-[100px] -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
+      <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 lg:p-12 shadow-sm border border-slate-100 dark:border-dm-border overflow-hidden relative">
+         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary-50 rounded-full blur-[100px] -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
          <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-bold uppercase tracking-wider mb-6 border border-sky-100">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-50 text-secondary-600 text-xs font-bold uppercase tracking-wider mb-6 border border-secondary-100">
                <Baby size={14} />
                Baby Care Guide
             </div>
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 mb-6 leading-tight">
+                <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mb-6 leading-tight">
                    Everything about <br/>caring for baby.
                 </h1>
                 <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
@@ -99,8 +99,8 @@ export const BabyCareEducation: React.FC = () => {
             key={i} 
             className={`p-3 rounded-xl border text-center transition-all text-sm font-medium ${
               age.active 
-                ? 'bg-sky-50 border-sky-200 text-sky-700 shadow-sm' 
-                : 'bg-white border-slate-100 text-slate-600 hover:border-sky-200'
+                ? 'bg-secondary-50 border-secondary-200 text-secondary-600 shadow-sm' 
+                : 'bg-white border-slate-100 text-slate-600 hover:border-secondary-200'
             }`}
           >
             {age.label}
@@ -111,23 +111,23 @@ export const BabyCareEducation: React.FC = () => {
       {/* Care Topics */}
       <div>
         <div className="flex items-center gap-2 mb-6">
-          <h2 className="text-xl font-bold font-display text-slate-900">Care Essentials</h2>
+          <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Care Essentials</h2>
           <SpeakButton text="Care Essentials: Feeding Guide for breast, bottle, and combination feeding. Development Milestones for what to expect month by month. Sleep Training for safe sleep practices and routines. Health and Safety for keeping baby healthy and safe." size="sm" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
-            { icon: Heart, title: "Feeding Guide", desc: "Breast, bottle, and combination feeding", color: "text-sky-500", bg: "bg-sky-50" },
+            { icon: Heart, title: "Feeding Guide", desc: "Breast, bottle, and combination feeding", color: "text-secondary-400", bg: "bg-secondary-50" },
             { icon: Brain, title: "Development Milestones", desc: "What to expect month by month", color: "text-blue-500", bg: "bg-blue-50" },
-            { icon: Calendar, title: "Sleep Training", desc: "Safe sleep practices and routines", color: "text-sky-600", bg: "bg-sky-50" },
+            { icon: Calendar, title: "Sleep Training", desc: "Safe sleep practices and routines", color: "text-secondary-500", bg: "bg-secondary-50" },
             { icon: Shield, title: "Health & Safety", desc: "Keeping baby healthy and safe", color: "text-blue-600", bg: "bg-blue-50" },
           ].map((topic, i) => (
-            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 hover:border-sky-200 hover:shadow-md transition-all cursor-pointer group flex gap-4">
+            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 dark:border-dm-border hover:border-secondary-200 hover:shadow-md transition-all cursor-pointer group flex gap-4">
               <div className={`w-12 h-12 rounded-xl ${topic.bg} ${topic.color} flex items-center justify-center shrink-0`}>
                 <topic.icon size={24} />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 mb-1 group-hover:text-sky-600 transition-colors">{topic.title}</h3>
-                <p className="text-sm text-slate-500">{topic.desc}</p>
+                <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1 group-hover:text-secondary-500 transition-colors">{topic.title}</h3>
+                <p className="text-sm text-slate-400 dark:text-slate-400 dark:text-slate-500">{topic.desc}</p>
               </div>
             </div>
           ))}
@@ -135,7 +135,7 @@ export const BabyCareEducation: React.FC = () => {
       </div>
 
       {/* Caregiver Booking Card */}
-      <div className="bg-gradient-to-br from-purple-50/50 to-indigo-50/30 rounded-[2rem] p-8 border border-purple-100/50 shadow-sm relative overflow-hidden">
+      <div className="bg-gradient-to-br from-purple-50/50 to-secondary-50/30 rounded-[2rem] p-8 border border-purple-100/50 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
         
         <div className="relative z-10">
@@ -147,7 +147,7 @@ export const BabyCareEducation: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-start gap-2">
                   <div>
-                    <h3 className="text-xl font-bold font-display text-slate-900 mb-1">Need extra help today?</h3>
+                    <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground mb-1">Need extra help today?</h3>
                     <p className="text-sm text-slate-600 leading-relaxed">Trusted caregivers available when you need rest or support.</p>
                   </div>
                   <SpeakButton text="Need extra help today? Trusted caregivers available when you need rest or support. Certified and background-verified, flexible hours, with postpartum and newborn care experience." size={14} />
@@ -195,20 +195,20 @@ export const BabyCareEducation: React.FC = () => {
 
       {/* Caregiver Booking Modal */}
       {isCaregiverModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-dm-card rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
             
             {/* Modal Header */}
             <div className="sticky top-0 bg-white border-b border-slate-100 px-8 py-6 flex items-center justify-between z-10 rounded-t-[2rem]">
               <div>
-                <h2 className="text-2xl font-bold font-display text-slate-900">Find a Caregiver</h2>
+                <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Find a Caregiver</h2>
                 <p className="text-sm text-slate-500 mt-1">Step {bookingStep} of 4</p>
               </div>
               <button 
                 onClick={handleCloseModal}
                 className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
               >
-                <X size={20} className="text-slate-600" />
+                <X size={20} className="text-slate-600 dark:text-slate-300" />
               </button>
             </div>
 
@@ -219,8 +219,8 @@ export const BabyCareEducation: React.FC = () => {
               {bookingStep === 1 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">What type of care do you need?</h3>
-                    <p className="text-sm text-slate-600">Select the support that works best for you.</p>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">What type of care do you need?</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">Select the support that works best for you.</p>
                   </div>
                   
                   <div className="space-y-3">
@@ -240,13 +240,13 @@ export const BabyCareEducation: React.FC = () => {
                       >
                         <div className="flex items-start gap-4">
                           <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
-                            selectedCareType === type.id ? 'bg-purple-100 text-purple-600' : 'bg-slate-50 text-slate-400'
+                            selectedCareType === type.id ? 'bg-purple-100 text-purple-600' : 'bg-dark-800 text-slate-400'
                           }`}>
                             <type.icon size={24} />
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-bold text-slate-900 mb-1">{type.title}</h4>
-                            <p className="text-sm text-slate-600">{type.desc}</p>
+                            <h4 className="font-bold text-slate-900 dark:text-dm-foreground mb-1">{type.title}</h4>
+                            <p className="text-sm text-slate-600 dark:text-slate-300">{type.desc}</p>
                           </div>
                           {selectedCareType === type.id && (
                             <CheckCircle2 size={20} className="text-purple-600 shrink-0" />
@@ -262,8 +262,8 @@ export const BabyCareEducation: React.FC = () => {
               {bookingStep === 2 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">When do you need support?</h3>
-                    <p className="text-sm text-slate-600">Choose a date and time that works for you.</p>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">When do you need support?</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">Choose a date and time that works for you.</p>
                   </div>
                   
                   <div className="space-y-4">
@@ -273,7 +273,7 @@ export const BabyCareEducation: React.FC = () => {
                         type="date"
                         value={selectedDate}
                         onChange={(e) => setSelectedDate(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                     </div>
                     
@@ -282,7 +282,7 @@ export const BabyCareEducation: React.FC = () => {
                       <select
                         value={selectedTime}
                         onChange={(e) => setSelectedTime(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       >
                         <option value="">Select a time</option>
                         <option value="morning">Morning (6 AM - 12 PM)</option>
@@ -305,8 +305,8 @@ export const BabyCareEducation: React.FC = () => {
               {bookingStep === 3 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">A few more details</h3>
-                    <p className="text-sm text-slate-600">Help us find the right caregiver for you.</p>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">A few more details</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">Help us find the right caregiver for you.</p>
                   </div>
                   
                   <div className="space-y-4">
@@ -318,7 +318,7 @@ export const BabyCareEducation: React.FC = () => {
                       <input
                         type="text"
                         placeholder="Your city or area"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         defaultValue="Auto-detected location"
                       />
                     </div>
@@ -333,7 +333,7 @@ export const BabyCareEducation: React.FC = () => {
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Baby age, special needs, or preferences (e.g., 'My baby is 2 months old and prefers to be held while sleeping')"
                         rows={4}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
                       />
                       <p className="text-xs text-slate-400 mt-1">This helps caregivers prepare for your needs.</p>
                     </div>
@@ -348,33 +348,33 @@ export const BabyCareEducation: React.FC = () => {
                     <div className="w-20 h-20 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
                       <CheckCircle2 size={40} className="text-purple-600" />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Review your request</h3>
-                    <p className="text-sm text-slate-600">You can review details before confirming. No obligation.</p>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-dm-foreground mb-2">Review your request</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">You can review details before confirming. No obligation.</p>
                   </div>
                   
-                  <div className="bg-slate-50 rounded-2xl p-6 space-y-4">
+                  <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-6 space-y-4">
                     <div className="flex justify-between items-start">
-                      <span className="text-sm font-semibold text-slate-600">Care type</span>
-                      <span className="text-sm text-slate-900 font-medium capitalize">{selectedCareType?.replace('-', ' ')}</span>
+                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Care type</span>
+                      <span className="text-sm text-slate-900 dark:text-dm-foreground font-medium capitalize">{selectedCareType?.replace('-', ' ')}</span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-sm font-semibold text-slate-600">Date</span>
-                      <span className="text-sm text-slate-900 font-medium">{selectedDate || 'Not selected'}</span>
+                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Date</span>
+                      <span className="text-sm text-slate-900 dark:text-dm-foreground font-medium">{selectedDate || 'Not selected'}</span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-sm font-semibold text-slate-600">Time</span>
-                      <span className="text-sm text-slate-900 font-medium capitalize">{selectedTime || 'Not selected'}</span>
+                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Time</span>
+                      <span className="text-sm text-slate-900 dark:text-dm-foreground font-medium capitalize">{selectedTime || 'Not selected'}</span>
                     </div>
                     {notes && (
-                      <div className="pt-3 border-t border-slate-200">
+                      <div className="pt-3 border-t border-slate-100 dark:border-dm-border">
                         <span className="text-sm font-semibold text-slate-600 block mb-1">Notes</span>
-                        <p className="text-sm text-slate-700">{notes}</p>
+                        <p className="text-sm text-slate-600 dark:text-slate-300">{notes}</p>
                       </div>
                     )}
                   </div>
 
-                  <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
-                    <p className="text-sm text-emerald-800 leading-relaxed">
+                  <div className="bg-primary-50 border border-primary-100 rounded-xl p-4">
+                    <p className="text-sm text-primary-800 leading-relaxed">
                       We'll match you with qualified caregivers. You'll be able to review profiles, read reviews, and confirm before any booking is finalized.
                     </p>
                   </div>
@@ -416,8 +416,8 @@ export const BabyCareEducation: React.FC = () => {
               <Lightbulb size={20} className="text-amber-600" />
             </div>
             <div>
-              <h2 className="text-lg font-bold font-display text-slate-900">Did you know?</h2>
-              <p className="text-xs text-slate-500">Swipe to learn more health facts</p>
+              <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">Did you know?</h2>
+              <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Swipe to learn more health facts</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -429,7 +429,7 @@ export const BabyCareEducation: React.FC = () => {
         </div>
 
         <div className="relative">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-amber-100/50 min-h-[200px]">
+          <div className="bg-white dark:bg-dm-card rounded-2xl p-6 shadow-sm border border-amber-100/50 min-h-[200px]">
             {/* Myth */}
             <div className="flex items-start gap-3 mb-5 pb-5 border-b border-slate-100">
               <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
@@ -443,11 +443,11 @@ export const BabyCareEducation: React.FC = () => {
             
             {/* Fact */}
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                <Check size={16} className="text-emerald-600" />
+              <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
+                <Check size={16} className="text-primary-600" />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">Fact</span>
+                <span className="text-[10px] font-bold text-primary-600 uppercase tracking-wider block mb-1">Fact</span>
                 <p className="text-slate-700 leading-relaxed">{myths[currentMythIndex].fact}</p>
               </div>
             </div>
@@ -486,16 +486,16 @@ export const BabyCareEducation: React.FC = () => {
             Health information based on global medical guidelines. This does not replace a doctor's advice.
           </p>
           <p className="text-[9px] text-slate-400 text-center mt-2 leading-relaxed">
-            Sources: WHO Essential Newborn Care • WHO–UNICEF IYCF Guidelines • WHO Immunization • WHO Complementary Feeding Guidelines
+            Sources: WHO Essential Newborn Care Ã¢‚¬¢ WHOÃ¢‚¬€œUNICEF IYCF Guidelines Ã¢‚¬¢ WHO Immunization Ã¢‚¬¢ WHO Complementary Feeding Guidelines
           </p>
         </div>
       </div>
 
       {/* Vaccination Schedule */}
-      <div className="bg-gradient-to-br from-sky-50 to-blue-50 rounded-[2rem] p-8 border border-sky-100">
+      <div className="bg-gradient-to-br from-secondary-50 to-blue-50 rounded-[2rem] p-8 border border-secondary-100">
         <div className="flex items-center gap-3 mb-6">
-          <Syringe size={24} className="text-sky-500" />
-          <h2 className="text-xl font-bold font-display text-slate-900">Vaccination Schedule</h2>
+          <Syringe size={24} className="text-secondary-400" />
+          <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Vaccination Schedule</h2>
           <SpeakButton text="Vaccination Schedule. BCG, OPV-0, Hep B-1 at birth. OPV-1, Pentavalent-1, Rotavirus-1, PCV-1 at 6 weeks. OPV-2, Pentavalent-2, Rotavirus-2 at 10 weeks. OPV-3, Pentavalent-3, Rotavirus-3, PCV-2 at 14 weeks." size={14} />
         </div>
         <div className="space-y-3">
@@ -508,13 +508,13 @@ export const BabyCareEducation: React.FC = () => {
             <div key={i} className="bg-white p-4 rounded-xl flex items-center justify-between">
               <div>
                 <span className="font-medium text-slate-700 block">{vax.vaccine}</span>
-                <span className="text-xs text-slate-400">{vax.timing}</span>
+                <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{vax.timing}</span>
               </div>
               <span className={`text-xs font-bold px-3 py-1 rounded-full ${
                 vax.status === 'completed' 
-                  ? 'bg-emerald-100 text-emerald-700' 
+                  ? 'bg-primary-100 text-primary-700' 
                   : vax.status === 'upcoming'
-                    ? 'bg-sky-100 text-sky-700'
+                    ? 'bg-secondary-100 text-secondary-600'
                     : 'bg-slate-100 text-slate-500'
               }`}>
                 {vax.status === 'completed' ? 'Done' : vax.status === 'upcoming' ? 'Next' : 'Pending'}
@@ -527,20 +527,20 @@ export const BabyCareEducation: React.FC = () => {
       {/* Growth Tracking */}
       <div>
         <div className="flex items-center gap-2 mb-6">
-          <h2 className="text-xl font-bold font-display text-slate-900">Growth & Development</h2>
+          <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Growth & Development</h2>
           <SpeakButton text="Growth and Development: Weight Charts to track healthy weight gain patterns. Motor Skills for physical development milestones. Social Skills for emotional and social development." size="sm" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { icon: Scale, title: "Weight Charts", desc: "Track healthy weight gain patterns", color: "text-sky-500", bg: "bg-sky-50" },
+            { icon: Scale, title: "Weight Charts", desc: "Track healthy weight gain patterns", color: "text-secondary-400", bg: "bg-secondary-50" },
             { icon: Brain, title: "Motor Skills", desc: "Physical development milestones", color: "text-blue-500", bg: "bg-blue-50" },
-            { icon: Heart, title: "Social Skills", desc: "Emotional and social development", color: "text-sky-600", bg: "bg-sky-50" },
+            { icon: Heart, title: "Social Skills", desc: "Emotional and social development", color: "text-secondary-500", bg: "bg-secondary-50" },
           ].map((item, i) => (
-            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 hover:shadow-md transition-shadow">
+            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 dark:border-dm-border hover:shadow-md transition-shadow">
                <div className={`w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center mb-4`}>
                  <item.icon size={24} />
                </div>
-               <h3 className="font-bold text-slate-900 mb-1">{item.title}</h3>
+               <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1">{item.title}</h3>
                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
             </div>
           ))}
@@ -550,3 +550,8 @@ export const BabyCareEducation: React.FC = () => {
     </div>
   );
 };
+
+
+
+
+
