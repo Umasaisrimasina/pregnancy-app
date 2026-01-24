@@ -102,18 +102,18 @@ export const PostPartumEducation: React.FC = () => {
 
         {/* Chat Interface */}
         <div className="xl:col-span-2">
-          <div style={{ backgroundColor: '#513A67' }} className="rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[400px]">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-white rounded-full blur-[80px] opacity-10 pointer-events-none"></div>
+          <div className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[400px]">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                  <Lock size={16} className="text-purple-200" />
+                  <Lock size={16} className="text-purple-400" />
                 </div>
                 <div>
                   <h3 className="font-bold text-white text-sm">Recovery Assistant</h3>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-300 animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-white/60 uppercase tracking-wide">Private & Secure</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Private & Secure</span>
                   </div>
                 </div>
               </div>
@@ -122,8 +122,8 @@ export const PostPartumEducation: React.FC = () => {
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
                     <div className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${msg.sender === 'user'
-                      ? 'bg-purple-500 text-white rounded-tr-none'
-                      : 'bg-white/10 text-slate-100 rounded-tl-none border border-white/5'
+                      ? 'bg-purple-600 text-white rounded-tr-none'
+                      : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
                       }`}>
                       {msg.text}
                     </div>
@@ -139,15 +139,15 @@ export const PostPartumEducation: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Ask about recovery..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-20 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 transition-all placeholder:text-white/40"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-20 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:text-slate-400 dark:text-slate-500"
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-                  <button className="w-8 h-8 text-white/60 hover:text-purple-200 rounded-lg flex items-center justify-center transition-colors">
+                  <button className="w-8 h-8 text-slate-400 hover:text-purple-400 rounded-lg flex items-center justify-center transition-colors">
                     <Mic size={14} />
                   </button>
                   <button
                     onClick={handleSend}
-                    className="w-8 h-8 bg-purple-500 text-white rounded-lg flex items-center justify-center hover:bg-purple-400 transition-colors shadow-lg shadow-purple-900/20"
+                    className="w-8 h-8 bg-purple-600 text-white rounded-lg flex items-center justify-center hover:bg-purple-500 transition-colors shadow-lg shadow-purple-900/50"
                   >
                     <Send size={14} />
                   </button>

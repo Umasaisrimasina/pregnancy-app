@@ -674,21 +674,20 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
           {/* Nutrition Chat Card */}
           <div
             onClick={() => setIsChatOpen(true)}
-            style={{ backgroundColor: '#673A51' }}
-            className="rounded-[2rem] p-6 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all min-h-[200px] flex flex-col justify-between border border-white/5"
+            className="bg-dark-950 rounded-[2rem] p-6 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all min-h-[200px] flex flex-col justify-between"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-[60px] opacity-10 pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full blur-[60px] opacity-20"></div>
 
             <div className="relative z-10">
-              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 border border-white/10">
-                <Sparkles size={20} className="text-pink-200" />
+              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
+                <Sparkles size={20} className="text-primary-300" />
               </div>
-              <h3 className="text-lg font-bold font-display mb-2 text-white">Nutrition Coach</h3>
-              <p className="text-slate-200 text-sm mb-4 leading-relaxed">
+              <h3 className="text-lg font-bold font-display mb-2">Nutrition Coach</h3>
+              <p className="text-slate-400 text-sm mb-4 leading-relaxed">
                 Need recipe ideas or macro advice? Chat with your personal food guide.
               </p>
 
-              <div className="flex items-center gap-2 text-sm font-bold text-pink-300 group-hover:text-pink-200 transition-colors">
+              <div className="flex items-center gap-2 text-sm font-bold text-primary-300 group-hover:text-primary-200 transition-colors">
                 Start Chat <ArrowRight size={16} />
               </div>
             </div>

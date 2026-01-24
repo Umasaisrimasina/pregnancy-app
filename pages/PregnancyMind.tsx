@@ -405,30 +405,42 @@ export const PregnancyMind: React.FC = () => {
           </div>
 
           {/* Silent Chat AI Promo */}
-          <div
-            onClick={() => setIsChatOpen(true)}
-            style={{ backgroundColor: '#673A51' }}
-            className="rounded-[2rem] p-8 relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all border border-white/5"
-          >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-[60px] opacity-10 pointer-events-none"></div>
+          {/* Silent Chat AI Promo - Scoped Theme: Deep Plum */}
+          {(() => {
+            const PLUM_THEME = {
+              background: '#673A51',
+              accent: 'pink-300',
+              text: 'white',
+              hoverText: 'pink-200'
+            };
 
-            <div className="relative z-10">
-              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 border border-white/10">
-                <Lock size={20} className="text-pink-200" />
-              </div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold font-display mb-2 text-white">Midwife AI</h3>
-                <SpeakButton text="Midwife AI: Need to talk through pregnancy concerns? Our AI companion is here to support you." className="text-white border-white/30 bg-white/10 hover:bg-white/20" size="sm" />
-              </div>
-              <p className="text-slate-200 text-sm mb-6 leading-relaxed">
-                Need to talk through pregnancy concerns? Our AI companion is here to support you.
-              </p>
+            return (
+              <div
+                onClick={() => setIsChatOpen(true)}
+                style={{ backgroundColor: PLUM_THEME.background }}
+                className="rounded-[2rem] p-8 relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all border border-white/5"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-[60px] opacity-10 pointer-events-none"></div>
 
-              <div className="flex items-center gap-2 text-sm font-bold text-pink-300 group-hover:text-pink-200 transition-colors">
-                Start Secure Session <ArrowRight size={16} />
+                <div className="relative z-10">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 border border-white/10">
+                    <Lock size={20} className={`text-${PLUM_THEME.hoverText}`} />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <h3 className={`text-lg font-bold font-display mb-2 text-${PLUM_THEME.text}`}>Midwife AI</h3>
+                    <SpeakButton text="Midwife AI: Need to talk through pregnancy concerns? Our AI companion is here to support you." className={`text-${PLUM_THEME.text} border-white/30 bg-white/10 hover:bg-white/20`} size="sm" />
+                  </div>
+                  <p className="text-slate-200 text-sm mb-6 leading-relaxed">
+                    Need to talk through pregnancy concerns? Our AI companion is here to support you.
+                  </p>
+
+                  <div className={`flex items-center gap-2 text-sm font-bold text-${PLUM_THEME.accent} group-hover:text-${PLUM_THEME.hoverText} transition-colors`}>
+                    Start Secure Session <ArrowRight size={16} />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            );
+          })()}
 
         </div>
       </div>
