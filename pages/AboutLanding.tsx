@@ -51,12 +51,12 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
     if (saved) return saved as 'light' | 'dark';
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
-  
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
-  
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<{ light: HTMLImageElement[], dark: HTMLImageElement[] }>({ light: [], dark: [] });
   const rafIdRef = useRef<number | null>(null);
@@ -65,10 +65,10 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
   // Check mobile and reduced motion
   useEffect(() => {
     const checkMobile = () => {
-      return window.innerWidth <= 768 || 
+      return window.innerWidth <= 768 ||
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     };
-    
+
     const checkReducedMotion = () => {
       return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     };
@@ -94,16 +94,16 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
     const loadFramesForTheme = async (t: 'light' | 'dark') => {
       const total = CONFIG.totalFrames[t];
       const path = CONFIG.path[t];
-      
+
       if (framesRef.current[t].filter(Boolean).length >= total) return;
 
       for (let i = 0; i < total; i++) {
         if (framesRef.current[t][i]) continue;
-        
+
         const img = new Image();
         const filename = getFrameFilename(i, t);
         img.src = path + filename;
-        
+
         img.onload = () => {
           framesRef.current[t][i] = img;
           if (i === 0 && t === theme) {
@@ -125,7 +125,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
   const renderFrame = useCallback((frameIndex: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -135,7 +135,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
 
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
-    
+
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.scale(dpr, dpr);
@@ -179,10 +179,10 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
       if (!isMobile && !reducedMotion) {
         const total = CONFIG.totalFrames[theme];
         const frameIndex = Math.min(total - 1, Math.floor(progress * (total - 1)));
-        
+
         if (frameIndex !== currentFrame) {
           setCurrentFrame(frameIndex);
-          
+
           if (rafIdRef.current) {
             cancelAnimationFrame(rafIdRef.current);
           }
@@ -195,7 +195,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial call
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafIdRef.current) {
@@ -233,7 +233,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
   const ctaVisible = scrollProgress >= CONFIG.sections.cta.start || reducedMotion || isMobile;
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`about-landing ${theme === 'dark' ? 'dark' : ''}`}
       data-theme={theme}
@@ -536,21 +536,21 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
           top: 50%;
           right: 5%;
           transform: translateY(-50%);
-          width: 40%;
-          max-width: 500px;
+          width: auto;
+          max-width: 300px;
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
-          gap: 1.5rem;
-          z-index: 20;
-          pointer-events: none;
+          align-items: center;
+          gap: 1rem;
+          z-index: 100;
+          pointer-events: none; /* Container doesn't block */
           opacity: 0;
-          transition: opacity 500ms var(--ease-smooth);
+          transition: opacity 0.5s ease;
         }
 
         .cta-container.visible {
           opacity: 1;
-          pointer-events: auto;
+          pointer-events: auto; /* Only interactive when visible */
         }
 
         .btn-primary {
@@ -567,6 +567,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
           cursor: pointer;
           position: relative;
           overflow: hidden;
+          pointer-events: auto; /* Force clickable */
         }
 
         .btn-primary::after {
@@ -680,8 +681,8 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
       <div className="noise-overlay" aria-hidden="true" />
 
       {/* Theme Toggle Button */}
-      <button 
-        className="theme-toggle" 
+      <button
+        className="theme-toggle"
         onClick={toggleTheme}
         aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
         type="button"
@@ -691,9 +692,9 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
 
       {/* Canvas for animation */}
       {!isMobile && !reducedMotion && (
-        <canvas 
-          ref={canvasRef} 
-          className="animation-canvas" 
+        <canvas
+          ref={canvasRef}
+          className="animation-canvas"
           aria-hidden="true"
         />
       )}
@@ -701,9 +702,9 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
       {/* Mobile Fallback Image */}
       {(isMobile || reducedMotion) && (
         <div className="mobile-fallback" aria-hidden="true">
-          <img 
-            src={`${CONFIG.path[theme]}${getFrameFilename(45, theme)}`} 
-            alt="" 
+          <img
+            src={`${CONFIG.path[theme]}${getFrameFilename(45, theme)}`}
+            alt=""
             loading="eager"
           />
         </div>
@@ -757,10 +758,18 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
         {/* Final CTA Section */}
         <section className="content-section" aria-label="Get Started">
           <div className={`cta-container ${ctaVisible ? 'visible' : ''}`}>
-            <button className="btn-primary" onClick={onGetStarted}>
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onGetStarted();
+              }} 
+              className="btn-primary"
+            >
               Get Started
             </button>
-            <button className="btn-secondary">
+            <button type="button" className="btn-secondary">
               How we protect your privacy
             </button>
           </div>

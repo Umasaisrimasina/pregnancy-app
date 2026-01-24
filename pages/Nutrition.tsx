@@ -698,9 +698,9 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
       {/* Chat Popup Modal */}
       {isChatOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-dm-background/50 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/20 dark:bg-slate-950/30 backdrop-blur-md animate-in fade-in duration-200">
           <div
-            className="bg-white w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+            className="bg-white/80 dark:bg-dm-card/80 backdrop-blur-xl w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 border border-white/20 dark:border-dm-border/20"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Chat Header */}
@@ -726,14 +726,14 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 bg-slate-50 dark:bg-dm-muted p-6 overflow-y-auto space-y-4">
+            <div className="flex-1 bg-slate-50/50 dark:bg-dm-muted/50 backdrop-blur-sm p-6 overflow-y-auto space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`
                      max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
                      ${msg.sender === 'user'
                       ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-dark-950/10'
-                      : 'bg-white text-slate-700 border border-slate-100 dark:border-dm-border rounded-tl-none shadow-sm'}
+                      : 'bg-white/90 dark:bg-dm-card/90 backdrop-blur-sm text-slate-700 dark:text-dm-foreground border border-slate-200/50 dark:border-dm-border/50 rounded-tl-none shadow-sm'}
                    `}>
                     {msg.text}
                   </div>
@@ -743,7 +743,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 bg-white border-t border-slate-100 shrink-0">
+            <div className="p-4 bg-white/80 dark:bg-dm-card/80 backdrop-blur-md border-t border-slate-200/50 dark:border-dm-border/50 shrink-0">
               <div className="relative flex items-center gap-2">
                 <input
                   type="text"

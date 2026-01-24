@@ -35,16 +35,16 @@
           colors: {
             // Dark Matter Primary Palette
             primary: {
-              50: '#fef7f4',
-              100: '#fdeee8',
-              200: '#fbd5c5',
-              300: '#f7b597',
-              400: '#e89468',
-              500: '#d97b4a', // Dark Matter primary
-              600: '#c2633a',
-              700: '#a14d2d',
-              800: '#833f26',
-              900: '#6b3521',
+              50: 'var(--color-primary-50)',
+              100: 'var(--color-primary-100)',
+              200: 'var(--color-primary-200)',
+              300: 'var(--color-primary-300)',
+              400: 'var(--color-primary-400)',
+              500: 'var(--color-primary-500)',
+              600: 'var(--color-primary-600)',
+              700: 'var(--color-primary-700)',
+              800: 'var(--color-primary-800)',
+              900: 'var(--color-primary-900)',
             },
             // Dark Matter Secondary (Teal)
             secondary: {
@@ -82,7 +82,7 @@
             // Warm Phase Colors (shifted toward Dark Matter palette)
             phase: {
               prepreg: '#d97b4a',   // Warm orange (was emerald)
-              pregnancy: '#e89468', // Light orange (was rose)
+              pregnancy: 'oklch(0.70 0.10 345)', // Dusty Rose/Mauve (was #e89468)
               postpartum: '#4a8585', // Teal (was indigo)
               babycare: '#5aa0a0',  // Light teal (was sky)
             }
@@ -122,6 +122,36 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #d97b4a;
     }
+
+    /* THEME DEFINITIONS */
+    :root {
+      /* Default Theme (Warm Orange) - Hue ~48 */
+      --color-primary-50: #fef7f4;
+      --color-primary-100: #fdeee8;
+      --color-primary-200: #fbd5c5;
+      --color-primary-300: #f7b597;
+      --color-primary-400: #e89468;
+      --color-primary-500: #d97b4a;
+      --color-primary-600: #c2633a;
+      --color-primary-700: #a14d2d;
+      --color-primary-800: #833f26;
+      --color-primary-900: #6b3521;
+    }
+
+    .theme-pregnancy {
+      /* Pregnancy Theme (Mauve/Dusty Pink) - Hue 345 */
+      /* Base 500: oklch(0.70 0.10 345) -> #cb85ad */
+      --color-primary-50: #fdf2f7;
+      --color-primary-100: #fce7f1;
+      --color-primary-200: #fad1e3;
+      --color-primary-300: #f6aecd;
+      --color-primary-400: #f084b3;
+      --color-primary-500: #cb85ad;
+      --color-primary-600: #a8658a;
+      --color-primary-700: #864c6b;
+      --color-primary-800: #673a51;
+      --color-primary-900: #4a293b;
+    }
   </style>
   <script type="importmap">
 {
@@ -134,7 +164,7 @@
   }
 }
 </script>
-  <link rel="stylesheet" href="/index.css">
+
 </head>
 
 <body

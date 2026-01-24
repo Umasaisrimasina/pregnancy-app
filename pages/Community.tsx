@@ -430,7 +430,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
 
             <button className="w-full bg-white/10 hover:bg-white/20 transition-colors rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2">
               <Lock size={16} />
-              Community Guidelines
+              Start Chat
             </button>
           </div>
 

@@ -27,7 +27,7 @@ export interface DailyLog {
 
 export const PHASE_CONFIG: Record<AppPhase, { label: string; color: string; theme: string }> = {
   'pre-pregnancy': { label: 'Pre-Conception', color: 'bg-emerald-500', theme: 'emerald' },
-  'pregnancy': { label: 'Pregnancy', color: 'bg-rose-500', theme: 'rose' },
+  'pregnancy': { label: 'Pregnancy', color: 'bg-phase-pregnancy', theme: 'pregnancy' },
   'post-partum': { label: 'Post-Partum', color: 'bg-indigo-500', theme: 'indigo' },
   'baby-care': { label: 'Baby Care', color: 'bg-sky-500', theme: 'sky' },
 };
