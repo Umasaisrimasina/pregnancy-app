@@ -102,7 +102,7 @@ export const PostPartumEducation: React.FC = () => {
 
         {/* Chat Interface */}
         <div className="xl:col-span-2">
-          <div className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[400px]">
+          <div className="bg-slate-900 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-slate-900/10 min-h-[400px]">
             <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
@@ -122,8 +122,8 @@ export const PostPartumEducation: React.FC = () => {
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
                     <div className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${msg.sender === 'user'
-                        ? 'bg-purple-600 text-white rounded-tr-none'
-                        : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
+                      ? 'bg-purple-600 text-white rounded-tr-none'
+                      : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
                       }`}>
                       {msg.text}
                     </div>

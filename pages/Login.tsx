@@ -292,25 +292,45 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               <>
                 {/* Role Selection */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 text-center">I am the...</label>
-                  <div className="grid grid-cols-4 gap-2">
+                  <label className="block text-xs font-bold text-slate-400 dark:text-dm-muted-fg uppercase tracking-wider mb-3 text-center">I am the...</label>
+                  <div className="grid grid-cols-4 gap-3">
                     {roles.map((r) => {
                       const isActive = selectedRole === r.id;
                       const Icon = r.icon;
+                      // Define colors for each role
+                      const roleColors: Record<string, { gradient: string; border: string; icon: string; shadow: string }> = {
+                        mother: { gradient: 'from-pink-500 to-rose-500', border: 'border-pink-400', icon: 'text-pink-500', shadow: 'shadow-pink-500/30' },
+                        partner: { gradient: 'from-blue-500 to-indigo-500', border: 'border-blue-400', icon: 'text-blue-500', shadow: 'shadow-blue-500/30' },
+                        family: { gradient: 'from-amber-500 to-orange-500', border: 'border-amber-400', icon: 'text-amber-500', shadow: 'shadow-amber-500/30' },
+                        medical: { gradient: 'from-emerald-500 to-teal-500', border: 'border-emerald-400', icon: 'text-emerald-500', shadow: 'shadow-emerald-500/30' },
+                      };
+                      const colors = roleColors[r.id] || roleColors.mother;
                       return (
                         <button
                           key={r.id}
                           type="button"
                           onClick={() => setSelectedRole(r.id)}
                           className={`
-                          flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all
-                          ${isActive
-                              ? 'border-slate-900 bg-dark-800 text-slate-900 dark:text-dm-foreground dark:border-dm-foreground'
-                              : 'border-slate-100 bg-white dark:bg-dm-card dark:border-dm-border text-slate-400 dark:text-dm-muted-fg hover:border-dark-700 dark:hover:border-dm-foreground hover:text-slate-600 dark:hover:text-dm-foreground'}
-                        `}
+                            relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all duration-300 transform
+                            ${isActive
+                              ? `bg-gradient-to-br ${colors.gradient} text-white border-transparent shadow-lg ${colors.shadow} scale-105`
+                              : `border-slate-200 dark:border-dm-border bg-white dark:bg-dm-card text-slate-500 dark:text-dm-muted-fg hover:border-slate-300 dark:hover:border-dm-foreground/50 hover:scale-[1.02] hover:shadow-md`}
+                          `}
                         >
-                          <Icon size={20} className={isActive ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-400 dark:text-dm-muted-fg'} />
-                          <span className="text-[10px] font-bold uppercase tracking-wide">{r.label}</span>
+                          {isActive && (
+                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-md">
+                              <CheckCircle2 size={12} className={colors.icon} />
+                            </div>
+                          )}
+                          <div className={`
+                            w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300
+                            ${isActive 
+                              ? 'bg-white/20' 
+                              : `bg-slate-100 dark:bg-dm-muted`}
+                          `}>
+                            <Icon size={22} className={isActive ? 'text-white' : colors.icon} />
+                          </div>
+                          <span className={`text-[10px] font-bold uppercase tracking-wide ${isActive ? 'text-white' : 'text-slate-600 dark:text-dm-muted-fg'}`}>{r.label}</span>
                         </button>
                       );
                     })}

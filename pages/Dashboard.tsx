@@ -1010,7 +1010,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           <div className="xl:col-span-2 flex flex-col">
-            <div className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[450px]">
+            <div className="bg-slate-900 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-slate-900/10 min-h-[450px]">
               <div className="absolute top-0 right-0 w-48 h-48 bg-primary-400 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
@@ -1163,7 +1163,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               {/* Header */}
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-dark-950/20">
+                  <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-slate-900/20">
                     <Watch size={20} />
                   </div>
                   <div>
@@ -1238,7 +1238,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               {/* Action Button */}
               <button
                 onClick={handleWatchAuth}
-                className="w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg shadow-dark-950/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-900/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2"
               >
                 {isAuthorizing ? (
                   <>

@@ -96,6 +96,9 @@ export const SpeakButton: React.FC<SpeakButtonProps> = ({
       // Store translated text for tooltip
       setTranslatedText(result.translatedText);
 
+      // Loading is done, now we play
+      setIsLoading(false);
+
       // Play the audio
       setIsPlaying(true);
       onSpeechStart?.();
@@ -111,6 +114,9 @@ export const SpeakButton: React.FC<SpeakButtonProps> = ({
       setIsPlaying(false);
     } finally {
       setIsLoading(false);
+      // Determine if we should set isPlaying to false here?
+      // It is safer to ensure it is false.
+      if (isPlaying) setIsPlaying(false);
     }
   }, [text, currentLanguage.code, isPlaying, isLoading, onSpeechStart, onSpeechEnd, onError]);
 
@@ -148,8 +154,8 @@ export const SpeakButton: React.FC<SpeakButtonProps> = ({
         active:scale-95
         disabled:opacity-50 disabled:cursor-wait
         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1
-        ${isPlaying 
-          ? 'bg-primary-500 text-white border-primary-600 shadow-primary-200' 
+        ${isPlaying
+          ? 'bg-primary-500 text-white border-primary-600 shadow-primary-200'
           : 'bg-primary-50 text-primary-600 border-primary-200 hover:bg-primary-100 hover:text-primary-700 hover:border-primary-300'}
         ${error ? 'bg-red-50 text-red-500 border-red-200 hover:bg-red-100' : ''}
         ${className}

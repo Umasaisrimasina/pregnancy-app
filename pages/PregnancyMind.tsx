@@ -407,7 +407,7 @@ export const PregnancyMind: React.FC = () => {
           {/* Silent Chat AI Promo */}
           <div
             onClick={() => setIsChatOpen(true)}
-            className="bg-dark-950 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all"
+            className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary-400 rounded-full blur-[60px] opacity-20"></div>
 
@@ -440,9 +440,9 @@ export const PregnancyMind: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Chat Header */}
-            <div className="bg-dark-950 p-6 flex items-center justify-between text-white shrink-0">
+            <div className="bg-slate-900 p-6 flex items-center justify-between text-white shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-dark-900 flex items-center justify-center border border-slate-700">
+                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
                   <Lock size={18} className="text-primary-300" />
                 </div>
                 <div>
@@ -468,7 +468,7 @@ export const PregnancyMind: React.FC = () => {
                   <div className={`
                      max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
                      ${msg.sender === 'user'
-                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-dark-950/10'
+                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-slate-900/10'
                       : 'bg-white text-slate-700 border border-slate-100 dark:border-dm-border rounded-tl-none shadow-sm'}
                    `}>
                     {msg.text}
