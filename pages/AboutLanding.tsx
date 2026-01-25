@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import BackgroundEffect from '../components/BackgroundEffect';
 
 interface AboutLandingProps {
   onGetStarted: () => void;
@@ -238,13 +239,14 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
       className={`about-landing ${theme === 'dark' ? 'dark' : ''}`}
       data-theme={theme}
     >
+      <BackgroundEffect />
       {/* Inject styles */}
       <style>{`
         /* CSS Custom Properties */
         .about-landing {
           --color-bg: #f9f7f2;
           --color-bg-soft: #fffefb;
-          --color-text-primary: #1a1c1e;
+          --color-text-primary: #ffffff;
           --color-text-secondary: #4a4f56;
           --color-text-muted: #7d8b96;
           --color-accent: #2d6a4f;
@@ -270,7 +272,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
         .about-landing.dark {
           --color-bg: #050505;
           --color-bg-soft: #0a0a0a;
-          --color-text-primary: #f2f2f2;
+          --color-text-primary: #ffffff;
           --color-text-secondary: #a0a0a0;
           --color-text-muted: #666;
           --color-accent: #52b788;
@@ -289,7 +291,7 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
 
         .about-landing {
           min-height: 100vh;
-          background-color: var(--color-bg);
+          background-color: transparent;
           color: var(--color-text-primary);
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           transition: background-color 0.6s ease;
@@ -758,13 +760,13 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
         {/* Final CTA Section */}
         <section className="content-section" aria-label="Get Started">
           <div className={`cta-container ${ctaVisible ? 'visible' : ''}`}>
-            <button 
+            <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 onGetStarted();
-              }} 
+              }}
               className="btn-primary"
             >
               Get Started
@@ -783,7 +785,3 @@ export const AboutLanding: React.FC<AboutLandingProps> = ({ onGetStarted }) => {
 };
 
 export default AboutLanding;
-
-
-
-

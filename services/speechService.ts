@@ -83,7 +83,7 @@ export const translateText = async (
 
   try {
     const endpoint = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${sourceLanguage}&to=${targetLanguage}`;
-    
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -99,7 +99,7 @@ export const translateText = async (
     }
 
     const data = await response.json();
-    
+
     if (data && data[0] && data[0].translations && data[0].translations[0]) {
       return {
         translatedText: data[0].translations[0].text,
@@ -131,7 +131,7 @@ export const textToSpeech = async (
   try {
     const voiceName = getVoiceForLanguage(languageCode);
     const language = getLanguageByCode(languageCode);
-    
+
     // Azure TTS SSML format
     const ssml = `
       <speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${language.speechCode}'>
@@ -191,7 +191,7 @@ export const translateAndSpeak = async (
   try {
     // Step 1: Translate the text
     const translationResult = await translateText(text, targetLanguage, 'en');
-    
+
     if (!translationResult.success) {
       return {
         translatedText: text,
@@ -203,7 +203,7 @@ export const translateAndSpeak = async (
 
     // Step 2: Convert translated text to speech
     const ttsResult = await textToSpeech(translationResult.translatedText, targetLanguage);
-    
+
     if (!ttsResult.success) {
       return {
         translatedText: translationResult.translatedText,
@@ -238,17 +238,17 @@ export const playAudio = (audioBlob: Blob): Promise<void> => {
     try {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
-      
+
       audio.onended = () => {
         URL.revokeObjectURL(audioUrl);
         resolve();
       };
-      
+
       audio.onerror = (error) => {
         URL.revokeObjectURL(audioUrl);
         reject(error);
       };
-      
+
       audio.play().catch(reject);
     } catch (error) {
       reject(error);
@@ -272,11 +272,17 @@ const escapeXml = (text: string): string => {
  * Stop any currently playing audio
  */
 let currentAudio: HTMLAudioElement | null = null;
+let currentAudioResolve: (() => void) | null = null;
 
 export const stopCurrentAudio = (): void => {
   if (currentAudio) {
     currentAudio.pause();
     currentAudio.currentTime = 0;
+    // Resolve the promise so the caller knows audio stopped
+    if (currentAudioResolve) {
+      currentAudioResolve();
+      currentAudioResolve = null;
+    }
     currentAudio = null;
   }
 };
@@ -288,24 +294,31 @@ export const playAudioWithControl = (audioBlob: Blob): Promise<void> => {
   return new Promise((resolve, reject) => {
     try {
       stopCurrentAudio();
-      
+
       const audioUrl = URL.createObjectURL(audioBlob);
       currentAudio = new Audio(audioUrl);
-      
+      currentAudioResolve = resolve;
+
       currentAudio.onended = () => {
         URL.revokeObjectURL(audioUrl);
         currentAudio = null;
+        currentAudioResolve = null;
         resolve();
       };
-      
+
       currentAudio.onerror = (error) => {
         URL.revokeObjectURL(audioUrl);
         currentAudio = null;
+        currentAudioResolve = null;
         reject(error);
       };
-      
-      currentAudio.play().catch(reject);
+
+      currentAudio.play().catch((error) => {
+        currentAudioResolve = null;
+        reject(error);
+      });
     } catch (error) {
+      currentAudioResolve = null;
       reject(error);
     }
   });

@@ -277,7 +277,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <button
                   disabled={isLoading}
                   className={`
-                    w-full bg-slate-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-dark-950/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2
+                    w-full bg-slate-900 dark:bg-dm-foreground text-white font-bold py-4 rounded-xl shadow-lg shadow-dark-950/20 hover:bg-slate-700 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2
                     ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
                   `}
                 >
@@ -433,7 +433,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 <button
                   disabled={isLoading}
                   className={`
-                    w-full bg-slate-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-dark-950/20 hover:bg-slate-50 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2 group
+                    w-full bg-slate-900 dark:bg-dm-foreground text-white font-bold py-4 rounded-xl shadow-lg shadow-dark-950/20 hover:bg-slate-700 dark:hover:bg-dm-muted transition-all flex items-center justify-center gap-2 group
                     ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
                   `}
                 >

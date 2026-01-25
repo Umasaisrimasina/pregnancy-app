@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid, Dot, BarChart, Bar } from 'recharts';
-import { Activity, ArrowRight, CheckCircle2, AlertCircle, Calendar, Scale, Moon, Milk, Plus, Clock, Sparkles, Send, Heart, Shield, Lock, Stethoscope, ClipboardList, Watch, Smartphone, Cloud, Link2, MoreHorizontal, Info, Check, Wind, Brain, Volume2, Droplets, Minus, MapPin, Smile, Meh, Frown, Baby, Utensils, FlaskConical, Tv, ShieldCheck, Zap, Flame, Users, HeartHandshake, CheckSquare, ChefHat, ShoppingCart, MessageCircle, Play, Lightbulb, Camera, Mic, Gift, Search, Bell, FileText, AlertTriangle, TrendingUp, User, ChevronRight, RefreshCw, SmartphoneNfc, Loader2 } from 'lucide-react';
+import { Activity, ArrowRight, CheckCircle2, AlertCircle, Calendar, Scale, Moon, Milk, Plus, Clock, Sparkles, Send, Heart, Shield, Lock, Stethoscope, ClipboardList, Watch, Smartphone, Cloud, Link2, MoreHorizontal, Info, Check, Wind, Brain, Volume2, Droplets, Minus, MapPin, Smile, Meh, Frown, Baby, Utensils, FlaskConical, Tv, ShieldCheck, Zap, Flame, Users, HeartHandshake, CheckSquare, ChefHat, ShoppingCart, MessageCircle, Play, Lightbulb, Camera, Mic, Gift, Search, Bell, FileText, AlertTriangle, TrendingUp, User, ChevronRight, RefreshCw, SmartphoneNfc, Loader2, Phone, Video } from 'lucide-react';
 import { AppPhase, UserRole } from '../types';
 import { CycleCalendar } from '../components/CycleCalendar';
 import { PreConceptionGuide } from '../components/PreConceptionGuide';
@@ -482,7 +482,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
 
             {/* Bottom Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="w-14 h-14 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-2xl flex items-center justify-center">
                   <ShoppingCart size={24} />
@@ -499,6 +499,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <div>
                   <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Support Chat</h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Ask nutritionists or mentors</p>
+                </div>
+              </div>
+              {/* Doctor's 1:1 Call */}
+              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-6 border border-emerald-100 dark:border-emerald-800/30 flex items-center gap-4 hover:shadow-lg transition-all cursor-pointer group">
+                <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+                  <Video size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Doctor's 1:1 Call</h3>
+                  <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-medium">Instant video consultation</p>
                 </div>
               </div>
             </div>
@@ -590,7 +600,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Support Suggestions */}
           <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
             <div className="flex items-center gap-3 mb-6">
@@ -600,7 +610,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             <div className="space-y-4">
               <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
                 <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded flex items-center justify-center font-bold text-xs shrink-0">1</div>
-                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Ask about her sleep€”third trimester is starting soon.</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Ask about her sleep—third trimester is starting soon.</p>
               </div>
               <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border dark:border-slate-100 dark:border-dm-border">
                 <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded flex items-center justify-center font-bold text-xs shrink-0">2</div>
@@ -625,6 +635,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <span className="text-xs font-bold text-slate-400 dark:text-slate-400 dark:text-slate-400 dark:text-slate-500">Dec 01</span>
               </div>
             </div>
+          </div>
+
+          {/* Doctor's 1:1 Call */}
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-8 border border-emerald-100 dark:border-emerald-800/30 hover:shadow-lg transition-all cursor-pointer group">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+                <Video size={24} />
+              </div>
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Doctor's 1:1 Call</h3>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">Connect with Maya's doctor for updates or questions about her pregnancy.</p>
+            <button className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2">
+              <Phone size={18} />
+              Schedule Call
+            </button>
           </div>
         </div>
 
@@ -847,6 +872,25 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         </div>
         <PreConceptionGuide />
         <CycleCalendar />
+
+        {/* Doctor's 1:1 Call */}
+        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-8 border border-emerald-100 dark:border-emerald-800/30 shadow-sm">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                <Video size={28} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Doctor's 1:1 Call</h3>
+                <p className="text-emerald-600 dark:text-emerald-400 text-sm font-medium">Consult with fertility specialists</p>
+              </div>
+            </div>
+            <button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center gap-3">
+              <Phone size={20} />
+              Book Consultation
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
@@ -1257,6 +1301,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   rows={4}
                   className="w-full px-5 py-4 rounded-xl bg-primary-700/50 border border-primary-600/50 text-white placeholder-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all resize-none"
                 />
+              </div>
+            </div>
+
+            {/* Doctor's 1:1 Call Card */}
+            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-lg shadow-emerald-500/20">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                    <Video size={28} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold">Doctor's 1:1 Call</h3>
+                    <p className="text-emerald-100 text-sm">Instant consultation</p>
+                  </div>
+                </div>
+                <p className="text-emerald-100 text-sm mb-6">Connect with Dr. Aditi Sharma for personalized advice and support.</p>
+                <button className="w-full bg-white text-emerald-600 px-6 py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-emerald-50 transition-all flex items-center justify-center gap-3">
+                  <Phone size={20} />
+                  Start Video Call
+                </button>
               </div>
             </div>
           </div>
