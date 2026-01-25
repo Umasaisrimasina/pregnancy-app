@@ -10,6 +10,8 @@ import { getCheckIns, detectNegativeStreak, generateDemoCheckIns, MENTAL_HEALTH_
 import { sendChatMessage, ChatMessage } from '../services/aiService';
 import { useHealthData } from '../contexts/HealthDataContext';
 import { ManualVitalsModal } from '../components/ManualVitalsModal';
+import { ConsultationPopup } from '../components/ConsultationPopup';
+import { DoctorConsultationFlow } from '../components/DoctorConsultationFlow';
 
 interface DashboardProps {
   phase: AppPhase;
@@ -225,6 +227,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   const [newCraving, setNewCraving] = useState('');
   const [newCravingIntensity, setNewCravingIntensity] = useState<'mild' | 'moderate' | 'strong'>('moderate');
   const [showCravingInput, setShowCravingInput] = useState(false);
+
+  // Consultation State
+  const [isConsultationPopupOpen, setIsConsultationPopupOpen] = useState(false);
+  const [isConsultationFlowOpen, setIsConsultationFlowOpen] = useState(false);
 
   // AQI State
   const [aqiState, setAqiState] = useState<AQIState>({
@@ -502,7 +508,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 </div>
               </div>
               {/* Doctor's 1:1 Call */}
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-6 border border-emerald-100 dark:border-emerald-800/30 flex items-center gap-4 hover:shadow-lg transition-all cursor-pointer group">
+              <div
+                onClick={() => setIsConsultationPopupOpen(true)}
+                className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-6 border border-emerald-100 dark:border-emerald-800/30 flex items-center gap-4 hover:shadow-lg transition-all cursor-pointer group"
+              >
                 <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
                   <Video size={24} />
                 </div>
@@ -556,6 +565,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
           </div>
         </div>
+
+        {/* Consultation Modals */}
+        <ConsultationPopup
+          isOpen={isConsultationPopupOpen}
+          onClose={() => setIsConsultationPopupOpen(false)}
+          onContinue={() => {
+            setIsConsultationPopupOpen(false);
+            setIsConsultationFlowOpen(true);
+          }}
+        />
+        <DoctorConsultationFlow
+          isOpen={isConsultationFlowOpen}
+          onClose={() => setIsConsultationFlowOpen(false)}
+        />
       </div>
     );
   }
@@ -646,7 +669,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
               <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Doctor's 1:1 Call</h3>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">Connect with Maya's doctor for updates or questions about her pregnancy.</p>
-            <button className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2">
+            <button
+              onClick={() => setIsConsultationPopupOpen(true)}
+              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2"
+            >
               <Phone size={18} />
               Schedule Call
             </button>
@@ -682,6 +708,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
           <Gift size={64} className="text-secondary-400 opacity-50 absolute right-8 bottom-0 md:static md:opacity-100" />
         </div>
+
+        {/* Consultation Modals */}
+        <ConsultationPopup
+          isOpen={isConsultationPopupOpen}
+          onClose={() => setIsConsultationPopupOpen(false)}
+          onContinue={() => {
+            setIsConsultationPopupOpen(false);
+            setIsConsultationFlowOpen(true);
+          }}
+        />
+        <DoctorConsultationFlow
+          isOpen={isConsultationFlowOpen}
+          onClose={() => setIsConsultationFlowOpen(false)}
+        />
       </div>
     );
   }
@@ -885,12 +925,30 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 <p className="text-emerald-600 dark:text-emerald-400 text-sm font-medium">Consult with fertility specialists</p>
               </div>
             </div>
-            <button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center gap-3">
+            <button
+              onClick={() => setIsConsultationPopupOpen(true)}
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center gap-3"
+            >
               <Phone size={20} />
               Book Consultation
             </button>
           </div>
         </div>
+
+        {/* Consultation Modals */}
+        <ConsultationPopup
+          isOpen={isConsultationPopupOpen}
+          onClose={() => setIsConsultationPopupOpen(false)}
+          onContinue={() => {
+            setIsConsultationPopupOpen(false);
+            setIsConsultationFlowOpen(true);
+          }}
+        />
+        <DoctorConsultationFlow
+          isOpen={isConsultationFlowOpen}
+          onClose={() => setIsConsultationFlowOpen(false)}
+          initialType="pre-pregnancy"
+        />
       </div>
     )
   }
@@ -1318,7 +1376,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                   </div>
                 </div>
                 <p className="text-emerald-100 text-sm mb-6">Connect with Dr. Aditi Sharma for personalized advice and support.</p>
-                <button className="w-full bg-white text-emerald-600 px-6 py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-emerald-50 transition-all flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setIsConsultationPopupOpen(true)}
+                  className="w-full bg-white text-emerald-600 px-6 py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-emerald-50 transition-all flex items-center justify-center gap-3"
+                >
                   <Phone size={20} />
                   Start Video Call
                 </button>
@@ -1530,6 +1591,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
           </div>
         </div>
+
+        {/* Consultation Modals */}
+        <ConsultationPopup
+          isOpen={isConsultationPopupOpen}
+          onClose={() => setIsConsultationPopupOpen(false)}
+          onContinue={() => {
+            setIsConsultationPopupOpen(false);
+            setIsConsultationFlowOpen(true);
+          }}
+        />
+        <DoctorConsultationFlow
+          isOpen={isConsultationFlowOpen}
+          onClose={() => setIsConsultationFlowOpen(false)}
+          initialType="pregnancy"
+        />
 
         {/* Manual Entry Modal */}
         <ManualVitalsModal isOpen={isManualModalOpen} onClose={closeManualModal} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LayoutGrid, Utensils, BrainCircuit, GraduationCap, ArrowRightCircle, LogOut, Leaf, ChevronDown, Baby, Heart, Stethoscope, Users, Activity, Moon, Sun, Phone, X, AlertTriangle } from 'lucide-react';
 import { ViewState, AppPhase, UserRole, PHASE_CONFIG } from '../types';
 import { useTheme } from '../contexts/ThemeContext';
+import { useSOS } from '../contexts/SOSContext';
 
 interface SidebarProps {
   currentView: ViewState;
@@ -16,7 +17,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentPhase, currentRole, setPhase, isMobileOpen, setIsMobileOpen, onLogout }) => {
   const [isPhaseMenuOpen, setIsPhaseMenuOpen] = useState(false);
-  const [isSosActive, setIsSosActive] = useState(false);
+  const { triggerSOS } = useSOS();
   const { theme, toggleTheme } = useTheme();
 
   const getNavItems = () => {
@@ -212,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
 
             {/* SOS Emergency Button */}
             <button
-              onClick={() => setIsSosActive(true)}
+              onClick={triggerSOS}
               className="w-full flex items-center gap-3.5 px-4 py-3.5 text-sm font-bold rounded-lg transition-all duration-200 mt-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-500/30 hover:shadow-red-500/50"
             >
               <AlertTriangle size={22} className="animate-pulse" />
@@ -239,66 +240,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
           </div>
         </div>
       </aside>
-
-      {/* SOS Emergency Modal Overlay */}
-      {isSosActive && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center">
-          {/* Red Gradient Blur Background */}
-          <div
-            className="absolute inset-0 backdrop-blur-xl"
-            style={{
-              background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.9) 0%, rgba(153, 27, 27, 0.95) 50%, rgba(127, 29, 29, 0.9) 100%)'
-            }}
-          />
-
-          {/* Close Button */}
-          <button
-            onClick={() => setIsSosActive(false)}
-            className="absolute top-8 right-8 p-3 rounded-full bg-white/20 hover:bg-white/30 transition-all text-white z-10"
-          >
-            <X size={28} />
-          </button>
-
-          {/* Calling Animation Container */}
-          <div className="relative flex flex-col items-center justify-center z-10">
-            {/* Pulsing Rings */}
-            <div className="absolute">
-              <div className="w-48 h-48 rounded-full border-4 border-white/30 animate-ping" style={{ animationDuration: '1.5s' }} />
-            </div>
-            <div className="absolute">
-              <div className="w-64 h-64 rounded-full border-4 border-white/20 animate-ping" style={{ animationDuration: '2s', animationDelay: '0.3s' }} />
-            </div>
-            <div className="absolute">
-              <div className="w-80 h-80 rounded-full border-4 border-white/10 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.6s' }} />
-            </div>
-
-            {/* Phone Icon */}
-            <div className="relative w-32 h-32 rounded-full bg-white flex items-center justify-center shadow-2xl shadow-red-900/50 animate-bounce" style={{ animationDuration: '0.5s' }}>
-              <Phone size={56} className="text-red-600" fill="currentColor" />
-            </div>
-
-            {/* Calling Text */}
-            <div className="mt-12 text-center">
-              <p className="text-white text-2xl font-bold animate-pulse">Calling Emergency...</p>
-              <p className="text-white/80 text-lg mt-2">Help is on the way</p>
-            </div>
-
-            {/* Emergency Number Display */}
-            <div className="mt-8 px-8 py-4 bg-white/20 rounded-2xl backdrop-blur-sm">
-              <p className="text-white text-3xl font-bold tracking-wider">112</p>
-              <p className="text-white/70 text-sm text-center mt-1">Emergency Helpline</p>
-            </div>
-
-            {/* Cancel Button */}
-            <button
-              onClick={() => setIsSosActive(false)}
-              className="mt-10 px-12 py-4 bg-white text-red-600 font-bold text-lg rounded-full hover:bg-red-50 transition-all shadow-xl cursor-pointer z-20 relative"
-            >
-              Cancel Call
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
