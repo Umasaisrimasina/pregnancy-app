@@ -297,12 +297,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     {roles.map((r) => {
                       const isActive = selectedRole === r.id;
                       const Icon = r.icon;
-                      // Define colors for each role - matching Dark Matter theme
+                      // Define colors for each role
                       const roleColors: Record<string, { gradient: string; border: string; icon: string; shadow: string }> = {
-                        mother: { gradient: 'from-[#c2633a] to-[#d97b4a]', border: 'border-[#c2633a]', icon: 'text-[#c2633a] dark:text-[#d97b4a]', shadow: 'shadow-[#c2633a]/30' },
-                        partner: { gradient: 'from-[#3d7a7a] to-[#4a8585]', border: 'border-[#3d7a7a]', icon: 'text-[#3d7a7a] dark:text-[#4a8585]', shadow: 'shadow-[#3d7a7a]/30' },
-                        family: { gradient: 'from-[#d97b4a] to-[#e8c07a]', border: 'border-[#d97b4a]', icon: 'text-[#d97b4a] dark:text-[#e8c07a]', shadow: 'shadow-[#d97b4a]/30' },
-                        medical: { gradient: 'from-[#4a8585] to-[#5a9595]', border: 'border-[#4a8585]', icon: 'text-[#4a8585] dark:text-[#5a9595]', shadow: 'shadow-[#4a8585]/30' },
+                        mother: { gradient: 'from-pink-500 to-rose-500', border: 'border-pink-400', icon: 'text-pink-500', shadow: 'shadow-pink-500/30' },
+                        partner: { gradient: 'from-blue-500 to-indigo-500', border: 'border-blue-400', icon: 'text-blue-500', shadow: 'shadow-blue-500/30' },
+                        family: { gradient: 'from-amber-500 to-orange-500', border: 'border-amber-400', icon: 'text-amber-500', shadow: 'shadow-amber-500/30' },
+                        medical: { gradient: 'from-emerald-500 to-teal-500', border: 'border-emerald-400', icon: 'text-emerald-500', shadow: 'shadow-emerald-500/30' },
                       };
                       const colors = roleColors[r.id] || roleColors.mother;
                       return (
@@ -350,70 +350,34 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
                     {/* Phase Selection Grid */}
                     <div>
-                      <label className="block text-sm font-bold text-slate-700 dark:text-dm-muted-fg mb-3">Current Journey Phase</label>
+                      <label className="block text-sm font-bold text-slate-700 mb-3">Current Journey Phase</label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {phases.map((p) => {
-                          const isActive = selectedPhase === p.id;
-                          // Define colors for each phase - matching Dark Matter theme
-                          const phaseColors: Record<string, { border: string; bg: string; iconBg: string; iconText: string; checkmark: string }> = {
-                            'pre-pregnancy': { 
-                              border: 'border-[#c2633a]', 
-                              bg: 'bg-[#c2633a]/10 dark:bg-[#d97b4a]/20', 
-                              iconBg: 'bg-[#c2633a]/20 dark:bg-[#d97b4a]/30', 
-                              iconText: 'text-[#c2633a] dark:text-[#d97b4a]',
-                              checkmark: 'text-[#c2633a] dark:text-[#d97b4a]'
-                            },
-                            'pregnancy': { 
-                              border: 'border-[#3d7a7a]', 
-                              bg: 'bg-[#3d7a7a]/10 dark:bg-[#4a8585]/20', 
-                              iconBg: 'bg-[#3d7a7a]/20 dark:bg-[#4a8585]/30', 
-                              iconText: 'text-[#3d7a7a] dark:text-[#4a8585]',
-                              checkmark: 'text-[#3d7a7a] dark:text-[#4a8585]'
-                            },
-                            'post-partum': { 
-                              border: 'border-[#d97b4a]', 
-                              bg: 'bg-[#d97b4a]/10 dark:bg-[#e8c07a]/20', 
-                              iconBg: 'bg-[#d97b4a]/20 dark:bg-[#e8c07a]/30', 
-                              iconText: 'text-[#d97b4a] dark:text-[#e8c07a]',
-                              checkmark: 'text-[#d97b4a] dark:text-[#e8c07a]'
-                            },
-                            'baby-care': { 
-                              border: 'border-[#4a8585]', 
-                              bg: 'bg-[#4a8585]/10 dark:bg-[#5a9595]/20', 
-                              iconBg: 'bg-[#4a8585]/20 dark:bg-[#5a9595]/30', 
-                              iconText: 'text-[#4a8585] dark:text-[#5a9595]',
-                              checkmark: 'text-[#4a8585] dark:text-[#5a9595]'
-                            },
-                          };
-                          const colors = phaseColors[p.id] || phaseColors['pre-pregnancy'];
-                          
-                          return (
-                            <div
-                              key={p.id}
-                              onClick={() => setSelectedPhase(p.id)}
-                              className={`cursor-pointer rounded-xl p-3 border-2 transition-all flex flex-col gap-2 relative overflow-hidden
-                                ${isActive
-                                  ? `${colors.border} ${colors.bg}`
-                                  : 'border-slate-100 bg-white dark:bg-dm-card dark:border-dm-border hover:border-slate-300 dark:hover:border-dm-foreground/50'}
-                              `}
-                            >
-                              {isActive && (
-                                <div className={`absolute top-2 right-2 ${colors.checkmark}`}>
-                                  <CheckCircle2 size={16} />
-                                </div>
-                              )}
-                              <div className={`
-                                w-8 h-8 rounded-lg flex items-center justify-center
-                                ${isActive ? `${colors.iconBg} ${colors.iconText}` : 'bg-slate-100 dark:bg-dm-muted text-slate-400 dark:text-dm-muted-fg'}
-                              `}>
-                                <p.icon size={16} />
+                        {phases.map((p) => (
+                          <div
+                            key={p.id}
+                            onClick={() => setSelectedPhase(p.id)}
+                            className={`cursor-pointer rounded-xl p-3 border-2 transition-all flex flex-col gap-2 relative overflow-hidden
+                           ${selectedPhase === p.id
+                                ? `border-${PHASE_CONFIG[p.id].theme}-500 bg-${PHASE_CONFIG[p.id].theme}-50 dark:bg-${PHASE_CONFIG[p.id].theme}-900/20`
+                                : 'border-slate-100 bg-white dark:bg-dm-card dark:border-dm-border hover:border-dark-700 dark:hover:border-dm-foreground'}
+                         `}
+                          >
+                            {selectedPhase === p.id && (
+                              <div className={`absolute top-2 right-2 text-${PHASE_CONFIG[p.id].theme}-600`}>
+                                <CheckCircle2 size={16} />
                               </div>
-                              <div>
-                                <span className={`block text-xs font-bold ${isActive ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-600 dark:text-dm-muted-fg'}`}>{PHASE_CONFIG[p.id].label}</span>
-                              </div>
+                            )}
+                            <div className={`
+                           w-8 h-8 rounded-lg flex items-center justify-center
+                           ${selectedPhase === p.id ? `bg-${PHASE_CONFIG[p.id].theme}-200 text-${PHASE_CONFIG[p.id].theme}-700` : 'bg-slate-100 text-slate-400'}
+                         `}>
+                              <p.icon size={16} />
                             </div>
-                          );
-                        })}
+                            <div>
+                              <span className={`block text-xs font-bold ${selectedPhase === p.id ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-600'}`}>{PHASE_CONFIG[p.id].label}</span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
