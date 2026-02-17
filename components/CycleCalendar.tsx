@@ -2,18 +2,48 @@
 import { ChevronLeft, ChevronRight, Info, Link, RotateCw, Plus, Flame } from 'lucide-react';
 import { SpeakButton } from './SpeakButton';
 
-export const CycleCalendar: React.FC = () => {
-  const [selectedDay, setSelectedDay] = useState<number>(14);
+// ── Props (all optional — defaults preserve existing mock behaviour) ─────
 
-  // Mock Data for January 2026
-  const month = "January 2026";
-  const daysInMonth = 31;
-  const startDayOffset = 4; // Thursday start
+interface CycleCalendarProps {
+  /** Display month label (e.g. "January 2026"). */
+  month?: string;
+  /** Total days in the displayed month. */
+  daysInMonth?: number;
+  /** Day-of-week offset (0 = Sunday start, 4 = Thursday, etc.). */
+  startDayOffset?: number;
+  /** 1-indexed day numbers that fall within the period window. */
+  periodDays?: number[];
+  /** 1-indexed day numbers that fall within the fertile window. */
+  fertileDays?: number[];
+  /** 1-indexed ovulation day. */
+  ovulationDay?: number;
+  /** Day selected by default on mount. */
+  defaultSelectedDay?: number;
+  /** Called when the user taps "Log Period". */
+  onLogPeriod?: () => void;
+}
 
-  // Cycle Data
-  const periodDays = [2, 3, 4, 5, 6];
-  const fertileDays = [11, 12, 13, 14, 15, 16, 17];
+export const CycleCalendar: React.FC<CycleCalendarProps> = ({
+  month: monthProp = 'January 2026',
+  daysInMonth: daysInMonthProp = 31,
+  startDayOffset: startDayOffsetProp = 4,
+  periodDays: periodDaysProp = [2, 3, 4, 5, 6],
+  fertileDays: fertileDaysProp = [11, 12, 13, 14, 15, 16, 17],
+  ovulationDay: ovulationDayProp = 15,
+  defaultSelectedDay = 14,
+  onLogPeriod,
+}) => {
+  const [selectedDay, setSelectedDay] = useState<number>(defaultSelectedDay);
+
+  // Use prop values (or defaults)
+  const month = monthProp;
+  const daysInMonth = daysInMonthProp;
+  const startDayOffset = startDayOffsetProp;
+  const periodDays = periodDaysProp;
+  const fertileDays = fertileDaysProp;
   const ovulationDay = 15;
+
+  const ovulationDay = ovulationDayProp;
 
   const renderDay = (day: number) => {
     const isPeriod = periodDays.includes(day);
@@ -66,7 +96,7 @@ export const CycleCalendar: React.FC = () => {
           </div>
           <SpeakButton text="Menstrual Cycle Tracker for Conception Planning and Cycle Awareness. Track your period days, fertile window, and ovulation day to optimize your chances of conception." size={14} />
         </div>
-        <button className="bg-primary-400 hover:bg-primary-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-400/20 transition-all flex items-center gap-2">
+        <button onClick={onLogPeriod} className="bg-primary-400 hover:bg-primary-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary-400/20 transition-all flex items-center gap-2">
           <Plus size={18} />
           Log Period
         </button>

@@ -45,3 +45,33 @@ View your app in AI Studio: https://ai.studio/apps/drive/1G02_3eVTEJhnWxv7TbbQ-T
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Troubleshooting
+
+### Location Not Working on Vercel
+
+If geolocation isn't working in production on Vercel:
+
+1. **Check Browser Permissions**: Ensure location access is enabled in your browser settings
+   - Click the lock icon in the address bar
+   - Set "Location" to "Allow"
+
+2. **HTTPS Required**: Geolocation API only works on HTTPS (Vercel provides this automatically)
+
+3. **Fallback to IP Location**: The app automatically falls back to IP-based geolocation if browser location is denied
+
+4. **Check Browser Console**: Open DevTools (F12) and check the console for detailed error messages:
+   - "Location permission denied" - User blocked location access
+   - "Location unavailable" - Device GPS/location services are off
+   - "Location request timeout" - Network or GPS issue
+   - "Geolocation requires secure context" - Page not loaded via HTTPS
+
+5. **Environment Variables**: Ensure `VITE_WAQI_API_TOKEN` is set in Vercel's environment variables
+
+**Debug Steps:**
+```bash
+# Check what location method is being used
+# Browser console will show one of:
+# "✓ Using browser geolocation" - GPS/browser location working
+# "✓ Using IP-based location" - Fallback to IP geolocation
+```

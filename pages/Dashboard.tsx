@@ -2,16 +2,15 @@
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, LineChart, Line, CartesianGrid, Dot, BarChart, Bar } from 'recharts';
 import { Activity, ArrowRight, CheckCircle2, AlertCircle, Calendar, Scale, Moon, Milk, Plus, Clock, Sparkles, Send, Heart, Shield, Lock, Stethoscope, ClipboardList, Watch, Smartphone, Cloud, Link2, MoreHorizontal, Info, Check, Wind, Brain, Volume2, Droplets, Minus, MapPin, Smile, Meh, Frown, Baby, Utensils, FlaskConical, Tv, ShieldCheck, Zap, Flame, Users, HeartHandshake, CheckSquare, ChefHat, ShoppingCart, MessageCircle, Play, Lightbulb, Camera, Mic, Gift, Search, Bell, FileText, AlertTriangle, TrendingUp, User, ChevronRight, RefreshCw, SmartphoneNfc, Loader2, Phone, Video } from 'lucide-react';
 import { AppPhase, UserRole } from '../types';
-import { CycleCalendar } from '../components/CycleCalendar';
-import { PreConceptionGuide } from '../components/PreConceptionGuide';
 import { PregnancyCalendar } from '../components/PregnancyCalendar';
 import { SpeakButton } from '../components/SpeakButton';
 import { getCheckIns, detectNegativeStreak, generateDemoCheckIns, MENTAL_HEALTH_RESOURCES } from '../services/sentimentService';
 import { sendChatMessage, ChatMessage } from '../services/aiService';
 import { useHealthData } from '../contexts/HealthDataContext';
 import { ManualVitalsModal } from '../components/ManualVitalsModal';
-import { ConsultationPopup } from '../components/ConsultationPopup';
-import { DoctorConsultationFlow } from '../components/DoctorConsultationFlow';
+import { PhaseHeader } from '../components/dashboard/PhaseHeader';
+import { DoctorConsultCTA } from '../components/dashboard/DoctorConsultCTA';
+import { PreConceptionDashboard } from './PreConceptionDashboard';
 
 interface DashboardProps {
   phase: AppPhase;
@@ -228,10 +227,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   const [newCravingIntensity, setNewCravingIntensity] = useState<'mild' | 'moderate' | 'strong'>('moderate');
   const [showCravingInput, setShowCravingInput] = useState(false);
 
-  // Consultation State
-  const [isConsultationPopupOpen, setIsConsultationPopupOpen] = useState(false);
-  const [isConsultationFlowOpen, setIsConsultationFlowOpen] = useState(false);
-
   // AQI State
   const [aqiState, setAqiState] = useState<AQIState>({
     data: null,
@@ -241,26 +236,56 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
   // Get user's location using browser geolocation
   const getUserLocation = useCallback((): Promise<{ lat: number; lon: number }> => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (!navigator.geolocation) {
         console.error("Geolocation not supported by browser");
         reject(new Error('Geolocation not supported'));
         return;
       }
 
+      // Check if running in secure context (required for geolocation)
+      if (window.isSecureContext === false) {
+        console.error("Geolocation requires HTTPS");
+        reject(new Error('Geolocation requires secure context (HTTPS)'));
+        return;
+      }
+
+      // Check permission status first (if available)
+      if ('permissions' in navigator) {
+        try {
+          const permissionStatus = await navigator.permissions.query({ name: 'geolocation' as PermissionName });
+          console.log("Geolocation permission status:", permissionStatus.state);
+          
+          if (permissionStatus.state === 'denied') {
+            reject(new Error('Location permission denied'));
+            return;
+          }
+        } catch (permErr) {
+          console.log("Permission API not available, proceeding with geolocation request");
+        }
+      }
+
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const lat = pos.coords.latitude;
           const lon = pos.coords.longitude;
-          console.log("LAT:", lat);
-          console.log("LON:", lon);
+          console.log("Browser Geolocation - LAT:", lat, "LON:", lon);
           resolve({ lat, lon });
         },
         (err) => {
-          console.error("Location error:", err);
-          reject(err);
+          console.error("Location error:", err.message, "Code:", err.code);
+          // Provide more specific error messages
+          let errorMsg = 'Location access failed';
+          if (err.code === 1) errorMsg = 'Location permission denied';
+          else if (err.code === 2) errorMsg = 'Location unavailable';
+          else if (err.code === 3) errorMsg = 'Location request timeout';
+          reject(new Error(errorMsg));
         },
-        { timeout: 10000, enableHighAccuracy: false }
+        { 
+          timeout: 20000, // Increased timeout to 20 seconds
+          enableHighAccuracy: false,
+          maximumAge: 300000 // Cache location for 5 minutes
+        }
       );
     });
   }, []);
@@ -268,13 +293,48 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   // Fallback: Get location from IP address
   const getLocationFromIP = useCallback(async (): Promise<{ lat: number; lon: number }> => {
     console.log("Falling back to IP-based location...");
-    const res = await fetch("https://ipapi.co/json/");
-    const data = await res.json();
-    if (data.latitude && data.longitude) {
-      console.log("IP Location - LAT:", data.latitude, "LON:", data.longitude);
-      return { lat: data.latitude, lon: data.longitude };
+    
+    // Try multiple IP geolocation services for better reliability
+    const services = [
+      { url: 'https://ipapi.co/json/', parse: (d: any) => ({ lat: d.latitude, lon: d.longitude }) },
+      { url: 'https://ipwho.is/', parse: (d: any) => ({ lat: d.latitude, lon: d.longitude }) },
+      { url: 'https://api.ipify.org?format=json', parse: async (d: any) => {
+        // ipify only gives IP, need secondary call
+        const ipRes = await fetch(`https://ipapi.co/${d.ip}/json/`);
+        const ipData = await ipRes.json();
+        return { lat: ipData.latitude, lon: ipData.longitude };
+      }}
+    ];
+
+    for (const service of services) {
+      try {
+        console.log(`Trying IP service: ${service.url}`);
+        const res = await fetch(service.url, {
+          headers: {
+            'Accept': 'application/json',
+          },
+          signal: AbortSignal.timeout(10000) // 10 second timeout per service
+        });
+        
+        if (!res.ok) {
+          console.warn(`IP service ${service.url} returned ${res.status}`);
+          continue;
+        }
+        
+        const data = await res.json();
+        const coords = typeof service.parse === 'function' ? await service.parse(data) : service.parse;
+        
+        if (coords.lat && coords.lon) {
+          console.log("IP Location - LAT:", coords.lat, "LON:", coords.lon, "from", service.url);
+          return coords;
+        }
+      } catch (err) {
+        console.warn(`IP service ${service.url} failed:`, err);
+        continue; // Try next service
+      }
     }
-    throw new Error('Could not get location from IP');
+    
+    throw new Error('All IP geolocation services failed');
   }, []);
 
   // Fetch AQI Data using geo coordinates
@@ -306,26 +366,42 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
     try {
       let coords: { lat: number; lon: number };
+      let locationSource = 'unknown';
 
       // Try browser geolocation first
       try {
+        console.log("Attempting browser geolocation...");
         coords = await getUserLocation();
+        locationSource = 'browser';
+        console.log("✓ Using browser geolocation");
       } catch (geoError) {
         // Fallback to IP-based location if geolocation fails/denied
         console.log('Geolocation failed, falling back to IP location:', geoError);
-        coords = await getLocationFromIP();
+        try {
+          coords = await getLocationFromIP();
+          locationSource = 'ip';
+          console.log("✓ Using IP-based location");
+        } catch (ipError) {
+          console.error("Both geolocation methods failed:", ipError);
+          throw new Error('Unable to determine location. Please enable location access or check your internet connection.');
+        }
       }
 
       // Fetch AQI with coordinates
+      console.log(`Fetching AQI for coordinates from ${locationSource}:`, coords);
       const aqiData = await fetchAQIWithCoords(coords.lat, coords.lon);
       setAqiState({ data: aqiData, loading: false, error: null });
 
     } catch (err) {
       console.error("AQI fetch failed:", err);
+      const errorMessage = err instanceof Error 
+        ? err.message 
+        : 'Unable to fetch air quality data. Please try again.';
+      
       setAqiState({
         data: null,
         loading: false,
-        error: err instanceof Error ? err.message : 'Enable location to see local air quality',
+        error: errorMessage,
       });
     }
   }, [getUserLocation, getLocationFromIP, fetchAQIWithCoords]);
@@ -508,18 +584,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
                 </div>
               </div>
               {/* Doctor's 1:1 Call */}
-              <div
-                onClick={() => setIsConsultationPopupOpen(true)}
-                className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-6 border border-emerald-100 dark:border-emerald-800/30 flex items-center gap-4 hover:shadow-lg transition-all cursor-pointer group"
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
-                  <Video size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 dark:text-dm-foreground">Doctor's 1:1 Call</h3>
-                  <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-medium">Instant video consultation</p>
-                </div>
-              </div>
+              <DoctorConsultCTA variant="compact" subtitle="Instant video consultation" />
             </div>
           </div>
 
@@ -565,20 +630,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
           </div>
         </div>
-
-        {/* Consultation Modals */}
-        <ConsultationPopup
-          isOpen={isConsultationPopupOpen}
-          onClose={() => setIsConsultationPopupOpen(false)}
-          onContinue={() => {
-            setIsConsultationPopupOpen(false);
-            setIsConsultationFlowOpen(true);
-          }}
-        />
-        <DoctorConsultationFlow
-          isOpen={isConsultationFlowOpen}
-          onClose={() => setIsConsultationFlowOpen(false)}
-        />
       </div>
     );
   }
@@ -661,22 +712,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
 
           {/* Doctor's 1:1 Call */}
-          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-8 border border-emerald-100 dark:border-emerald-800/30 hover:shadow-lg transition-all cursor-pointer group">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
-                <Video size={24} />
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">Doctor's 1:1 Call</h3>
-            </div>
-            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">Connect with Maya's doctor for updates or questions about her pregnancy.</p>
-            <button
-              onClick={() => setIsConsultationPopupOpen(true)}
-              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2"
-            >
-              <Phone size={18} />
-              Schedule Call
-            </button>
-          </div>
+          <DoctorConsultCTA
+            variant="card"
+            description="Connect with Maya's doctor for updates or questions about her pregnancy."
+            buttonLabel="Schedule Call"
+          />
         </div>
 
         {/* Photos */}
@@ -708,20 +748,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
           <Gift size={64} className="text-secondary-400 opacity-50 absolute right-8 bottom-0 md:static md:opacity-100" />
         </div>
-
-        {/* Consultation Modals */}
-        <ConsultationPopup
-          isOpen={isConsultationPopupOpen}
-          onClose={() => setIsConsultationPopupOpen(false)}
-          onContinue={() => {
-            setIsConsultationPopupOpen(false);
-            setIsConsultationFlowOpen(true);
-          }}
-        />
-        <DoctorConsultationFlow
-          isOpen={isConsultationFlowOpen}
-          onClose={() => setIsConsultationFlowOpen(false)}
-        />
       </div>
     );
   }
@@ -892,65 +918,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // VIEW: Pre-Pregnancy
+  // VIEW: Pre-Pregnancy → extracted to PreConceptionDashboard
   // ----------------------------------------------------------------------
   if (phase === 'pre-pregnancy') {
-    return (
-      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-xs font-bold uppercase tracking-wider mb-2">
-                <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
-                Planning Phase
-              </div>
-              <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Pre-Conception</h1>
-              <p className="text-slate-500 mt-1">Optimization Phase</p>
-            </div>
-            <SpeakButton text="Pre-Conception Optimization Phase. Track your cycle, optimize your health, and prepare for pregnancy." />
-          </div>
-        </div>
-        <PreConceptionGuide />
-        <CycleCalendar />
-
-        {/* Doctor's 1:1 Call */}
-        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-[2rem] p-8 border border-emerald-100 dark:border-emerald-800/30 shadow-sm">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                <Video size={28} />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Doctor's 1:1 Call</h3>
-                <p className="text-emerald-600 dark:text-emerald-400 text-sm font-medium">Consult with fertility specialists</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsConsultationPopupOpen(true)}
-              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all flex items-center gap-3"
-            >
-              <Phone size={20} />
-              Book Consultation
-            </button>
-          </div>
-        </div>
-
-        {/* Consultation Modals */}
-        <ConsultationPopup
-          isOpen={isConsultationPopupOpen}
-          onClose={() => setIsConsultationPopupOpen(false)}
-          onContinue={() => {
-            setIsConsultationPopupOpen(false);
-            setIsConsultationFlowOpen(true);
-          }}
-        />
-        <DoctorConsultationFlow
-          isOpen={isConsultationFlowOpen}
-          onClose={() => setIsConsultationFlowOpen(false)}
-          initialType="pre-pregnancy"
-        />
-      </div>
-    )
+    return <PreConceptionDashboard />;
   }
 
   // ----------------------------------------------------------------------
@@ -959,19 +930,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   if (phase === 'pregnancy') {
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-x-hidden">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-primary-600 text-xs font-bold uppercase tracking-wider mb-2">
-                <span className="w-2 h-2 rounded-full bg-primary-400 animate-pulse"></span>
-                Trimester 2
-              </div>
-              <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Pregnancy</h1>
-              <p className="text-slate-500 mt-1">Week 24 €¢ Day 3</p>
-            </div>
-            <SpeakButton text="Pregnancy Dashboard. Trimester 2, Week 24, Day 3. Track your pregnancy journey, fetal development, and health vitals." />
-          </div>
-        </div>
+        <PhaseHeader
+          badgeText="Trimester 2"
+          badgeColorClass="bg-primary-50 border-primary-100 text-primary-600 dark:bg-primary-900/20 dark:border-primary-800 dark:text-primary-300"
+          dotColorClass="bg-primary-400"
+          title="Pregnancy"
+          subtitle="Week 24 · Day 3"
+          speakText="Pregnancy Dashboard. Trimester 2, Week 24, Day 3. Track your pregnancy journey, fetal development, and health vitals."
+        />
 
         {/* Timeline & Chat */}
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-2">
@@ -1363,28 +1329,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
 
             {/* Doctor's 1:1 Call Card */}
-            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-lg shadow-emerald-500/20">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                    <Video size={28} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold">Doctor's 1:1 Call</h3>
-                    <p className="text-emerald-100">Instant consultation</p>
-                  </div>
-                </div>
-                <p className="text-emerald-100 mb-6">Connect with Dr. Aditi Sharma for personalized advice and support.</p>
-                <button
-                  onClick={() => setIsConsultationPopupOpen(true)}
-                  className="w-full bg-white text-emerald-600 px-6 py-4 rounded-xl font-bold shadow-lg hover:bg-emerald-50 transition-all flex items-center justify-center gap-2"
-                >
-                  <Phone size={20} />
-                  Start Video Call
-                </button>
-              </div>
-            </div>
+            <DoctorConsultCTA
+              variant="rich"
+              subtitle="Instant consultation"
+              description="Connect with Dr. Aditi Sharma for personalized advice and support."
+              buttonLabel="Start Video Call"
+              consultationType="pregnancy"
+            />
           </div>
         </div>
 
@@ -1592,21 +1543,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           </div>
         </div>
 
-        {/* Consultation Modals */}
-        <ConsultationPopup
-          isOpen={isConsultationPopupOpen}
-          onClose={() => setIsConsultationPopupOpen(false)}
-          onContinue={() => {
-            setIsConsultationPopupOpen(false);
-            setIsConsultationFlowOpen(true);
-          }}
-        />
-        <DoctorConsultationFlow
-          isOpen={isConsultationFlowOpen}
-          onClose={() => setIsConsultationFlowOpen(false)}
-          initialType="pregnancy"
-        />
-
         {/* Manual Entry Modal */}
         <ManualVitalsModal isOpen={isManualModalOpen} onClose={closeManualModal} />
 
@@ -1655,19 +1591,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
 
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-xs font-bold uppercase tracking-wider mb-2">
-                <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
-                Recovery
-              </div>
-              <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Post-Partum</h1>
-              <p className="text-slate-500 mt-1">Focusing on healing and bonding.</p>
-            </div>
-            <SpeakButton text="Post-Partum Dashboard. Recovery phase. Focusing on healing and bonding with your baby." />
-          </div>
-        </div>
+        <PhaseHeader
+          badgeText="Recovery"
+          badgeColorClass="bg-purple-50 border-purple-100 text-purple-700 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-300"
+          dotColorClass="bg-purple-500"
+          title="Post-Partum"
+          subtitle="Focusing on healing and bonding."
+          speakText="Post-Partum Dashboard. Recovery phase. Focusing on healing and bonding with your baby."
+        />
 
         {/* Motivational Quote - Centered */}
         <div className="flex flex-col items-center justify-center text-center py-16 bg-slate-50/50 rounded-[2rem] my-4 relative">
@@ -1969,23 +1900,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   // ----------------------------------------------------------------------
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <div className="flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-50 border border-secondary-100 text-secondary-600 text-xs font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-secondary-400 animate-pulse"></span>
-              Month 2
-            </div>
-            <h1 className="text-3xl font-display font-extrabold text-slate-900 dark:text-dm-foreground">Baby Care</h1>
-            <p className="text-slate-500 mt-1">Leo is 8 weeks old today!</p>
-          </div>
-          <SpeakButton text="Baby Care Dashboard. Month 2. Leo is 8 weeks old today! Track feeding, sleep, weight, and upcoming milestones." />
-        </div>
-        <button className="bg-secondary-400 hover:bg-secondary-500 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-secondary-400/20 transition-all flex items-center gap-2">
-          <Calendar size={18} />
-          Log Appointment
-        </button>
-      </div>
+      <PhaseHeader
+        badgeText="Month 2"
+        badgeColorClass="bg-secondary-50 border-secondary-100 text-secondary-600 dark:bg-secondary-900/20 dark:border-secondary-800 dark:text-secondary-300"
+        dotColorClass="bg-secondary-400"
+        title="Baby Care"
+        subtitle="Leo is 8 weeks old today!"
+        speakText="Baby Care Dashboard. Month 2. Leo is 8 weeks old today! Track feeding, sleep, weight, and upcoming milestones."
+        rightContent={
+          <button className="bg-secondary-400 hover:bg-secondary-500 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-secondary-400/20 transition-all flex items-center gap-2">
+            <Calendar size={18} />
+            Log Appointment
+          </button>
+        }
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-[2rem] border border-slate-100 dark:border-dm-border shadow-sm flex flex-col items-center justify-center text-center gap-2">

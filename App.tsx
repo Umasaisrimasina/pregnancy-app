@@ -8,6 +8,7 @@ import { Mind } from './pages/Mind';
 import { Education } from './pages/Education';
 import { Transition } from './pages/Transition';
 import { Login } from './pages/Login';
+import { Signup } from './pages/Signup';
 import { Community } from './pages/Community';
 import { PreConceptionMind } from './pages/PreConceptionMind';
 import { PregnancyMind } from './pages/PregnancyMind';
@@ -50,7 +51,23 @@ const LoginPage: React.FC<{ onLogin: (phase: AppPhase, role: UserRole) => void }
 
   return (
     <LanguageProvider>
-      <Login onLogin={handleLogin} />
+      <Login onLogin={handleLogin} onNavigateToSignup={() => navigate('/signup')} />
+    </LanguageProvider>
+  );
+};
+
+// Signup Page wrapper component
+const SignupPage: React.FC<{ onSignup: (phase: AppPhase, role: UserRole) => void }> = ({ onSignup }) => {
+  const navigate = useNavigate();
+
+  const handleSignup = (phase: AppPhase, role: UserRole) => {
+    onSignup(phase, role);
+    navigate('/app');
+  };
+
+  return (
+    <LanguageProvider>
+      <Signup onSignup={handleSignup} onNavigateToLogin={() => navigate('/login')} />
     </LanguageProvider>
   );
 };
@@ -182,6 +199,23 @@ const App: React.FC = () => {
                 />
               ) : (
                 <LoginPage onLogin={handleLogin} />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              isAuthenticated ? (
+                <MainApp
+                  currentView={currentView}
+                  setView={setView}
+                  currentPhase={currentPhase}
+                  setPhase={setPhase}
+                  currentRole={currentRole}
+                  onLogout={handleLogout}
+                />
+              ) : (
+                <SignupPage onSignup={handleLogin} />
               )
             }
           />
