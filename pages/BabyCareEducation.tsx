@@ -64,27 +64,27 @@ export const BabyCareEducation: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
-      
+
       {/* Hero */}
       <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 lg:p-12 shadow-sm border border-slate-100 dark:border-dm-border overflow-hidden relative">
-         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary-50 rounded-full blur-[100px] -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
-         <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-50 text-secondary-600 text-xs font-bold uppercase tracking-wider mb-6 border border-secondary-100">
-               <Baby size={14} />
-               Baby Care Guide
+        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary-50 rounded-full blur-[100px] -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
+        <div className="relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-50 text-secondary-600 text-xs font-bold uppercase tracking-wider mb-6 border border-secondary-100">
+            <Baby size={14} />
+            Baby Care Guide
+          </div>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mb-6 leading-tight">
+                Everything about <br />caring for baby.
+              </h1>
+              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy.
+              </p>
             </div>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-slate-900 dark:text-dm-foreground mb-6 leading-tight">
-                   Everything about <br/>caring for baby.
-                </h1>
-                <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
-                  Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy.
-                </p>
-              </div>
-              <SpeakButton text="Everything about caring for baby. Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy." />
-            </div>
-         </div>
+            <SpeakButton text="Everything about caring for baby. Evidence-based guidance for newborn care, development milestones, feeding, sleep, and keeping your little one healthy and happy." />
+          </div>
+        </div>
       </div>
 
       {/* Age Navigation */}
@@ -95,13 +95,12 @@ export const BabyCareEducation: React.FC = () => {
           { label: "6-9 months", active: false },
           { label: "9-12 months", active: false },
         ].map((age, i) => (
-          <button 
-            key={i} 
-            className={`p-3 rounded-xl border text-center transition-all text-sm font-medium ${
-              age.active 
-                ? 'bg-secondary-50 border-secondary-200 text-secondary-600 shadow-sm' 
-                : 'bg-white border-slate-100 text-slate-600 hover:border-secondary-200'
-            }`}
+          <button
+            key={i}
+            className={`p-3 rounded-xl border text-center transition-all text-sm font-medium ${age.active
+              ? 'bg-secondary-50 border-secondary-200 text-secondary-600 shadow-sm'
+              : 'bg-white border-slate-100 text-slate-600 hover:border-secondary-200'
+              }`}
           >
             {age.label}
           </button>
@@ -137,7 +136,7 @@ export const BabyCareEducation: React.FC = () => {
       {/* Caregiver Booking Card */}
       <div className="bg-gradient-to-br from-purple-50/50 to-secondary-50/30 rounded-[2rem] p-8 border border-purple-100/50 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
-        
+
         <div className="relative z-10">
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">
@@ -172,7 +171,7 @@ export const BabyCareEducation: React.FC = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-4">
-            <button 
+            <button
               onClick={handleOpenModal}
               className="px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-purple-200 hover:bg-purple-700 transition-all flex items-center justify-center gap-2"
             >
@@ -197,14 +196,14 @@ export const BabyCareEducation: React.FC = () => {
       {isCaregiverModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-950/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white dark:bg-dm-card rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
-            
+
             {/* Modal Header */}
             <div className="sticky top-0 bg-white border-b border-slate-100 px-8 py-6 flex items-center justify-between z-10 rounded-t-[2rem]">
               <div>
                 <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Find a Caregiver</h2>
                 <p className="text-sm text-slate-500 mt-1">Step {bookingStep} of 4</p>
               </div>
-              <button 
+              <button
                 onClick={handleCloseModal}
                 className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
               >
@@ -214,7 +213,7 @@ export const BabyCareEducation: React.FC = () => {
 
             {/* Modal Content */}
             <div className="px-8 py-6">
-              
+
               {/* Step 1: Care Type */}
               {bookingStep === 1 && (
                 <div className="space-y-6">
@@ -222,7 +221,7 @@ export const BabyCareEducation: React.FC = () => {
                     <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">What type of care do you need?</h3>
                     <p className="text-sm text-slate-600 dark:text-slate-300">Select the support that works best for you.</p>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {[
                       { id: 'newborn', title: 'Newborn care', desc: 'Feeding, soothing, and daily care support', icon: Baby },
@@ -232,16 +231,14 @@ export const BabyCareEducation: React.FC = () => {
                       <button
                         key={type.id}
                         onClick={() => setSelectedCareType(type.id)}
-                        className={`w-full p-5 rounded-2xl border-2 text-left transition-all ${
-                          selectedCareType === type.id
-                            ? 'border-purple-500 bg-purple-50'
-                            : 'border-slate-100 bg-white hover:border-purple-200'
-                        }`}
+                        className={`w-full p-5 rounded-2xl border-2 text-left transition-all ${selectedCareType === type.id
+                          ? 'border-purple-500 bg-purple-50'
+                          : 'border-slate-100 bg-white hover:border-purple-200'
+                          }`}
                       >
                         <div className="flex items-start gap-4">
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
-                            selectedCareType === type.id ? 'bg-purple-100 text-purple-600' : 'bg-dark-800 text-slate-400'
-                          }`}>
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${selectedCareType === type.id ? 'bg-purple-100 text-purple-600' : 'bg-dark-800 text-slate-400'
+                            }`}>
                             <type.icon size={24} />
                           </div>
                           <div className="flex-1">
@@ -265,7 +262,7 @@ export const BabyCareEducation: React.FC = () => {
                     <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">When do you need support?</h3>
                     <p className="text-sm text-slate-600 dark:text-slate-300">Choose a date and time that works for you.</p>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Date</label>
@@ -276,7 +273,7 @@ export const BabyCareEducation: React.FC = () => {
                         className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Time</label>
                       <select
@@ -308,7 +305,7 @@ export const BabyCareEducation: React.FC = () => {
                     <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">A few more details</h3>
                     <p className="text-sm text-slate-600 dark:text-slate-300">Help us find the right caregiver for you.</p>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -322,7 +319,7 @@ export const BabyCareEducation: React.FC = () => {
                         defaultValue="Auto-detected location"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">
                         <FileText size={14} className="inline mr-1" />
@@ -351,7 +348,7 @@ export const BabyCareEducation: React.FC = () => {
                     <h3 className="text-xl font-bold text-slate-900 dark:text-dm-foreground mb-2">Review your request</h3>
                     <p className="text-sm text-slate-600 dark:text-slate-300">You can review details before confirming. No obligation.</p>
                   </div>
-                  
+
                   <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-6 space-y-4">
                     <div className="flex justify-between items-start">
                       <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Care type</span>
@@ -393,7 +390,7 @@ export const BabyCareEducation: React.FC = () => {
                   Back
                 </button>
               )}
-              
+
               <button
                 onClick={bookingStep < 4 ? handleNextStep : handleCloseModal}
                 disabled={bookingStep === 1 && !selectedCareType}
@@ -440,7 +437,7 @@ export const BabyCareEducation: React.FC = () => {
                 <p className="text-slate-800 font-semibold leading-relaxed">"{myths[currentMythIndex].myth}"</p>
               </div>
             </div>
-            
+
             {/* Fact */}
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
@@ -455,23 +452,23 @@ export const BabyCareEducation: React.FC = () => {
 
           {/* Navigation */}
           <div className="flex items-center justify-between mt-4">
-            <button 
+            <button
               onClick={prevMyth}
               className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm"
             >
               <ChevronLeft size={18} />
             </button>
-            
+
             <div className="flex gap-1.5">
               {myths.map((_, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`w-2 h-2 rounded-full transition-colors ${i === currentMythIndex ? 'bg-amber-500' : 'bg-amber-200'}`}
                 />
               ))}
             </div>
-            
-            <button 
+
+            <button
               onClick={nextMyth}
               className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm"
             >
@@ -486,7 +483,7 @@ export const BabyCareEducation: React.FC = () => {
             Health information based on global medical guidelines. This does not replace a doctor's advice.
           </p>
           <p className="text-[9px] text-slate-400 text-center mt-2 leading-relaxed">
-            Sources: WHO Essential Newborn Care Ã¢‚¬¢ WHOÃ¢‚¬€œUNICEF IYCF Guidelines Ã¢‚¬¢ WHO Immunization Ã¢‚¬¢ WHO Complementary Feeding Guidelines
+            Sources: WHO Essential Newborn Care • WHO–UNICEF IYCF Guidelines • WHO Immunization • WHO Complementary Feeding Guidelines
           </p>
         </div>
       </div>
@@ -510,13 +507,12 @@ export const BabyCareEducation: React.FC = () => {
                 <span className="font-medium text-slate-700 block">{vax.vaccine}</span>
                 <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{vax.timing}</span>
               </div>
-              <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                vax.status === 'completed' 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : vax.status === 'upcoming'
-                    ? 'bg-secondary-100 text-secondary-600'
-                    : 'bg-slate-100 text-slate-500'
-              }`}>
+              <span className={`text-xs font-bold px-3 py-1 rounded-full ${vax.status === 'completed'
+                ? 'bg-primary-100 text-primary-700'
+                : vax.status === 'upcoming'
+                  ? 'bg-secondary-100 text-secondary-600'
+                  : 'bg-slate-100 text-slate-500'
+                }`}>
                 {vax.status === 'completed' ? 'Done' : vax.status === 'upcoming' ? 'Next' : 'Pending'}
               </span>
             </div>
@@ -537,11 +533,11 @@ export const BabyCareEducation: React.FC = () => {
             { icon: Heart, title: "Social Skills", desc: "Emotional and social development", color: "text-secondary-500", bg: "bg-secondary-50" },
           ].map((item, i) => (
             <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 dark:border-dm-border hover:shadow-md transition-shadow">
-               <div className={`w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center mb-4`}>
-                 <item.icon size={24} />
-               </div>
-               <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1">{item.title}</h3>
-               <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+              <div className={`w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center mb-4`}>
+                <item.icon size={24} />
+              </div>
+              <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1">{item.title}</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>

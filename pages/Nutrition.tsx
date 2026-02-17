@@ -674,7 +674,7 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
           {/* Nutrition Chat Card */}
           <div
             onClick={() => setIsChatOpen(true)}
-            className="bg-slate-900 rounded-[2rem] p-6 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all min-h-[200px] flex flex-col justify-between"
+            className="bg-dark-950 rounded-[2rem] p-6 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-dark-950/10 hover:shadow-dark-950/20 transition-all min-h-[200px] flex flex-col justify-between"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full blur-[60px] opacity-20"></div>
 
