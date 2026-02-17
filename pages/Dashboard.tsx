@@ -11,6 +11,7 @@ import { ManualVitalsModal } from '../components/ManualVitalsModal';
 import { PhaseHeader } from '../components/dashboard/PhaseHeader';
 import { DoctorConsultCTA } from '../components/dashboard/DoctorConsultCTA';
 import { PreConceptionDashboard } from './PreConceptionDashboard';
+import { DigitalCaseHistory } from '../components/DigitalCaseHistory';
 
 interface DashboardProps {
   phase: AppPhase;
@@ -201,6 +202,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   } = useHealthData();
 
   const [isAuthorizing, setIsAuthorizing] = useState(false);
+  const [medicalTab, setMedicalTab] = useState<'clinical' | 'case-history'>('clinical');
   const [fluidLevels, setFluidLevels] = useState({ water: 1.8, electrolyte: 1.0 });
   const [recoveryChecklist, setRecoveryChecklist] = useState([
     { label: 'Pelvic Floor Exercises', done: true },
@@ -766,6 +768,34 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
           <SpeakButton text="Doctor Perspective. Clinical Dashboard for monitoring patient health and pregnancy progress." />
         </div>
 
+        {/* Tab Bar */}
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setMedicalTab('clinical')}
+            className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all ${
+              medicalTab === 'clinical'
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                : 'bg-slate-100 dark:bg-dm-muted text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-dm-accent'
+            }`}
+          >
+            Clinical Dashboard
+          </button>
+          <button
+            onClick={() => setMedicalTab('case-history')}
+            className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all ${
+              medicalTab === 'case-history'
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                : 'bg-slate-100 dark:bg-dm-muted text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-dm-accent'
+            }`}
+          >
+            Digital Case History
+          </button>
+        </div>
+
+        {medicalTab === 'case-history' ? (
+          <DigitalCaseHistory />
+        ) : (
+          <>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg"><Activity size={24} /></div>
@@ -909,6 +939,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
             </div>
           </div>
         </div>
+        </>
+        )}
       </div>
     );
   }
