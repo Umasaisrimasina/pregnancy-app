@@ -25,46 +25,46 @@ export const PreConceptionGuide: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-             {/* Item 1 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
-                 <Pill size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Start Folic Acid</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Take 400mcg daily to prevent neural tube defects.</p>
-               </div>
-             </div>
-             {/* Item 2 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
-                 <Stethoscope size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Pre-conception Checkup</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Screen for underlying conditions and update vaccines.</p>
-               </div>
-             </div>
-             {/* Item 3 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
-                 <Apple size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Balanced Nutrition</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Focus on leafy greens, lean protein, and whole grains.</p>
-               </div>
-             </div>
-             {/* Item 4 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
-                 <Moon size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Regular Sleep</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Regulate hormones with 7-9 hours of consistent rest.</p>
-               </div>
-             </div>
+            {/* Item 1 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
+                <Pill size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Start Folic Acid</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Take 400mcg daily to prevent neural tube defects.</p>
+              </div>
+            </div>
+            {/* Item 2 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
+                <Stethoscope size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Pre-conception Checkup</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Screen for underlying conditions and update vaccines.</p>
+              </div>
+            </div>
+            {/* Item 3 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
+                <Apple size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Balanced Nutrition</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Focus on leafy greens, lean protein, and whole grains.</p>
+              </div>
+            </div>
+            {/* Item 4 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0">
+                <Moon size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Regular Sleep</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Regulate hormones with 7-9 hours of consistent rest.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -76,46 +76,46 @@ export const PreConceptionGuide: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-             {/* Item 1 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
-                 <Cigarette size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Alcohol & Smoking</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Both significantly reduce fertility and harm early development.</p>
-               </div>
-             </div>
-             {/* Item 2 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
-                 <Coffee size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Excessive Caffeine</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Limit intake to under 200mg (about 1-2 cups of coffee) per day.</p>
-               </div>
-             </div>
-             {/* Item 3 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
-                 <AlertTriangle size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">Self-Medication</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Avoid over-the-counter drugs without consulting your OB-GYN.</p>
-               </div>
-             </div>
-             {/* Item 4 */}
-             <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
-               <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
-                 <Fish size={20} />
-               </div>
-               <div>
-                 <h3 className="font-bold text-slate-900 text-sm">High-Mercury Fish</h3>
-                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">Avoid shark, swordfish, and king mackerel during this phase.</p>
-               </div>
-             </div>
+            {/* Item 1 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
+                <Cigarette size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Alcohol & Smoking</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Both significantly reduce fertility and harm early development.</p>
+              </div>
+            </div>
+            {/* Item 2 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
+                <Coffee size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Excessive Caffeine</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Limit intake to under 200mg (about 1-2 cups of coffee) per day.</p>
+              </div>
+            </div>
+            {/* Item 3 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
+                <AlertTriangle size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">Self-Medication</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Avoid over-the-counter drugs without consulting your OB-GYN.</p>
+              </div>
+            </div>
+            {/* Item 4 */}
+            <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-5 flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-500 flex items-center justify-center shrink-0">
+                <Fish size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm">High-Mercury Fish</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">Avoid shark, swordfish, and king mackerel during this phase.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

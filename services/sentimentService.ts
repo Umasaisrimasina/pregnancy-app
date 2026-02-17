@@ -58,12 +58,13 @@ const EMOJI_SENTIMENT_MAP: Record<string, SentimentLabel> = {
 export async function analyzeSentiment(text: string): Promise<SentimentResult> {
   try {
     // For demo: use direct Azure API call (in production, use Firebase Functions)
-    const apiUrl = `${AZURE_LANGUAGE_ENDPOINT}/language/:analyze-text?api-version=2023-04-01`;
+    const apiUrl = `${AZURE_LANGUAGE_ENDPOINT}/language/:analyze-text?api-version=2024-11-15-preview`;
     
     const requestBody = {
       kind: 'SentimentAnalysis',
       parameters: {
-        modelVersion: 'latest'
+        modelVersion: 'latest',
+        opinionMining: false
       },
       analysisInput: {
         documents: [{

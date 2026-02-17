@@ -102,7 +102,7 @@ export const PostPartumEducation: React.FC = () => {
 
         {/* Chat Interface */}
         <div className="xl:col-span-2">
-          <div className="bg-slate-900 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-slate-900/10 min-h-[400px]">
+          <div className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[400px]">
             <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
             <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
@@ -229,7 +229,7 @@ export const PostPartumEducation: React.FC = () => {
         </div>
         <div className="mt-6 bg-white dark:bg-dm-card rounded-xl p-4 border border-purple-200">
           <p className="text-sm text-purple-800 font-medium">
-            <strong>Crisis Helplines:</strong> iCall: 9152987821 Ã¢‚¬¢ Vandrevala Foundation: 1860-2662-345
+            <strong>Crisis Helplines:</strong> iCall: 9152987821 • Vandrevala Foundation: 1860-2662-345
           </p>
         </div>
       </div>
