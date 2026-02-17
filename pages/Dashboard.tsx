@@ -327,7 +327,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
         const coords = typeof service.parse === 'function' ? await service.parse(data) : service.parse;
         
         if (coords.lat && coords.lon) {
-          console.log("IP Location - LAT:", coords.lat, "LON:", coords.lon, "from", service.url);
           return coords;
         }
       } catch (err) {
@@ -343,13 +342,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ phase, role }) => {
   const fetchAQIWithCoords = useCallback(async (lat: number, lon: number) => {
     const token = import.meta.env.VITE_WAQI_API_TOKEN;
     const url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${token}`;
-    console.log("Fetching AQI from:", url);
 
     const res = await fetch(url);
     const data = await res.json();
-
-    console.log("AQI DATA:", data.data);
-    console.log("Station:", data.data?.city?.name);
 
     if (data.status === 'ok' && data.data) {
       return {

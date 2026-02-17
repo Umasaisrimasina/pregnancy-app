@@ -23,7 +23,20 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment variables
+# Environment variables — NEVER commit real keys
 .env
 .env.local
+.env.development
+.env.production
 .env*.local
+.env.staging
+
+# Firebase
+.firebase/
+firebase-debug.log
+firebaserc
+
+# Sensitive config that may contain keys
+**/serviceAccountKey*.json
+**/service-account*.json
+**/*credentials*.json
