@@ -1,66 +1,44 @@
-﻿import React, { useState } from 'react';
-import { ShieldCheck, Heart, Brain, Baby, Shield, Sparkles, BookOpen, Calendar, Syringe, Scale, Users, CheckCircle2, X, ArrowRight, Clock, MapPin, FileText, Lightbulb, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
+/**
+ * BabyCareEducation.tsx
+ *
+ * Baby Care Guide / Education page.
+ * Refactored: myths -> config, caregiver modal -> CaregiverBookingModal,
+ * vaccination -> config, ChatPanel added.
+ */
+
+import React, { useState } from 'react';
+import {
+  Heart, Brain, Baby, Shield, Syringe, Scale, Users, CheckCircle2, X,
+  ArrowRight, Clock, Lightbulb, Check, ChevronLeft, ChevronRight, Share2, Calendar, Lock,
+} from 'lucide-react';
 import { SpeakButton } from '../components/SpeakButton';
+import { ChatPanel } from '../components/ChatPanel';
+import { CaregiverBookingModal } from '../components/CaregiverBookingModal';
+import { BABY_MYTHS } from '../config/babyMyths.config';
+import { useTranslation } from '../hooks/useTranslation';
+import {
+  VACCINATION_SCHEDULE,
+  vaccinationBadge,
+  getVaccinationSpeakText,
+} from '../config/vaccinationSchedule.config';
 
 export const BabyCareEducation: React.FC = () => {
+  const { t } = useTranslation();
   const [currentMythIndex, setCurrentMythIndex] = useState(0);
   const [isCaregiverModalOpen, setIsCaregiverModalOpen] = useState(false);
-  const [bookingStep, setBookingStep] = useState(1);
-  const [selectedCareType, setSelectedCareType] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [notes, setNotes] = useState('');
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setIsCaregiverModalOpen(true);
-    setBookingStep(1);
-    setSelectedCareType('');
-    setSelectedDate('');
-    setSelectedTime('');
-    setNotes('');
-  };
+  const nextMyth = () => setCurrentMythIndex((prev) => (prev + 1) % BABY_MYTHS.length);
+  const prevMyth = () => setCurrentMythIndex((prev) => (prev - 1 + BABY_MYTHS.length) % BABY_MYTHS.length);
 
-  const handleCloseModal = () => {
-    setIsCaregiverModalOpen(false);
-  };
+  const handleChatOpen = () => setIsChatOpen(true);
 
-  const handleNextStep = () => {
-    setBookingStep(prev => prev + 1);
-  };
-
-  const handlePrevStep = () => {
-    setBookingStep(prev => prev - 1);
-  };
-
-  const myths = [
-    {
-      myth: "Honey or water cleans baby's stomach",
-      fact: "Only breast milk for the first 6 months. Honey can be dangerous for babies under 1 year."
-    },
-    {
-      myth: "Oil or powder on umbilical cord helps healing",
-      fact: "Keep the cord clean and dry. Applying substances can cause infection."
-    },
-    {
-      myth: "Baby should be bathed immediately after birth",
-      fact: "Bathing before 24 hours can cause low body temperature. Delay the first bath."
-    },
-    {
-      myth: "Vaccines make baby sick",
-      fact: "Vaccines save lives. A mild fever after vaccination is normal and temporary."
-    },
-    {
-      myth: "Bottle feeding is modern and better",
-      fact: "Bottle feeding increases infection risk. Cup and spoon feeding are safer alternatives."
-    },
-    {
-      myth: "Junk food helps baby gain weight",
-      fact: "Junk food harms growth and brain development. Nutritious foods support healthy growth."
+  const handleChatKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleChatOpen();
     }
-  ];
-
-  const nextMyth = () => setCurrentMythIndex((prev) => (prev + 1) % myths.length);
-  const prevMyth = () => setCurrentMythIndex((prev) => (prev - 1 + myths.length) % myths.length);
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
@@ -100,7 +78,7 @@ export const BabyCareEducation: React.FC = () => {
             className={`p-3 rounded-xl border text-center transition-all text-sm font-medium ${age.active
               ? 'bg-secondary-50 border-secondary-200 text-secondary-600 shadow-sm'
               : 'bg-white border-slate-100 text-slate-600 hover:border-secondary-200'
-              }`}
+            }`}
           >
             {age.label}
           </button>
@@ -126,7 +104,7 @@ export const BabyCareEducation: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-1 group-hover:text-secondary-500 transition-colors">{topic.title}</h3>
-                <p className="text-sm text-slate-400 dark:text-slate-400 dark:text-slate-500">{topic.desc}</p>
+                <p className="text-sm text-slate-400 dark:text-slate-500">{topic.desc}</p>
               </div>
             </div>
           ))}
@@ -136,7 +114,6 @@ export const BabyCareEducation: React.FC = () => {
       {/* Caregiver Booking Card */}
       <div className="bg-gradient-to-br from-purple-50/50 to-secondary-50/30 rounded-[2rem] p-8 border border-purple-100/50 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
-
         <div className="relative z-10">
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">
@@ -172,7 +149,7 @@ export const BabyCareEducation: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row gap-3 mb-4">
             <button
-              onClick={handleOpenModal}
+              onClick={() => setIsCaregiverModalOpen(true)}
               className="px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-purple-200 hover:bg-purple-700 transition-all flex items-center justify-center gap-2"
             >
               Find a Caregiver
@@ -192,220 +169,13 @@ export const BabyCareEducation: React.FC = () => {
         </div>
       </div>
 
-      {/* Caregiver Booking Modal */}
-      {isCaregiverModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-dm-card rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+      {/* Caregiver Booking Modal (extracted) */}
+      <CaregiverBookingModal
+        isOpen={isCaregiverModalOpen}
+        onClose={() => setIsCaregiverModalOpen(false)}
+      />
 
-            {/* Modal Header */}
-            <div className="sticky top-0 bg-white border-b border-slate-100 px-8 py-6 flex items-center justify-between z-10 rounded-t-[2rem]">
-              <div>
-                <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-dm-foreground">Find a Caregiver</h2>
-                <p className="text-sm text-slate-500 mt-1">Step {bookingStep} of 4</p>
-              </div>
-              <button
-                onClick={handleCloseModal}
-                className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
-              >
-                <X size={20} className="text-slate-600 dark:text-slate-300" />
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="px-8 py-6">
-
-              {/* Step 1: Care Type */}
-              {bookingStep === 1 && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">What type of care do you need?</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">Select the support that works best for you.</p>
-                  </div>
-
-                  <div className="space-y-3">
-                    {[
-                      { id: 'newborn', title: 'Newborn care', desc: 'Feeding, soothing, and daily care support', icon: Baby },
-                      { id: 'night', title: 'Night care', desc: 'Overnight support so you can rest', icon: Clock },
-                      { id: 'short', title: 'Short-term help', desc: 'A few hours when you need a break', icon: Heart },
-                    ].map((type) => (
-                      <button
-                        key={type.id}
-                        onClick={() => setSelectedCareType(type.id)}
-                        className={`w-full p-5 rounded-2xl border-2 text-left transition-all ${selectedCareType === type.id
-                          ? 'border-purple-500 bg-purple-50'
-                          : 'border-slate-100 bg-white hover:border-purple-200'
-                          }`}
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${selectedCareType === type.id ? 'bg-purple-100 text-purple-600' : 'bg-dark-800 text-slate-400'
-                            }`}>
-                            <type.icon size={24} />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-slate-900 dark:text-dm-foreground mb-1">{type.title}</h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-300">{type.desc}</p>
-                          </div>
-                          {selectedCareType === type.id && (
-                            <CheckCircle2 size={20} className="text-purple-600 shrink-0" />
-                          )}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2: Date & Time */}
-              {bookingStep === 2 && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">When do you need support?</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">Choose a date and time that works for you.</p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Date</label>
-                      <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Time</label>
-                      <select
-                        value={selectedTime}
-                        onChange={(e) => setSelectedTime(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      >
-                        <option value="">Select a time</option>
-                        <option value="morning">Morning (6 AM - 12 PM)</option>
-                        <option value="afternoon">Afternoon (12 PM - 6 PM)</option>
-                        <option value="evening">Evening (6 PM - 10 PM)</option>
-                        <option value="night">Night (10 PM - 6 AM)</option>
-                      </select>
-                    </div>
-
-                    <div className="bg-purple-50 border border-purple-100 rounded-xl p-4">
-                      <p className="text-sm text-purple-800">
-                        <strong>Estimated availability:</strong> 3-5 caregivers in your area
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Location & Notes */}
-              {bookingStep === 3 && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-dm-foreground mb-2">A few more details</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">Help us find the right caregiver for you.</p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        <MapPin size={14} className="inline mr-1" />
-                        Location
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Your city or area"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        defaultValue="Auto-detected location"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        <FileText size={14} className="inline mr-1" />
-                        Optional notes
-                      </label>
-                      <textarea
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        placeholder="Baby age, special needs, or preferences (e.g., 'My baby is 2 months old and prefers to be held while sleeping')"
-                        rows={4}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-100 dark:border-dm-border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
-                      />
-                      <p className="text-xs text-slate-400 mt-1">This helps caregivers prepare for your needs.</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 4: Confirmation */}
-              {bookingStep === 4 && (
-                <div className="space-y-6">
-                  <div className="text-center py-6">
-                    <div className="w-20 h-20 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle2 size={40} className="text-purple-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-dm-foreground mb-2">Review your request</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">You can review details before confirming. No obligation.</p>
-                  </div>
-
-                  <div className="bg-slate-50 dark:bg-dm-muted rounded-2xl p-6 space-y-4">
-                    <div className="flex justify-between items-start">
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Care type</span>
-                      <span className="text-sm text-slate-900 dark:text-dm-foreground font-medium capitalize">{selectedCareType?.replace('-', ' ')}</span>
-                    </div>
-                    <div className="flex justify-between items-start">
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Date</span>
-                      <span className="text-sm text-slate-900 dark:text-dm-foreground font-medium">{selectedDate || 'Not selected'}</span>
-                    </div>
-                    <div className="flex justify-between items-start">
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Time</span>
-                      <span className="text-sm text-slate-900 dark:text-dm-foreground font-medium capitalize">{selectedTime || 'Not selected'}</span>
-                    </div>
-                    {notes && (
-                      <div className="pt-3 border-t border-slate-100 dark:border-dm-border">
-                        <span className="text-sm font-semibold text-slate-600 block mb-1">Notes</span>
-                        <p className="text-sm text-slate-600 dark:text-slate-300">{notes}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="bg-primary-50 border border-primary-100 rounded-xl p-4">
-                    <p className="text-sm text-primary-800 leading-relaxed">
-                      We'll match you with qualified caregivers. You'll be able to review profiles, read reviews, and confirm before any booking is finalized.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-            </div>
-
-            {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-white border-t border-slate-100 px-8 py-6 flex gap-3 rounded-b-[2rem]">
-              {bookingStep > 1 && (
-                <button
-                  onClick={handlePrevStep}
-                  className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold text-sm hover:bg-slate-200 transition-all"
-                >
-                  Back
-                </button>
-              )}
-
-              <button
-                onClick={bookingStep < 4 ? handleNextStep : handleCloseModal}
-                disabled={bookingStep === 1 && !selectedCareType}
-                className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-purple-200 hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {bookingStep < 4 ? 'Continue' : 'Submit Request'}
-                {bookingStep < 4 && <ArrowRight size={16} />}
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* Myth vs Fact Section */}
+      {/* Myth vs Fact Section (data from config) */}
       <div className="bg-gradient-to-br from-amber-50/50 to-orange-50/30 rounded-[2rem] p-6 lg:p-8 border border-amber-100/50">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -414,11 +184,11 @@ export const BabyCareEducation: React.FC = () => {
             </div>
             <div>
               <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">Did you know?</h2>
-              <p className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">Swipe to learn more health facts</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Swipe to learn more health facts</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <SpeakButton text={`Myth: ${myths[currentMythIndex].myth}. Fact: ${myths[currentMythIndex].fact}`} size={14} />
+            <SpeakButton text={`Myth: ${t(BABY_MYTHS[currentMythIndex].mythKey)}. Fact: ${t(BABY_MYTHS[currentMythIndex].factKey)}`} size={14} />
             <button className="w-8 h-8 rounded-full bg-white/80 border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors">
               <Share2 size={14} />
             </button>
@@ -427,51 +197,37 @@ export const BabyCareEducation: React.FC = () => {
 
         <div className="relative">
           <div className="bg-white dark:bg-dm-card rounded-2xl p-6 shadow-sm border border-amber-100/50 min-h-[200px]">
-            {/* Myth */}
             <div className="flex items-start gap-3 mb-5 pb-5 border-b border-slate-100">
               <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                 <X size={16} className="text-red-500" />
               </div>
               <div>
                 <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider block mb-1">Myth</span>
-                <p className="text-slate-800 font-semibold leading-relaxed">"{myths[currentMythIndex].myth}"</p>
+                <p className="text-slate-800 font-semibold leading-relaxed">"{t(BABY_MYTHS[currentMythIndex].mythKey)}"</p>
               </div>
             </div>
 
-            {/* Fact */}
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
                 <Check size={16} className="text-primary-600" />
               </div>
               <div>
                 <span className="text-[10px] font-bold text-primary-600 uppercase tracking-wider block mb-1">Fact</span>
-                <p className="text-slate-700 leading-relaxed">{myths[currentMythIndex].fact}</p>
+                <p className="text-slate-700 leading-relaxed">{t(BABY_MYTHS[currentMythIndex].factKey)}</p>
               </div>
             </div>
           </div>
 
-          {/* Navigation */}
           <div className="flex items-center justify-between mt-4">
-            <button
-              onClick={prevMyth}
-              className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm"
-            >
+            <button onClick={prevMyth} className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm">
               <ChevronLeft size={18} />
             </button>
-
             <div className="flex gap-1.5">
-              {myths.map((_, i) => (
-                <div
-                  key={i}
-                  className={`w-2 h-2 rounded-full transition-colors ${i === currentMythIndex ? 'bg-amber-500' : 'bg-amber-200'}`}
-                />
+              {BABY_MYTHS.map((_, i) => (
+                <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === currentMythIndex ? 'bg-amber-500' : 'bg-amber-200'}`} />
               ))}
             </div>
-
-            <button
-              onClick={nextMyth}
-              className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm"
-            >
+            <button onClick={nextMyth} className="w-10 h-10 rounded-full bg-white border border-amber-200 flex items-center justify-center text-amber-600 hover:bg-amber-50 transition-colors shadow-sm">
               <ChevronRight size={18} />
             </button>
           </div>
@@ -483,40 +239,33 @@ export const BabyCareEducation: React.FC = () => {
             Health information based on global medical guidelines. This does not replace a doctor's advice.
           </p>
           <p className="text-[9px] text-slate-400 text-center mt-2 leading-relaxed">
-            Sources: WHO Essential Newborn Care • WHO–UNICEF IYCF Guidelines • WHO Immunization • WHO Complementary Feeding Guidelines
+            Sources: WHO Essential Newborn Care  WHO-UNICEF IYCF Guidelines  WHO Immunization  WHO Complementary Feeding Guidelines
           </p>
         </div>
       </div>
 
-      {/* Vaccination Schedule */}
+      {/* Vaccination Schedule (data from config) */}
       <div className="bg-gradient-to-br from-secondary-50 to-blue-50 rounded-[2rem] p-8 border border-secondary-100">
         <div className="flex items-center gap-3 mb-6">
           <Syringe size={24} className="text-secondary-400" />
           <h2 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">Vaccination Schedule</h2>
-          <SpeakButton text="Vaccination Schedule. BCG, OPV-0, Hep B-1 at birth. OPV-1, Pentavalent-1, Rotavirus-1, PCV-1 at 6 weeks. OPV-2, Pentavalent-2, Rotavirus-2 at 10 weeks. OPV-3, Pentavalent-3, Rotavirus-3, PCV-2 at 14 weeks." size={14} />
+          <SpeakButton text={getVaccinationSpeakText()} size={14} />
         </div>
         <div className="space-y-3">
-          {[
-            { vaccine: "BCG, OPV-0, Hep B-1", timing: "At birth", status: "completed" },
-            { vaccine: "OPV-1, Pentavalent-1, Rotavirus-1, PCV-1", timing: "6 weeks", status: "upcoming" },
-            { vaccine: "OPV-2, Pentavalent-2, Rotavirus-2", timing: "10 weeks", status: "pending" },
-            { vaccine: "OPV-3, Pentavalent-3, Rotavirus-3, PCV-2", timing: "14 weeks", status: "pending" },
-          ].map((vax, i) => (
-            <div key={i} className="bg-white p-4 rounded-xl flex items-center justify-between">
-              <div>
-                <span className="font-medium text-slate-700 block">{vax.vaccine}</span>
-                <span className="text-xs text-slate-400 dark:text-slate-400 dark:text-slate-500">{vax.timing}</span>
+          {VACCINATION_SCHEDULE.map((vax, i) => {
+            const badge = vaccinationBadge(vax.status);
+            return (
+              <div key={i} className="bg-white p-4 rounded-xl flex items-center justify-between">
+                <div>
+                  <span className="font-medium text-slate-700 block">{vax.vaccine}</span>
+                  <span className="text-xs text-slate-400 dark:text-slate-500">{vax.timing}</span>
+                </div>
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${badge.className}`}>
+                  {badge.label}
+                </span>
               </div>
-              <span className={`text-xs font-bold px-3 py-1 rounded-full ${vax.status === 'completed'
-                ? 'bg-primary-100 text-primary-700'
-                : vax.status === 'upcoming'
-                  ? 'bg-secondary-100 text-secondary-600'
-                  : 'bg-slate-100 text-slate-500'
-                }`}>
-                {vax.status === 'completed' ? 'Done' : vax.status === 'upcoming' ? 'Next' : 'Pending'}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -543,11 +292,41 @@ export const BabyCareEducation: React.FC = () => {
         </div>
       </div>
 
+      {/* AI Chat Promo */}
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleChatOpen}
+        onKeyDown={handleChatKeyDown}
+        className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden group cursor-pointer shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 transition-all"
+      >
+        <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-500 rounded-full blur-[60px] opacity-20" />
+        <div className="relative z-10">
+          <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm">
+            <Lock size={20} className="text-secondary-300" />
+          </div>
+          <h3 className="text-lg font-bold font-display mb-2">Baby Care Assistant</h3>
+          <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+            Have questions about feeding, sleep, or development? Chat privately with our AI companion for instant guidance.
+          </p>
+          <div className="flex items-center gap-2 text-sm font-bold text-secondary-300 group-hover:text-secondary-200 transition-colors">
+            Start Secure Chat <ArrowRight size={16} />
+          </div>
+        </div>
+      </div>
+
+      {/* Chat Modal */}
+      <ChatPanel
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        title="Baby Care Assistant"
+        subtitle="Private & Secure"
+        icon={<Lock size={18} className="text-secondary-400" />}
+        chatContext="babycare"
+        initialMessage="Hi there! I'm your baby care companion. Ask me anything about feeding, sleep, milestones, or newborn health."
+        fallbackResponse="Great question! For newborns, watch for hunger cues like rooting and hand sucking. Feeding on demand is usually best. Would you like tips on a specific topic?"
+        headerClassName="bg-dark-950"
+      />
     </div>
   );
 };
-
-
-
-
-

@@ -48,7 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
         break;
     }
 
-    return [
+    const allItems = [
       ...baseItems,
       // Add Risk Analysis only for pregnancy phase
       ...(currentPhase === 'pregnancy' ? [{ id: 'risk-analysis', label: 'Risk Analysis', icon: Activity }] : []),
@@ -56,6 +56,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
       { id: 'education', label: educationLabel, icon: GraduationCap },
       { id: 'community', label: 'Mom Community', icon: Users },
     ];
+
+    // Medical role only sees Overview + Risk Analysis
+    if (currentRole === 'medical') {
+      const hiddenForMedical = new Set(['nutrition', 'mind', 'education', 'community']);
+      return allItems.filter(item => !hiddenForMedical.has(item.id));
+    }
+
+    return allItems;
   };
 
   const navItems = getNavItems();
@@ -211,14 +219,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
               );
             })}
 
-            {/* SOS Emergency Button */}
-            <button
-              onClick={triggerSOS}
-              className="w-full flex items-center gap-3.5 px-4 py-3.5 text-sm font-bold rounded-lg transition-all duration-200 mt-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-500/30 hover:shadow-red-500/50"
-            >
-              <AlertTriangle size={22} className="animate-pulse" />
-              SOS Emergency
-            </button>
+            {/* SOS Emergency Button — hidden for medical role */}
+            {currentRole !== 'medical' && (
+              <button
+                onClick={triggerSOS}
+                className="w-full flex items-center gap-3.5 px-4 py-3.5 text-sm font-bold rounded-lg transition-all duration-200 mt-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-500/30 hover:shadow-red-500/50"
+              >
+                <AlertTriangle size={22} className="animate-pulse" />
+                SOS Emergency
+              </button>
+            )}
           </nav>
 
           {/* Bottom Actions */}

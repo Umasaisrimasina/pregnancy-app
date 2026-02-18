@@ -18,6 +18,15 @@ import { PreConceptionEducation } from './pages/PreConceptionEducation';
 import { PregnancyEducation } from './pages/PregnancyEducation';
 import { PostPartumEducation } from './pages/PostPartumEducation';
 import { BabyCareEducation } from './pages/BabyCareEducation';
+import { FertilityWellnessPage } from './pages/FertilityWellnessPage';
+import { PartnerNutritionPage } from './pages/PartnerNutritionPage';
+import { PreConceptionGuidePage } from './pages/PreConceptionGuidePage';
+import { PartnerCommunityPage } from './pages/PartnerCommunityPage';
+import { FamilyOverviewPage } from './views/family/FamilyOverviewPage';
+import { FamilyNutritionPage } from './views/family/FamilyNutritionPage';
+import { FamilyWellnessPage } from './views/family/FamilyWellnessPage';
+import { FamilyPreconceptionPage } from './views/family/FamilyPreconceptionPage';
+import { FamilyCommunityPage } from './views/family/FamilyCommunityPage';
 import { AboutLanding } from './pages/AboutLanding';
 import { ViewState, AppPhase, UserRole, PHASE_CONFIG } from './types';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -86,9 +95,16 @@ const MainApp: React.FC<{
 
   const renderView = () => {
     switch (currentView) {
-      case 'overview': return <Dashboard phase={currentPhase} role={currentRole} />;
-      case 'nutrition': return <Nutrition phase={currentPhase} />;
+      case 'overview':
+        if (currentRole === 'family') return <FamilyOverviewPage />;
+        return <Dashboard phase={currentPhase} role={currentRole} />;
+      case 'nutrition':
+        if (currentRole === 'partner') return <PartnerNutritionPage phase={currentPhase} />;
+        if (currentRole === 'family') return <FamilyNutritionPage phase={currentPhase} />;
+        return <Nutrition phase={currentPhase} />;
       case 'mind':
+        if (currentRole === 'partner') return <FertilityWellnessPage />;
+        if (currentRole === 'family') return <FamilyWellnessPage />;
         switch (currentPhase) {
           case 'pre-pregnancy': return <PreConceptionMind />;
           case 'pregnancy': return <PregnancyMind />;
@@ -97,6 +113,8 @@ const MainApp: React.FC<{
           default: return <Mind phase={currentPhase} />;
         }
       case 'education':
+        if (currentRole === 'partner') return <PreConceptionGuidePage />;
+        if (currentRole === 'family') return <FamilyPreconceptionPage />;
         switch (currentPhase) {
           case 'pre-pregnancy': return <PreConceptionEducation />;
           case 'pregnancy': return <PregnancyEducation />;
@@ -104,7 +122,10 @@ const MainApp: React.FC<{
           case 'baby-care': return <BabyCareEducation />;
           default: return <Education phase={currentPhase} />;
         }
-      case 'community': return <Community phase={currentPhase} />;
+      case 'community':
+        if (currentRole === 'partner') return <PartnerCommunityPage phase={currentPhase} />;
+        if (currentRole === 'family') return <FamilyCommunityPage phase={currentPhase} />;
+        return <Community phase={currentPhase} />;
       case 'transition': return <Transition phase={currentPhase} setPhase={setPhase} />;
       case 'risk-analysis': return <RiskAnalysis />;
       default: return <Dashboard phase={currentPhase} role={currentRole} />;

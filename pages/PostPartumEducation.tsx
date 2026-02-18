@@ -1,48 +1,11 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
-import { ShieldCheck, Heart, Brain, Baby, Shield, Sparkles, BookOpen, AlertCircle, Phone, Lock, Send, Mic, Lightbulb, X, Check, ChevronLeft, ChevronRight, Volume2, Share2, Loader2 } from 'lucide-react';
+﻿import React, { useState } from 'react';
+import { Heart, Brain, Baby, Shield, Sparkles, AlertCircle, Phone, Lock, Lightbulb, X, Check, ChevronLeft, ChevronRight, Volume2, Share2 } from 'lucide-react';
 import { SpeakButton } from '../components/SpeakButton';
-import { sendChatMessage, ChatMessage } from '../services/aiService';
+import { ChatPanel } from '../components/ChatPanel';
 
 export const PostPartumEducation: React.FC = () => {
   const [currentMythIndex, setCurrentMythIndex] = useState(0);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState([
-    { id: 1, sender: 'ai', text: "Hello! I'm here to support you through your postpartum journey. How can I help you today?" }
-  ]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return;
-
-    const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
-    setMessages(prev => [...prev, newUserMsg]);
-    setInputValue('');
-    setIsLoading(true);
-
-    // Build conversation history for context
-    const conversationHistory: ChatMessage[] = messages.map(msg => ({
-      role: msg.sender === 'ai' ? 'assistant' : 'user',
-      content: msg.text
-    }));
-
-    const response = await sendChatMessage(inputValue, 'postpartum', conversationHistory);
-
-    setMessages(prev => [...prev, {
-      id: Date.now() + 1,
-      sender: 'ai',
-      text: response.success ? response.message! : "Thank you for sharing. Remember, recovery takes time and it's okay to ask for help. Would you like some resources on this topic?"
-    }]);
-    setIsLoading(false);
-  };
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const myths = [
     {
@@ -61,6 +24,15 @@ export const PostPartumEducation: React.FC = () => {
 
   const nextMyth = () => setCurrentMythIndex((prev) => (prev + 1) % myths.length);
   const prevMyth = () => setCurrentMythIndex((prev) => (prev - 1 + myths.length) % myths.length);
+
+  const handleChatOpen = () => setIsChatOpen(true);
+
+  const handleChatKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleChatOpen();
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
@@ -100,63 +72,48 @@ export const PostPartumEducation: React.FC = () => {
           </div>
         </div>
 
-        {/* Chat Interface */}
+        {/* Chat CTA */}
         <div className="xl:col-span-2">
-          <div className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[400px]">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                  <Lock size={16} className="text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-white text-sm">Recovery Assistant</h3>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Private & Secure</span>
-                  </div>
-                </div>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleChatOpen}
+            onKeyDown={handleChatKeyDown}
+            aria-label="Start secure chat with Recovery Assistant"
+            className="bg-dark-950 rounded-[2rem] p-6 h-full flex flex-col relative overflow-hidden shadow-xl shadow-dark-950/10 min-h-[400px] cursor-pointer group hover:shadow-dark-950/20 transition-all"
+          >
+            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500 rounded-full blur-[80px] opacity-20 pointer-events-none" />
+            <div className="relative z-10 flex flex-col h-full justify-center items-center text-center">
+              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 mb-6 backdrop-blur-sm">
+                <Lock size={24} className="text-purple-300" />
               </div>
-
-              <div className="flex-1 space-y-4 mb-4 overflow-y-auto custom-scrollbar pr-1">
-                {messages.map((msg) => (
-                  <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
-                    <div className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${msg.sender === 'user'
-                      ? 'bg-purple-600 text-white rounded-tr-none'
-                      : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
-                      }`}>
-                      {msg.text}
-                    </div>
-                  </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-
-              <div className="relative mt-auto">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask about recovery..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-20 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:text-slate-400 dark:text-slate-500"
-                />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-                  <button className="w-8 h-8 text-slate-400 hover:text-purple-400 rounded-lg flex items-center justify-center transition-colors">
-                    <Mic size={14} />
-                  </button>
-                  <button
-                    onClick={handleSend}
-                    className="w-8 h-8 bg-purple-600 text-white rounded-lg flex items-center justify-center hover:bg-purple-500 transition-colors shadow-lg shadow-purple-900/50"
-                  >
-                    <Send size={14} />
-                  </button>
-                </div>
+              <h3 className="font-bold text-white text-xl font-display mb-3">Recovery Assistant</h3>
+              <p className="text-slate-400 text-sm mb-8 leading-relaxed max-w-xs">
+                Have questions about your postpartum journey? Our AI assistant is here to support you — privately and securely.
+              </p>
+              <div className="flex items-center gap-2 text-sm font-bold text-purple-300 group-hover:text-purple-200 transition-colors">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                Start Secure Chat
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Chat Modal */}
+      <ChatPanel
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        title="Recovery Assistant"
+        subtitle="Private & Secure"
+        icon={<Lock size={18} className="text-purple-400" />}
+        chatContext="postpartum"
+        initialMessage="Hello! I'm here to support you through your postpartum journey. How can I help you today?"
+        fallbackResponse="Thank you for sharing. Remember, recovery takes time and it's okay to ask for help. Would you like some resources on this topic?"
+        placeholder="Ask about recovery..."
+        footerText="Conversations are private and not stored permanently."
+        headerClassName="bg-dark-950"
+      />
 
       {/* Mental Health Alert */}
       <div className="bg-gradient-to-r from-purple-500 to-secondary-500 rounded-[2rem] p-8 text-white relative overflow-hidden">

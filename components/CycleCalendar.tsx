@@ -41,7 +41,7 @@ export const CycleCalendar: React.FC<CycleCalendarProps> = ({
   const startDayOffset = startDayOffsetProp;
   const periodDays = periodDaysProp;
   const fertileDays = fertileDaysProp;
-  const ovulationDay = 15;
+  const ovulationDay = ovulationDayProp;
 
   const renderDay = (day: number) => {
     const isPeriod = periodDays.includes(day);

@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Search, Plus, Check, MoreHorizontal, Utensils, Zap, Droplet, Sparkles, ArrowRight, X, Send, Shield, Minus, Clock, Calendar, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Plus, Check, MoreHorizontal, Utensils, Zap, Droplet, Sparkles, ArrowRight, X, Minus, Clock, Calendar, Loader2 } from 'lucide-react';
 import { AppPhase } from '../types';
 import { processFood, isAIEnabled, NutrientInfo } from '../utils/nutritionAI';
-import { sendChatMessage, ChatMessage } from '../services/aiService';
+import { ChatPanel } from '../components/ChatPanel';
 import { useRiskData } from '../contexts/RiskDataContext';
 import { AlertCircle } from 'lucide-react';
 
@@ -46,17 +46,19 @@ const formatTime = (date: Date): string => {
   return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 };
 
+// User name constant (matches Sidebar.tsx - would be replaced with auth context in production)
+const USER_NAME = 'Sarah Jenkins';
+
 export const Nutrition: React.FC<PageProps> = ({ phase }) => {
   const { latestAssessment } = useRiskData();
+  
+  // Extract first name from user name for greeting
+  const userFirstName = USER_NAME?.split(' ')[0] || 'there';
+  const chatGreeting = `Hi ${userFirstName}! I can help you analyze your meals or suggest nutrient-rich recipes. What's on your mind?`;
   const [activeTab, setActiveTab] = useState('today');
 
   // Chat State
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [messages, setMessages] = useState([
-    { id: 1, sender: 'ai', text: "Hi Sarah! I can help you analyze your meals or suggest nutrient-rich recipes. What's on your mind?" }
-  ]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Add Food Modal State
   const [isAddFoodOpen, setIsAddFoodOpen] = useState(false);
@@ -71,40 +73,6 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
   // AI Processing State
   const [isProcessingAI, setIsProcessingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
-  const [isChatLoading, setIsChatLoading] = useState(false);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isChatOpen]);
-
-  const handleSend = async () => {
-    if (!inputValue.trim() || isChatLoading) return;
-
-    const newUserMsg = { id: Date.now(), sender: 'user', text: inputValue };
-    setMessages(prev => [...prev, newUserMsg]);
-    setInputValue('');
-    setIsChatLoading(true);
-
-    // Build conversation history for context
-    const conversationHistory: ChatMessage[] = messages.map(msg => ({
-      role: msg.sender === 'ai' ? 'assistant' : 'user',
-      content: msg.text
-    }));
-
-    const response = await sendChatMessage(inputValue, 'nutrition', conversationHistory);
-
-    setMessages(prev => [...prev, {
-      id: Date.now() + 1,
-      sender: 'ai',
-      text: response.success ? response.message! : "That sounds like a great choice! Would you like some nutrition tips or recipe ideas?"
-    }]);
-    setIsChatLoading(false);
-  };
-
   // Add Food Modal Functions
   const openAddFoodModal = () => {
     setIsAddFoodOpen(true);
@@ -696,80 +664,19 @@ export const Nutrition: React.FC<PageProps> = ({ phase }) => {
 
       </div>
 
-      {/* Chat Popup Modal */}
-      {isChatOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/20 dark:bg-slate-950/30 backdrop-blur-md animate-in fade-in duration-200">
-          <div
-            className="bg-white/80 dark:bg-dm-card/80 backdrop-blur-xl w-full max-w-md h-[600px] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 border border-white/20 dark:border-dm-border/20"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Chat Header */}
-            <div className="bg-slate-900 p-6 flex items-center justify-between text-white shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
-                  <Sparkles size={18} className="text-primary-400" />
-                </div>
-                <div>
-                  <h3 className="font-bold font-display">Nutrition Coach</h3>
-                  <div className="flex items-center gap-1.5 opacity-80">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-pulse"></span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider">AI Assistant</span>
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); setIsChatOpen(false); }}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 bg-slate-50/50 dark:bg-dm-muted/50 backdrop-blur-sm p-6 overflow-y-auto space-y-4">
-              {messages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`
-                     max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed
-                     ${msg.sender === 'user'
-                      ? 'bg-slate-900 text-white rounded-tr-none shadow-md shadow-slate-900/10'
-                      : 'bg-white/90 dark:bg-dm-card/90 backdrop-blur-sm text-slate-700 dark:text-dm-foreground border border-slate-200/50 dark:border-dm-border/50 rounded-tl-none shadow-sm'}
-                   `}>
-                    {msg.text}
-                  </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Area */}
-            <div className="p-4 bg-white/80 dark:bg-dm-card/80 backdrop-blur-md border-t border-slate-200/50 dark:border-dm-border/50 shrink-0">
-              <div className="relative flex items-center gap-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask for recipes, macros..."
-                  className="flex-1 bg-slate-50 dark:bg-dm-muted border border-slate-100 dark:border-dm-border text-slate-900 dark:text-dm-foreground placeholder:text-slate-400 dark:text-slate-500 rounded-xl py-3.5 pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-slate-900/10 transition-all"
-                  autoFocus
-                />
-                <button
-                  onClick={handleSend}
-                  disabled={!inputValue.trim()}
-                  className="absolute right-2 p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-50 dark:hover:bg-dm-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
-                >
-                  <Send size={16} />
-                </button>
-              </div>
-              <p className="text-center text-[10px] text-slate-400 mt-3 flex items-center justify-center gap-1.5">
-                <Shield size={10} />
-                Personalized nutrition insights based on your phase.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Chat Popup */}
+      <ChatPanel
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        title="Nutrition Coach"
+        icon={<Sparkles size={18} className="text-primary-400" />}
+        chatContext="nutrition"
+        initialMessage={chatGreeting}
+        fallbackResponse="That sounds like a great choice! Would you like some nutrition tips or recipe ideas?"
+        placeholder="Ask for recipes, macros..."
+        footerText="Personalized nutrition insights based on your phase."
+        headerClassName="bg-slate-900"
+      />
 
       {/* Add Food Popup Modal */}
       {isAddFoodOpen && (
