@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { ShieldCheck, CheckCircle2, XCircle, Sparkles } from 'lucide-react';
+import { CardShell } from './ui/CardShell';
 import { SpeakButton } from './SpeakButton';
 import {
   PRE_CONCEPTION_GUIDE,
@@ -54,7 +55,7 @@ export const PreConceptionGuide: React.FC<PreConceptionGuideProps> = ({
   config = PRE_CONCEPTION_GUIDE,
 }) => {
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
+    <CardShell>
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
         <div className="w-12 h-12 rounded-xl bg-secondary-50 dark:bg-secondary-900/20 text-secondary-600 dark:text-secondary-400 flex items-center justify-center">
@@ -103,7 +104,7 @@ export const PreConceptionGuide: React.FC<PreConceptionGuideProps> = ({
         </div>
         <p className="text-xs sm:text-sm font-medium">{config.footerTip}</p>
       </div>
-    </div>
+    </CardShell>
   );
 };
 

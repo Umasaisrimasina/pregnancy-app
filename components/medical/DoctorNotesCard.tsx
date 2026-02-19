@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { FileText, Save } from 'lucide-react';
+import { CardShell } from '../ui/CardShell';
 
 interface DoctorNotesCardProps {
   notes: string;
@@ -23,7 +24,7 @@ export const DoctorNotesCard: React.FC<DoctorNotesCardProps> = ({
   lastSavedTime,
 }) => {
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 md:p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+    <CardShell padding="p-6 md:p-8">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg">
           <FileText size={20} />
@@ -50,6 +51,6 @@ export const DoctorNotesCard: React.FC<DoctorNotesCardProps> = ({
           Notes auto-save and persist to Case History. Last saved: {lastSavedTime}
         </p>
       )}
-    </div>
+    </CardShell>
   );
 };

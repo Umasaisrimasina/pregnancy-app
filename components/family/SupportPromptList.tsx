@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Info, type LucideIcon } from 'lucide-react';
+import { CardShell } from '../ui/CardShell';
 
 export interface SupportPrompt {
   id: number;
@@ -26,7 +27,7 @@ export const SupportPromptList: React.FC<SupportPromptListProps> = ({
   prompts,
 }) => {
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border">
+    <CardShell>
       <div className="flex items-center gap-3 mb-6">
         <Icon size={20} className="text-blue-500" />
         <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-lg">{title}</h3>
@@ -44,6 +45,6 @@ export const SupportPromptList: React.FC<SupportPromptListProps> = ({
           </div>
         ))}
       </div>
-    </div>
+    </CardShell>
   );
 };

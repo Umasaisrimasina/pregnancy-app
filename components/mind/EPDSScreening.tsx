@@ -12,6 +12,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, Tooltip } from 'recharts';
 import { AlertCircle, Heart, Sparkles } from 'lucide-react';
 import { SpeakButton } from '../SpeakButton';
+import { CardShell } from '../ui/CardShell';
 import {
   EPDS_QUESTIONS,
   computeEPDSResult,
@@ -194,7 +195,7 @@ export const EPDSScreening: React.FC = () => {
       </div>
 
       {/* Screening History */}
-      <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
+      <CardShell>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold font-display text-slate-900 dark:text-dm-foreground">
             Screening History
@@ -237,7 +238,7 @@ export const EPDSScreening: React.FC = () => {
             <span className="text-xs font-medium text-slate-400 dark:text-slate-500">High (10+)</span>
           </div>
         </div>
-      </div>
+      </CardShell>
     </>
   );
 };

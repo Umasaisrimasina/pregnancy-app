@@ -8,6 +8,7 @@
 
 import React, { useState } from 'react';
 import { Check } from 'lucide-react';
+import { CardShell } from '../ui/CardShell';
 import { ChecklistItem } from '../../config/postPartumChecklist.config';
 
 // ── Props ────────────────────────────────────────────────────────────────
@@ -67,7 +68,7 @@ export const ChecklistCard: React.FC<ChecklistCardProps> = ({
   const doneCount = checklist.filter((i) => i.done).length;
 
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+    <CardShell>
       <div className="flex items-center justify-between mb-6">
         <h3 className="font-bold text-slate-900 dark:text-dm-foreground text-xl">{title}</h3>
         <span className={`${ACCENT_TEXT[accent] ?? 'text-purple-600'} font-bold text-sm`}>
@@ -101,6 +102,6 @@ export const ChecklistCard: React.FC<ChecklistCardProps> = ({
           </div>
         ))}
       </div>
-    </div>
+    </CardShell>
   );
 };

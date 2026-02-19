@@ -22,11 +22,10 @@ import { FertilityWellnessPage } from './pages/FertilityWellnessPage';
 import { PartnerNutritionPage } from './pages/PartnerNutritionPage';
 import { PreConceptionGuidePage } from './pages/PreConceptionGuidePage';
 import { PartnerCommunityPage } from './pages/PartnerCommunityPage';
-import { FamilyOverviewPage } from './views/family/FamilyOverviewPage';
-import { FamilyNutritionPage } from './views/family/FamilyNutritionPage';
-import { FamilyWellnessPage } from './views/family/FamilyWellnessPage';
-import { FamilyPreconceptionPage } from './views/family/FamilyPreconceptionPage';
-import { FamilyCommunityPage } from './views/family/FamilyCommunityPage';
+import { FamilyNutritionPage } from './pages/family/FamilyNutritionPage';
+import { FamilyWellnessPage } from './pages/family/FamilyWellnessPage';
+import { FamilyPreconceptionPage } from './pages/family/FamilyPreconceptionPage';
+import { FamilyCommunityPage } from './pages/family/FamilyCommunityPage';
 import { AboutLanding } from './pages/AboutLanding';
 import { ViewState, AppPhase, UserRole, PHASE_CONFIG } from './types';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -96,7 +95,6 @@ const MainApp: React.FC<{
   const renderView = () => {
     switch (currentView) {
       case 'overview':
-        if (currentRole === 'family') return <FamilyOverviewPage />;
         return <Dashboard phase={currentPhase} role={currentRole} />;
       case 'nutrition':
         if (currentRole === 'partner') return <PartnerNutritionPage phase={currentPhase} />;

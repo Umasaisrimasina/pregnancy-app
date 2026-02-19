@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { ChefHat, ShoppingCart, MessageCircle, Play, Heart } from 'lucide-react';
+import { ChefHat, ShoppingCart, MessageCircle, Heart } from 'lucide-react';
 import { DoctorConsultCTA } from '../components/dashboard/DoctorConsultCTA';
 
 // ── Partner components ───────────────────────────────────────────────────
@@ -16,6 +16,8 @@ import { SupportChecklist } from '../components/partner/SupportChecklist';
 import { GoalHighlightCard } from '../components/partner/GoalHighlightCard';
 import { InsightCard } from '../components/partner/InsightCard';
 import { InfoBannerCard } from '../components/partner/InfoBannerCard';
+import { PartnerAppointmentsCard } from '../components/partner/PartnerAppointmentsCard';
+import { LearningModuleCard } from '../components/partner/LearningModuleCard';
 
 // ── Config-driven data ───────────────────────────────────────────────────
 import { PARTNER_CHECKLIST } from '../config/partnerChecklist.config';
@@ -41,10 +43,8 @@ export const PartnerDashboard: React.FC = () => {
 
         {/* Left Column */}
         <div className="xl:col-span-8 space-y-6">
-          {/* Checklist (config-driven) */}
           <SupportChecklist tasks={PARTNER_CHECKLIST} />
 
-          {/* Goal Card (presentational) */}
           <GoalHighlightCard
             title="Tonight&apos;s Goal: Iron-Rich Dinner"
             description="Maya&apos;s latest blood test showed iron levels are slightly on the lower side. Doctors suggest adding more spinach or lentils to her diet."
@@ -53,7 +53,6 @@ export const PartnerDashboard: React.FC = () => {
             bgIcon={ChefHat}
           />
 
-          {/* Bottom Grid — InsightCards + DoctorConsultCTA */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <InsightCard
               icon={ShoppingCart}
@@ -75,42 +74,13 @@ export const PartnerDashboard: React.FC = () => {
 
         {/* Right Column */}
         <div className="xl:col-span-4 space-y-6">
-          {/* Tip of the Day (config-driven) */}
           <InfoBannerCard
             icon={Heart}
             label="Partner Tip of the Day"
             text={tip.text}
           />
-
-          {/* Appointments */}
-          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
-            <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-2">Maya&apos;s Appointments</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">Ensure you&apos;ve blocked your calendar for these:</p>
-
-            <div className="bg-slate-50 dark:bg-dm-muted p-4 rounded-2xl border-l-4 border-blue-500">
-              <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide block mb-1">In 4 Days</span>
-              <h4 className="font-bold text-slate-900 dark:text-dm-foreground">Anomaly Scan</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">City Hospital · 11:30 AM</p>
-            </div>
-          </div>
-
-          {/* Learning Module */}
-          <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
-            <h3 className="font-bold text-slate-900 dark:text-dm-foreground mb-2">Learning Module</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">How to prepare for the third trimester transition.</p>
-
-            <button
-              type="button"
-              onClick={handlePlayVideo}
-              aria-label="Play video: How to prepare for the third trimester transition"
-              className="aspect-video bg-slate-100 dark:bg-dm-muted rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-dm-card transition-all"
-            >
-              <div className="w-12 h-12 bg-white dark:bg-dm-accent rounded-full flex items-center justify-center shadow-lg text-blue-600 dark:text-blue-400 z-10 group-hover:scale-110 transition-transform">
-                <Play size={20} className="ml-1" fill="currentColor" />
-              </div>
-              <div className="absolute inset-0 bg-slate-200/50 dark:bg-dm-card/50"></div>
-            </button>
-          </div>
+          <PartnerAppointmentsCard partnerName="Maya" />
+          <LearningModuleCard onPlay={handlePlayVideo} />
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { CheckSquare, ArrowRight } from 'lucide-react';
+import { CardShell } from '../ui/CardShell';
 import type { PartnerTask } from '../../config/partnerChecklist.config';
 
 // ── Props ────────────────────────────────────────────────────────────────
@@ -50,7 +51,7 @@ export const SupportChecklist: React.FC<SupportChecklistProps> = ({ tasks, onTog
   const pendingCount = tasks.filter((t) => !checkedIds.has(t.id)).length;
 
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+    <CardShell>
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg">
@@ -116,6 +117,6 @@ export const SupportChecklist: React.FC<SupportChecklistProps> = ({ tasks, onTog
       >
         + Add Task for Yourself
       </button>
-    </div>
+    </CardShell>
   );
 };

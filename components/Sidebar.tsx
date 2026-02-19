@@ -160,7 +160,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, currentP
                 `}></span>
               </div>
               <div className="flex flex-col flex-1">
-                <span className="text-sm font-bold font-display text-slate-900 dark:text-dm-foreground">Sarah Jenkins</span>
+                <span className="text-sm font-bold font-display text-slate-900 dark:text-dm-foreground">Anika Sharma</span>
                 <span className={`text-[10px] font-bold uppercase tracking-wider mt-1 truncate max-w-[100px]
                    ${currentPhase === 'pre-pregnancy' ? 'text-primary-600 dark:text-primary-400' : ''}
                    ${currentPhase === 'pregnancy' ? 'text-primary-500 dark:text-primary-300' : ''}

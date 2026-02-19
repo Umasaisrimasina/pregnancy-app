@@ -47,7 +47,7 @@ const formatTime = (date: Date): string => {
 };
 
 // User name constant (matches Sidebar.tsx - would be replaced with auth context in production)
-const USER_NAME = 'Sarah Jenkins';
+const USER_NAME = 'Anika Sharma';
 
 export const Nutrition: React.FC<PageProps> = ({ phase }) => {
   const { latestAssessment } = useRiskData();
