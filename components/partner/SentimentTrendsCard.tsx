@@ -10,6 +10,7 @@
 import React from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { TrendingUp } from 'lucide-react';
+import { CardShell } from '../ui/CardShell';
 
 // ── Types ────────────────────────────────────────────────────────────────
 
@@ -36,7 +37,7 @@ export const SentimentTrendsCard: React.FC<SentimentTrendsCardProps> = ({
   emptyMessage = 'Complete check-ins to see your sentiment trends',
 }) => {
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-dm-border">
+    <CardShell>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-100 to-teal-100 flex items-center justify-center">
@@ -115,6 +116,6 @@ export const SentimentTrendsCard: React.FC<SentimentTrendsCardProps> = ({
           <span className="text-xs text-slate-600 dark:text-slate-300">Selected Mood</span>
         </div>
       </div>
-    </div>
+    </CardShell>
   );
 };

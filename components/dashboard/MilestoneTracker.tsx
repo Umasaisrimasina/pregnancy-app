@@ -8,6 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import type { MilestoneEntry } from '../../config/milestones.config';
+import { CardShell } from '../ui/CardShell';
 
 export interface MilestoneTrackerProps {
   /** Milestones to render (pre-filtered by consumer) */
@@ -42,7 +43,7 @@ export const MilestoneTracker: React.FC<MilestoneTrackerProps> = ({
     setAchieved(prev => ({ ...prev, [id]: !prev[id] }));
 
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-8 border border-slate-100 dark:border-dm-border">
+    <CardShell>
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-xl font-bold font-display text-slate-900 dark:text-dm-foreground">{title}</h3>
         <button className="text-secondary-500 text-sm font-bold hover:underline">View All</button>
@@ -81,6 +82,6 @@ export const MilestoneTracker: React.FC<MilestoneTrackerProps> = ({
           );
         })}
       </div>
-    </div>
+    </CardShell>
   );
 };

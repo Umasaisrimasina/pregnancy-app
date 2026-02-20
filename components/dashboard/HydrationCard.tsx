@@ -10,6 +10,7 @@
 
 import React from 'react';
 import { Droplets } from 'lucide-react';
+import { CardShell } from '../ui/CardShell';
 
 interface HydrationCardProps {
   /** Current number of glasses consumed. */
@@ -26,7 +27,7 @@ export const HydrationCard: React.FC<HydrationCardProps> = ({
   onAdd,
 }) => {
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 border border-slate-100 dark:border-dm-border shadow-sm">
+    <CardShell padding="p-6">
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2 bg-blue-50 text-blue-500 rounded-lg">
           <Droplets size={20} />
@@ -58,6 +59,6 @@ export const HydrationCard: React.FC<HydrationCardProps> = ({
       >
         + Add Water
       </button>
-    </div>
+    </CardShell>
   );
 };

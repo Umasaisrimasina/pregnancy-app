@@ -138,7 +138,7 @@ const sampleGroups = [
 ];
 
 const sampleDMs = [
-  { id: 1, name: 'Dr. Sarah', avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100', lastMessage: 'Your next check-up is scheduled...', time: '1h', unread: 1, online: true },
+  { id: 1, name: 'Dr. Ananya', avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100', lastMessage: 'Your next check-up is scheduled...', time: '1h', unread: 1, online: true },
   { id: 2, name: 'Kavya T.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100', lastMessage: 'Thanks for the pumping tips!', time: '3h', unread: 0, online: true },
   { id: 3, name: 'Neha P.', avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100', lastMessage: 'How is the baby doing?', time: '1d', unread: 0, online: false },
 ];
@@ -193,7 +193,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
 
       const newPost: Post = {
         id: Date.now(),
-        user: { name: 'Sarah M.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
+        user: { name: 'Anika S.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
         content: newPostText,
         image: null,
         likes: 0,
@@ -445,7 +445,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               <div className="flex items-center gap-3">
                 <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100" alt="Doctor" className="w-10 h-10 rounded-full object-cover" />
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-dm-foreground">Dr. Sarah Johnson</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-dm-foreground">Dr. Ananya Reddy</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">OB/GYN • 12 yr exp</p>
                 </div>
                 <button className={`ml-auto ${colors.lightBg} ${colors.text} px-3 py-1.5 rounded-lg text-xs font-bold`}>
@@ -456,7 +456,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
               <div className="flex items-center gap-3">
                 <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=100" alt="Expert" className="w-10 h-10 rounded-full object-cover" />
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-dm-foreground">Lisa Chen</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-dm-foreground">Lakshmi Iyer</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">Lactation Consultant</p>
                 </div>
                 <button className="ml-auto bg-slate-50 dark:bg-dm-muted text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-lg text-xs font-bold">
@@ -486,7 +486,7 @@ export const Community: React.FC<CommunityProps> = ({ phase }) => {
             <div className="flex gap-3 mb-4">
               <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="User" className="w-12 h-12 rounded-full object-cover border-2 border-slate-100 dark:border-dm-border" />
               <div>
-                <p className="font-bold text-slate-900 dark:text-dm-foreground">Sarah M.</p>
+                <p className="font-bold text-slate-900 dark:text-dm-foreground">Anika S.</p>
                 <div className={`text-xs ${colors.text} bg-slate-50 dark:bg-dm-muted px-2 py-0.5 rounded-md inline-block mt-0.5`}>
                   {phase.replace('-', ' ')}
                 </div>

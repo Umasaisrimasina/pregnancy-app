@@ -10,7 +10,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import { Lock, ArrowRight, Heart, AlertCircle, CheckCircle2, Loader2, TrendingUp } from 'lucide-react';
+import { Lock, ArrowRight, Heart, AlertCircle, CheckCircle2, Loader2, TrendingUp, Frown, Meh, Smile, Annoyed, SmilePlus, Laugh, Angry } from 'lucide-react';
 import { AppPhase } from '../types';
 import { SpeakButton } from '../components/SpeakButton';
 import { ChatPanel } from '../components/ChatPanel';
@@ -33,13 +33,22 @@ interface PageProps {
   phase: AppPhase;
 }
 
-const AVAILABLE_EMOJIS = ['', '', '', '', '', '', ''] as const;
+/* ── 7-Mood icon system (matches pregnancy reference style) ──────── */
+type PostPartumMood = 'awful' | 'rough' | 'annoyed' | 'okay' | 'good' | 'great' | 'amazing';
 
-const emojiToMoodScore = (emoji: string): number => {
-  const scores: Record<string, number> = {
-    '': 90, '': 75, '': 50, '': 30, '': 15, '': 95, '': 85, '': 20, '': 25,
-  };
-  return scores[emoji] ?? 50;
+const MOOD_OPTIONS: { key: PostPartumMood; icon: React.FC<any>; label: string; score: number; color: string; activeRing: string }[] = [
+  { key: 'awful',   icon: Angry,     label: 'Awful',   score: 10, color: 'bg-red-100 text-red-500',        activeRing: 'ring-red-200' },
+  { key: 'rough',   icon: Frown,     label: 'Rough',   score: 25, color: 'bg-orange-100 text-orange-500',  activeRing: 'ring-orange-200' },
+  { key: 'annoyed', icon: Annoyed,   label: 'Low',     score: 35, color: 'bg-amber-100 text-amber-500',    activeRing: 'ring-amber-200' },
+  { key: 'okay',    icon: Meh,       label: 'Okay',    score: 50, color: 'bg-slate-100 text-slate-500',    activeRing: 'ring-slate-200' },
+  { key: 'good',    icon: Smile,     label: 'Good',    score: 70, color: 'bg-purple-100 text-purple-500',  activeRing: 'ring-purple-200' },
+  { key: 'great',   icon: SmilePlus, label: 'Great',   score: 85, color: 'bg-violet-100 text-violet-500',  activeRing: 'ring-violet-200' },
+  { key: 'amazing', icon: Laugh,     label: 'Amazing', score: 95, color: 'bg-primary-100 text-primary-600', activeRing: 'ring-primary-200' },
+];
+
+const moodKeyToScore = (key: string): number => {
+  const entry = MOOD_OPTIONS.find((m) => m.key === key);
+  return entry?.score ?? 50;
 };
 
 export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
@@ -47,7 +56,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
 
   //  Daily Check-in State 
   const [checkInText, setCheckInText] = useState('');
-  const [checkInEmoji, setCheckInEmoji] = useState('');
+  const [checkInEmoji, setCheckInEmoji] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [checkIns, setCheckIns] = useState<DailyCheckIn[]>(() => {
     const stored = getCheckIns();
@@ -104,7 +113,7 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
   const sentimentTrendData = checkIns.slice(-7).map((ci) => ({
     day: new Date(ci.date).toLocaleDateString('en-US', { weekday: 'short' }),
     score: (ci.sentimentScore + 1) * 50,
-    moodScore: emojiToMoodScore(ci.emoji),
+    moodScore: moodKeyToScore(ci.emoji),
   }));
 
   //  Render 
@@ -150,21 +159,32 @@ export const PostPartumMind: React.FC<PageProps> = ({ phase }) => {
                 <span className="text-xs font-medium text-slate-400 bg-dark-800 px-3 py-1 rounded-full">Today</span>
               </div>
 
-              {/* Emoji Selector */}
+              {/* Mood Selector — 7 icons */}
               <div className="mb-6">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 block">How are you feeling?</label>
-                <div className="flex justify-between max-w-lg gap-2">
-                  {AVAILABLE_EMOJIS.map((emoji) => (
+                <div className="flex justify-between max-w-2xl gap-1">
+                  {MOOD_OPTIONS.map((item) => (
                     <button
-                      key={emoji}
-                      onClick={() => setCheckInEmoji(emoji)}
-                      className={`text-4xl p-3 rounded-2xl transition-all duration-300 ${
-                        checkInEmoji === emoji
-                          ? 'bg-purple-100 scale-110 ring-4 ring-purple-200'
-                          : 'bg-dark-800 hover:bg-slate-100 dark:hover:bg-dm-accent'
-                      }`}
+                      key={item.key}
+                      type="button"
+                      onClick={() => setCheckInEmoji(item.key)}
+                      aria-pressed={checkInEmoji === item.key}
+                      className="flex flex-col items-center gap-1.5 cursor-pointer group"
                     >
-                      {emoji}
+                      <div
+                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          checkInEmoji === item.key
+                            ? `${item.color} scale-110 shadow-lg ring-4 ${item.activeRing}`
+                            : 'bg-purple-50 text-slate-300 hover:bg-slate-100 dark:hover:bg-dm-accent'
+                        }`}
+                      >
+                        <item.icon size={28} />
+                      </div>
+                      <span className={`text-[10px] font-bold ${
+                        checkInEmoji === item.key ? 'text-slate-900 dark:text-dm-foreground' : 'text-slate-400'
+                      }`}>
+                        {item.label}
+                      </span>
                     </button>
                   ))}
                 </div>

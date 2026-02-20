@@ -88,10 +88,10 @@ const mockDoctors: Record<string, Doctor[]> = {
         },
         {
             id: 'd4_2',
-            name: 'Dr. Sarah Jenkin',
+            name: 'Dr. Kavitha Nair',
             degree: 'MSc, Psychology',
             specialty: 'Postpartum Depression',
-            languages: ['English'],
+            languages: ['English', 'Malayalam'],
             experience: '6+ years',
             photo: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&h=150&fit=crop&crop=face',
             rating: 4.7,

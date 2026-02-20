@@ -74,12 +74,25 @@ export const DigitalCaseHistory: React.FC = () => {
         { label: 'Rh Status', value: PATIENT.rhStatus },
     ];
 
+    // GPLAD state — editable by the doctor
+    const [gpladValues, setGpladValues] = useState({
+        G: OBSTETRIC.gravida,
+        P: OBSTETRIC.para,
+        L: OBSTETRIC.live,
+        A: OBSTETRIC.abortions,
+        D: OBSTETRIC.deaths,
+    });
+
+    const handleGPLADChange = (letter: string, value: number) => {
+        setGpladValues(prev => ({ ...prev, [letter]: value }));
+    };
+
     const gplad = [
-        { letter: 'G', value: OBSTETRIC.gravida, label: 'Gravida' },
-        { letter: 'P', value: OBSTETRIC.para, label: 'Para' },
-        { letter: 'L', value: OBSTETRIC.live, label: 'Live' },
-        { letter: 'A', value: OBSTETRIC.abortions, label: 'Abortions' },
-        { letter: 'D', value: OBSTETRIC.deaths, label: 'Deaths' },
+        { letter: 'G', value: gpladValues.G, label: 'Gravida', description: 'Total number of pregnancies, including current pregnancy, miscarriages, and ectopic pregnancies.' },
+        { letter: 'P', value: gpladValues.P, label: 'Parity', description: 'Number of births carried past the age of viability (≥20 weeks), regardless of outcome.' },
+        { letter: 'L', value: gpladValues.L, label: 'Living', description: 'Number of living children at present.' },
+        { letter: 'A', value: gpladValues.A, label: 'Abortions', description: 'Number of pregnancies lost before viability — includes miscarriages, ectopic, and elective terminations.' },
+        { letter: 'D', value: gpladValues.D, label: 'Deaths', description: 'Number of children who were born alive but died subsequently (neonatal or infant deaths).' },
     ];
 
     return (
@@ -99,7 +112,7 @@ export const DigitalCaseHistory: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <ObstetricOverviewCard gplad={gplad} lmpFormatted={formatDate(OBSTETRIC.lmp)} eddFormatted={formatDate(OBSTETRIC.edd)} />
+                <ObstetricOverviewCard gplad={gplad} lmpFormatted={formatDate(OBSTETRIC.lmp)} eddFormatted={formatDate(OBSTETRIC.edd)} onGPLADChange={handleGPLADChange} />
                 <ClinicalMilestonesCard milestones={MILESTONES} />
                 <DoctorNotesCard
                     notes={notes}

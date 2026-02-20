@@ -8,6 +8,7 @@
 import React from 'react';
 import { ClipboardList, CheckCircle2 } from 'lucide-react';
 import type { ClinicalMilestone } from '../../config/medicalView.config';
+import { CardShell } from '../ui/CardShell';
 
 interface ClinicalMilestonesCardProps {
   milestones: ClinicalMilestone[];
@@ -18,7 +19,7 @@ export const ClinicalMilestonesCard: React.FC<ClinicalMilestonesCardProps> = ({ 
   const progressPct = milestones.length > 0 ? (completedCount / milestones.length) * 100 : 0;
 
   return (
-    <div className="bg-white dark:bg-dm-card rounded-[2rem] p-6 md:p-8 border border-slate-100 dark:border-dm-border shadow-sm">
+    <CardShell padding="p-6 md:p-8">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg">
           <ClipboardList size={20} />
@@ -75,6 +76,6 @@ export const ClinicalMilestonesCard: React.FC<ClinicalMilestonesCardProps> = ({ 
           );
         })}
       </div>
-    </div>
+    </CardShell>
   );
 };

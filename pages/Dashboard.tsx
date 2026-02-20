@@ -12,7 +12,7 @@ import { AppPhase, UserRole } from '../types';
 
 // ── Role-specific dashboards ────────────────────────────────────────────
 import { PartnerDashboard } from './PartnerDashboard';
-import { FamilyDashboard } from './FamilyDashboard';
+import { FamilyOverviewPage } from './family/FamilyOverviewPage';
 import { MedicalDashboard } from './MedicalDashboard';
 
 // ── Phase-specific dashboards (mother role) ─────────────────────────────
@@ -29,7 +29,7 @@ interface DashboardProps {
 /** Route map: role → component (takes priority over phase) */
 const ROLE_VIEWS: Partial<Record<UserRole, React.FC>> = {
   partner: PartnerDashboard,
-  family: FamilyDashboard,
+  family: FamilyOverviewPage,
   medical: MedicalDashboard,
 };
 
