@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { Menu } from 'lucide-react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from './firebase';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './pages/Dashboard';
 import { Nutrition } from './pages/Nutrition';
@@ -182,22 +184,65 @@ const MainApp: React.FC<{
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [currentView, setView] = useState<ViewState>('overview');
-  const [currentPhase, setPhase] = useState<AppPhase>('pre-pregnancy');
-  const [currentRole, setRole] = useState<UserRole>('mother');
+  const [currentPhase, setPhase] = useState<AppPhase>(() => {
+    return (localStorage.getItem('nurturenet_phase') as AppPhase) || 'pre-pregnancy';
+  });
+  const [currentRole, setRole] = useState<UserRole>(() => {
+    return (localStorage.getItem('nurturenet_role') as UserRole) || 'mother';
+  });
+
+  // Listen for Firebase auth state changes (persists across reloads)
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setAuthLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleLogin = (selectedPhase: AppPhase, selectedRole: UserRole) => {
     setPhase(selectedPhase);
     setRole(selectedRole);
+    localStorage.setItem('nurturenet_phase', selectedPhase);
+    localStorage.setItem('nurturenet_role', selectedRole);
     setIsAuthenticated(true);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth);
+    localStorage.removeItem('nurturenet_phase');
+    localStorage.removeItem('nurturenet_role');
     setIsAuthenticated(false);
     setView('overview');
     setPhase('pre-pregnancy');
     setRole('mother');
   };
+
+  // Wrap setPhase to also persist to localStorage
+  const handleSetPhase = (phase: AppPhase) => {
+    setPhase(phase);
+    localStorage.setItem('nurturenet_phase', phase);
+  };
+
+  // Show loading spinner while Firebase checks auth state
+  if (authLoading) {
+    return (
+      <ThemeProvider>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dm-background">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-10 h-10 border-4 border-purple-300 border-t-purple-600 rounded-full animate-spin" />
+            <p className="text-slate-500 dark:text-dm-muted-fg text-sm">Loading...</p>
+          </div>
+        </div>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider>
@@ -208,14 +253,7 @@ const App: React.FC = () => {
             path="/login"
             element={
               isAuthenticated ? (
-                <MainApp
-                  currentView={currentView}
-                  setView={setView}
-                  currentPhase={currentPhase}
-                  setPhase={setPhase}
-                  currentRole={currentRole}
-                  onLogout={handleLogout}
-                />
+                <Navigate to="/app" replace />
               ) : (
                 <LoginPage onLogin={handleLogin} />
               )
@@ -225,14 +263,7 @@ const App: React.FC = () => {
             path="/signup"
             element={
               isAuthenticated ? (
-                <MainApp
-                  currentView={currentView}
-                  setView={setView}
-                  currentPhase={currentPhase}
-                  setPhase={setPhase}
-                  currentRole={currentRole}
-                  onLogout={handleLogout}
-                />
+                <Navigate to="/app" replace />
               ) : (
                 <SignupPage onSignup={handleLogin} />
               )
@@ -246,7 +277,7 @@ const App: React.FC = () => {
                   currentView={currentView}
                   setView={setView}
                   currentPhase={currentPhase}
-                  setPhase={setPhase}
+                  setPhase={handleSetPhase}
                   currentRole={currentRole}
                   onLogout={handleLogout}
                 />
